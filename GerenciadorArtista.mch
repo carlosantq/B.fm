@@ -1,37 +1,22 @@
 MACHINE GerenciadorArtista
 SETS 
- NOMES = {empty, Coldplay, Arctic_Monkeys, Imagine_Dragons}
-CONSTANTS ARTISTA
-PROPERTIES
- ARTISTA = 0..3
-VARIABLES artistas, nomes_artistas
+ ARTISTA = {Coldplay, Arctic_Monkeys, Imagine_Dragons}
+VARIABLES artistas
 INVARIANT
- artistas <: ARTISTA & nomes_artistas : ARTISTA --> NOMES
+ artistas <: ARTISTA
 INITIALISATION 
- artistas := {}; nomes_artistas := ARTISTA * {empty}
+ artistas := {}
 OPERATIONS
-  cadastrar(aa, nn) =
+  cadastrar(aa) =
   PRE 
-	aa:ARTISTA & nn:NOMES & nn /: {empty} & nn /: ran(nomes_artistas)
-  THEN
-	BEGIN 
-		artistas := artistas \/ {aa};
-		nomes_artistas(aa) := nn
-	END
+	aa:ARTISTA
+  THEN artistas := artistas \/ {aa}
   END;
 
   remover(aa) =
   PRE
 	aa:ARTISTA
-  THEN 
-  	artistas := artistas - {aa};
-	nomes_artistas(aa) := empty
-  END;
-
-  nn <-- consultar_nome(aa) = 
-  PRE aa : ARTISTA
-  THEN nn := nomes_artistas(aa) 
+  THEN artistas := artistas - {aa}
   END
-
 END
 
