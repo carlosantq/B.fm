@@ -1,19 +1,19 @@
 MACHINE GerenciadorArtista
-SETS 
- ARTISTA = {Coldplay, Arctic_Monkeys, Imagine_Dragons}
+SEES
+ Artista_Ctx
 VARIABLES artistas
 INVARIANT
  artistas <: ARTISTA
 INITIALISATION 
  artistas := {}
 OPERATIONS
-  cadastrar(aa) =
+  cadastrar_artista(aa) =
   PRE 
 	aa:ARTISTA
   THEN artistas := artistas \/ {aa}
   END;
 
-  remover(aa) =
+  remover_artista(aa) =
   PRE
 	aa:ARTISTA
   THEN artistas := artistas - {aa}
