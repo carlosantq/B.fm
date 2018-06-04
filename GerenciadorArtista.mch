@@ -10,6 +10,8 @@ INVARIANT
 INITIALISATION 
  artistas := {} || artistasAlbuns := {}
 OPERATIONS
+
+  /* Cadastra um artista */
   cadastrar_artista(aa) =
   PRE 
 	aa:ARTISTA
@@ -20,6 +22,7 @@ OPERATIONS
 	END
   END;
 
+  /* Remove um artista apos remover todos os albuns dele */
   remover_artista(aa) =
   PRE
 	aa:artistas
@@ -32,6 +35,7 @@ OPERATIONS
 	artistas := artistas - {aa}
   END;
 
+ /* Cadastra um album de um artista */
  cadastrar_album_artista(ar, al) =
  PRE
 	ar:artistas & al:ALBUM & al/:ran(artistasAlbuns)
@@ -39,6 +43,7 @@ OPERATIONS
 	artistasAlbuns := artistasAlbuns \/ {ar |-> al}
  END;
 
+ /* Remove um album de um artista */
  remover_album_artista(ar, al) =
  PRE
 	ar:artistas & al:ALBUM & al:artistasAlbuns[{ar}]
@@ -46,20 +51,23 @@ OPERATIONS
 	artistasAlbuns := artistasAlbuns - {ar |-> al}
  END;
 
+ /* Consulta os albuns de um artista */
  rr <-- consultar_albuns_artista(aa) =
  PRE
 	aa:artistas
  THEN
-	rr:=artistasAlbuns[{aa}]
+	rr := artistasAlbuns[{aa}]
  END;
 
+ /* Consulta o artista no qual um dado album faz parte */
  rr <-- consultar_artista_album(aa) =
  PRE
 	aa:ALBUM
  THEN
-	rr:=dom(artistasAlbuns |> {aa})
+	rr := dom(artistasAlbuns |> {aa})
  END;
 
+ /* Remove todos os albuns de um artista */
  remover_todos_albuns_artista(aa) =
  PRE
 	aa:artistas

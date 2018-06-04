@@ -1,5 +1,5 @@
 MACHINE Album_Ctx
 SETS
- ALBUM = {Sweetner, Humbug, GhostStories, NightVisions}
+ ALBUM = {Sweetener, Humbug, GhostStories, NightVisions}
 END
 
