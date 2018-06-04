@@ -6,7 +6,7 @@ VARIABLES
  albuns,
  albunsMusicas
 INVARIANT
- albuns <: ALBUM & albunsMusicas : albuns --> MUSICA
+ albuns <: ALBUM & albunsMusicas : albuns <-> MUSICA
 INITIALISATION
  albuns := {} || albunsMusicas := {}
 OPERATIONS
@@ -14,16 +14,14 @@ OPERATIONS
  PRE
  	aa:ALBUM
  THEN
- 	albuns := albuns \/ {aa};
-	albunsMusicas := albunsMusicas \/ {aa |-> empty}
+ 	albuns := albuns \/ {aa}
  END;
 
  cadastrar_musica_album(aa, mm) =
  PRE
- 	aa:albuns & mm:MUSICA & mm/:{empty} & mm/:ran(albunsMusicas)
+ 	aa:albuns & mm:MUSICA & mm/:ran(albunsMusicas)
  THEN
-	albunsMusicas := albunsMusicas \/ {aa |-> mm};
-	albunsMusicas := albunsMusicas - {aa |-> empty}
+	albunsMusicas := albunsMusicas \/ {aa |-> mm}
  END
 END
 
