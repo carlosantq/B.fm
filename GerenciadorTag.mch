@@ -31,6 +31,8 @@ OPERATIONS
 			criador := criador - tagsDoUsuario
 		END
 	END;
+	
+ todasAsTags <-- listarTags = todasAsTags := tags;
 
  modificarTag(novoNomeTag, velhoNomeTag) = 
 	PRE velhoNomeTag : TAG & velhoNomeTag : tags & novoNomeTag : TAG & novoNomeTag /: tags
