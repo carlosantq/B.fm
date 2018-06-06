@@ -25,6 +25,8 @@ OPERATIONS
 		criador := criador - { nomePlaylist |-> criador(nomePlaylist) };
 		musicasDaPlaylist := musicasDaPlaylist - ({ nomePlaylist } <| musicasDaPlaylist)
 	END;
+	
+ todasAsPlaylists <-- listarPlaylists = todasAsPlaylists := playlists;
 
  deletarTodasPlaylistsDoUsuario(usuario) = 
 	PRE usuario : USUARIO
