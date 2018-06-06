@@ -8,7 +8,7 @@ SEES
 VARIABLES playlists, criador, musicasDaPlaylist
 
 INVARIANT
- playlists <: PLAYLIST & criador : playlists --> USUARIO & musicasDaPlaylist : playlists --> MUSICA
+ playlists <: PLAYLIST & criador : playlists --> USUARIO & musicasDaPlaylist : playlists <-> MUSICA
 
 INITIALISATION playlists := {}; criador := {}; musicasDaPlaylist := {}
 
@@ -20,7 +20,10 @@ OPERATIONS
 
  deletarPlaylist(nomePlaylist) = 
 	PRE nomePlaylist : PLAYLIST & nomePlaylist : playlists
-	THEN playlists := playlists - { nomePlaylist }; criador := criador - { nomePlaylist |-> criador(nomePlaylist) }
+	THEN 
+		playlists := playlists - { nomePlaylist }; 
+		criador := criador - { nomePlaylist |-> criador(nomePlaylist) };
+		musicasDaPlaylist := musicasDaPlaylist - ({ nomePlaylist } <| musicasDaPlaylist)
 	END;
 
  deletarTodasPlaylistsDoUsuario(usuario) = 
@@ -29,20 +32,29 @@ OPERATIONS
 		VAR playlistsDoUsuario IN
 			playlistsDoUsuario := criador |> { usuario };
 			playlists := playlists - dom(playlistsDoUsuario);
-			criador := criador - playlistsDoUsuario
+			criador := criador - playlistsDoUsuario;
+			musicasDaPlaylist := musicasDaPlaylist - (dom(playlistsDoUsuario) <| musicasDaPlaylist)
 		END
 	END;
 
  modificarPlaylist(novoNomePlaylist, velhoNomePlaylist) = 
 	PRE velhoNomePlaylist : PLAYLIST & velhoNomePlaylist : playlists & novoNomePlaylist : PLAYLIST & novoNomePlaylist /: playlists
 	THEN 
-		VAR criadorPlaylist IN 
-			criadorPlaylist := criador(velhoNomePlaylist);
+		VAR criadorPlaylist, playlistsDoUsuario, musicasDaPlaylistSendoEditada IN 
 
+			criadorPlaylist := criador(velhoNomePlaylist);
+			playlistsDoUsuario := criador |> { criadorPlaylist };
+			musicasDaPlaylistSendoEditada := { velhoNomePlaylist } <| musicasDaPlaylist;
+			
 			// Deletando playlist antiga
-			playlists := playlists - { velhoNomePlaylist }; criador := criador - { velhoNomePlaylist |-> criador(velhoNomePlaylist) };
+			playlists := playlists - { velhoNomePlaylist };
+			criador := criador - { velhoNomePlaylist |-> criador(velhoNomePlaylist) };
+			musicasDaPlaylist := musicasDaPlaylist - musicasDaPlaylistSendoEditada;
+
 			// Criando playlist nova
-			playlists := playlists \/ { novoNomePlaylist }; criador := criador \/ { novoNomePlaylist |-> criadorPlaylist }
+			playlists := playlists \/ { novoNomePlaylist };
+			criador := criador \/ { novoNomePlaylist |-> criadorPlaylist };
+			musicasDaPlaylist := musicasDaPlaylist \/ {novoNomePlaylist} * ran(musicasDaPlaylistSendoEditada)
 		END
 	END;
 
@@ -70,7 +82,7 @@ OPERATIONS
 
  musicas <-- consultarMusicasDaPlaylist(playlist) =
 	PRE playlist : playlists
-	THEN musicas := musicasDaPlaylist(playlist)
+	THEN musicas := ran({playlist} <| musicasDaPlaylist)
 	END
 
 END
