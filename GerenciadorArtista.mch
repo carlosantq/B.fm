@@ -27,9 +27,9 @@ OPERATIONS
   PRE
 	aa:artistas
   THEN 
-	VAR x IN
-		x := {aa} <| artistasAlbuns;
-		artistasAlbuns := artistasAlbuns - x
+	VAR xx IN
+		xx := {aa} <| artistasAlbuns;
+		artistasAlbuns := artistasAlbuns - xx
 		
 	END;	
 	artistas := artistas - {aa}
@@ -75,9 +75,9 @@ OPERATIONS
  PRE
 	aa:artistas
  THEN
-	VAR x IN
-		x := {aa} <| artistasAlbuns;
-		artistasAlbuns := artistasAlbuns - x
+	VAR xx IN
+		xx := {aa} <| artistasAlbuns;
+		artistasAlbuns := artistasAlbuns - xx
 		
 	END
  END

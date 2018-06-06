@@ -27,9 +27,9 @@ OPERATIONS
   PRE
 	gg:GRAVADORA
   THEN 
-	VAR x IN
-		x := {gg} <| gravadorasArtistas;
-		gravadorasArtistas := gravadorasArtistas - x
+	VAR xx IN
+		xx := {gg} <| gravadorasArtistas;
+		gravadorasArtistas := gravadorasArtistas - xx
 		
 	END;	
 	gravadoras := gravadoras - {gg}
@@ -84,9 +84,9 @@ OPERATIONS
  PRE
 	gg:gravadoras
  THEN
-	VAR x IN
-		x := {gg} <| gravadorasArtistas;
-		gravadorasArtistas := gravadorasArtistas - x
+	VAR xx IN
+		xx := {gg} <| gravadorasArtistas;
+		gravadorasArtistas := gravadorasArtistas - xx
 		
 	END
  END

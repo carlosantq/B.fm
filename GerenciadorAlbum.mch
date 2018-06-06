@@ -27,9 +27,9 @@ OPERATIONS
  PRE
 	aa:albuns
  THEN
-	VAR x IN
-		x := {aa} <| albunsMusicas;
-		albunsMusicas := albunsMusicas - x
+	VAR xx IN
+		xx := {aa} <| albunsMusicas;
+		albunsMusicas := albunsMusicas - xx
 	END;
 	albuns := albuns - {aa}
  END;
@@ -74,9 +74,9 @@ OPERATIONS
  PRE
 	aa:albuns
  THEN
- 	VAR x IN
-		x := {aa} <| albunsMusicas;
-		albunsMusicas := albunsMusicas - x
+ 	VAR xx IN
+		xx := {aa} <| albunsMusicas;
+		albunsMusicas := albunsMusicas - xx
 	END
  END
 END

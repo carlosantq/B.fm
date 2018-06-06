@@ -27,9 +27,9 @@ OPERATIONS
   PRE
 	gg:generos
   THEN 
-	VAR x IN
-		x := {gg} <| generosArtistas;
-		generosArtistas := generosArtistas - x
+	VAR xx IN
+		xx := {gg} <| generosArtistas;
+		generosArtistas := generosArtistas - xx
 		
 	END;	
 	generos := generos - {gg}
@@ -75,9 +75,9 @@ OPERATIONS
  PRE
 	gg:generos
  THEN
-	VAR x IN
-		x := {gg} <| generosArtistas;
-		generosArtistas := generosArtistas - x
+	VAR xx IN
+		xx := {gg} <| generosArtistas;
+		generosArtistas := generosArtistas - xx
 		
 	END
  END
