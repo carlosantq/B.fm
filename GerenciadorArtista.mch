@@ -51,6 +51,9 @@ OPERATIONS
 	artistasAlbuns := artistasAlbuns - {ar |-> al}
  END;
 
+ /* Consulta todos os artistas */
+ aa <-- consultar_artistas =  aa := artistas;
+
  /* Consulta os albuns de um artista */
  rr <-- consultar_albuns_artista(aa) =
  PRE

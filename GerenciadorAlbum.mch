@@ -50,6 +50,9 @@ OPERATIONS
 	albunsMusicas := albunsMusicas - {aa |-> mm}
  END;
 
+ /* Consulta todos os albuns */
+ aa <-- consultar_albuns = aa := albuns; 
+
  /* Consulta as musicas de um album */
  mm <-- consultar_musicas_album(aa) =
  PRE
