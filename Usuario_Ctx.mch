@@ -1,5 +1,5 @@
 MACHINE Usuario_Ctx
 SETS
- USUARIO = {Joao, Maria, Abbey}
+ USUARIO = { Bill, Elle, Beatrix, Budd, Oren, Vernita }
 END
 
