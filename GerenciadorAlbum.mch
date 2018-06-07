@@ -1,76 +1,72 @@
 MACHINE GerenciadorAlbum
+
 SEES
  Album_Ctx,
  Musica_Ctx
+
 VARIABLES
  albuns,
  albunsMusicas
+
 INVARIANT
  albuns <: ALBUM & albunsMusicas : albuns <-> MUSICA
+
 INITIALISATION
  albuns := {} || albunsMusicas := {}
+
 OPERATIONS
 
- /* Cadastra um album */
  cadastrar_album(aa) =
  PRE
- 	aa:ALBUM
+ 	aa:ALBUM & aa /: albuns
  THEN
-	IF aa/:albuns
-	THEN
- 		albuns := albuns \/ {aa}
-	END
+ 	albuns := albuns \/ {aa}
  END;
 
  /* Remove um album apos remover todas as musicas dele */
  remover_album(aa) =
  PRE
-	aa:albuns
+	aa : albuns
  THEN
 	VAR xx IN
-		xx := {aa} <| albunsMusicas;
+		xx := { aa } <| albunsMusicas;
 		albunsMusicas := albunsMusicas - xx
 	END;
-	albuns := albuns - {aa}
+	albuns := albuns - { aa }
  END;
 
- /* Cadastra uma musica de um album */
- cadastrar_musica_album(aa, mm) =
+ /* Lista todos os albuns */
+ aa <-- listar_albuns = aa := albuns; 
+
+ cadastrar_musica_em_album(aa, mm) =
  PRE
- 	aa:albuns & mm:MUSICA & mm/:ran(albunsMusicas)
+ 	aa : albuns & mm : MUSICA & mm /: ran(albunsMusicas)
  THEN
-	albunsMusicas := albunsMusicas \/ {aa |-> mm}
+	albunsMusicas := albunsMusicas \/ { aa |-> mm }
  END;
 
- /* Remove uma musica de um album */
- remover_musica_album(aa, mm) = 
+ remover_musica_de_album(aa, mm) = 
  PRE
-	aa:albuns & mm:MUSICA & mm:albunsMusicas[{aa}]
+	aa : albuns & mm : MUSICA & mm : albunsMusicas[{ aa }]
  THEN
-	albunsMusicas := albunsMusicas - {aa |-> mm}
+	albunsMusicas := albunsMusicas - { aa |-> mm }
  END;
 
- /* Consulta todos os albuns */
- aa <-- consultar_albuns = aa := albuns; 
-
- /* Consulta as musicas de um album */
- mm <-- consultar_musicas_album(aa) =
+ mm <-- consultar_musicas_do_album(aa) =
  PRE
- 	aa:albuns
+ 	aa : albuns
  THEN
-	mm := albunsMusicas[{aa}]
+	mm := albunsMusicas[{ aa }]
  END;
 
- /* Consulta o album no qual uma dada musica faz parte */
- aa <-- consultar_album_musica(mm) =
+ aa <-- consultar_album_da_musica(mm) =
  PRE
-	mm:MUSICA
+	mm : MUSICA
  THEN
-	aa := dom(albunsMusicas |> {mm})
+	aa := dom(albunsMusicas |> { mm })
  END;
  
-/* Remove todas as musicas de um album */
- remover_todas_musicas_album(aa) =
+ remover_todas_musicas_do_album(aa) =
  PRE
 	aa:albuns
  THEN

@@ -33,7 +33,7 @@ OPERATIONS
 		artistasAlbuns := artistasAlbuns - xx
 		
 	END;	
-	artistas := artistas - {aa}
+	artistas := artistas - { aa }
   END;
 
  /* Lista todos os artistas */
