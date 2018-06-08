@@ -188,21 +188,21 @@ OPERATIONS
  END;
 
 // Gravadoras e artistas ==========================================================
-  /*remover_gravadora_apagando_artistas(gg) =
+  remover_gravadora_apagando_artistas(gg) =
   PRE
 	gg : gravadoras
   THEN 
-	remover_gravadora(gg)
+	remover_gravadora(gg) ||
+	artistas_da_gravadora := artistas_da_gravadora - ({ gg } <| artistas_da_gravadora)
+  END;
 
-	// Remove artistas da gravadora do sistema
-	// Remove albuns dos artistas da gravadora do sistema
-	// Remove musicas dos albuns dos artistas da gravadora do sistema
-
-	// Remove relacoes dos artistas com gravadora
-	// Remove relacoes dos artistas com os albuns deles
-	// Remove relacoes dos albuns com as musicas deles
-	// Remove relacoes das playlists com as musicas removidas acima
-  END;*/
+ alterar_gravadora_do_artista(aa, gg) =
+ PRE
+	gg : gravadoras & aa : artistas & aa /: artistas_da_gravadora[{ gg }] & aa : ran(artistas_da_gravadora)
+ THEN
+	artistas_da_gravadora := artistas_da_gravadora - (artistas_da_gravadora |> {aa});
+	artistas_da_gravadora := artistas_da_gravadora \/ {gg |-> aa}
+ END;
 
  cadastrar_artista_numa_gravadora(aa, gg) =
  PRE
