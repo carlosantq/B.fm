@@ -102,18 +102,18 @@ OPERATIONS
  END;
 
 // Albuns e musicas ==========================================================
- // Esta quebrando invariante
- /*remover_album_e_retirar_musicas(aa) =
+ remover_album_e_retirar_musicas(aa) =
  PRE
 	aa : albuns
  THEN
 	remover_album({ aa }) ||
-	musicas_do_album := musicas_do_album - ({ aa } <| musicas_do_album)
- END;*/
+	musicas_do_album := musicas_do_album - ({ aa } <| musicas_do_album) ||
+	albuns_do_artista := albuns_do_artista - (albuns_do_artista |> { aa })
+ END;
 
  cadastrar_musica_em_album(aa, mm) =
  PRE
- 	aa : albuns & mm : musicas & aa |-> mm /: musicas_do_album
+ 	aa : albuns & mm : musicas & mm/:ran(musicas_do_album)
  THEN
 	musicas_do_album := musicas_do_album \/ { aa |-> mm }
  END;
@@ -140,9 +140,7 @@ OPERATIONS
  END;
 
 // Artistas e albuns ==========================================================
- 
- // Esta quebrando invariante
- /*remover_artista_apagando_albuns(aa) =
+ remover_artista_apagando_albuns(aa) =
  PRE
 	aa : artistas
  THEN 
@@ -159,11 +157,11 @@ OPERATIONS
 
 	// Remove as relacoes do artista com gravadoras
 	artistas_da_gravadora := artistas_da_gravadora - (artistas_da_gravadora |> {aa})
- END;*/
+ END;
 
  cadastrar_album_para_artista(ar, al) =
  PRE
-	ar : artistas & al : albuns & ar |-> al /: albuns_do_artista
+	ar : artistas & al : albuns & al/:ran(albuns_do_artista)
  THEN
 	albuns_do_artista := albuns_do_artista \/ { ar |-> al }
  END;
