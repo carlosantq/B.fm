@@ -1,7 +1,8 @@
 MACHINE GerenciadorSistema
 
 SEES
- Playlist_Ctx
+ Playlist_Ctx,
+ Tag_Ctx
 
 INCLUDES
  GerenciadorPlaylist,
@@ -9,7 +10,8 @@ INCLUDES
  GerenciadorMusica,
  GerenciadorAlbum,
  GerenciadorArtista,
- GerenciadorGravadora
+ GerenciadorGravadora,
+ GerenciadorTag
 
 PROMOTES
  listar_playlists,
@@ -22,28 +24,41 @@ PROMOTES
  listar_artistas,
  cadastrar_artista,
  listar_gravadoras,
- cadastrar_gravadora
+ cadastrar_gravadora,
+ listar_tags
 
 VARIABLES 
  musicas_da_playlist,
  criador_da_playlist,
  musicas_do_album,
  albuns_do_artista,
- artistas_da_gravadora
+ artistas_da_gravadora,
+ criador_da_tag,
+ musica_da_tag,
+ album_da_tag,
+ artista_da_tag
 
 INVARIANT
  musicas_da_playlist : playlists <-> musicas &
  criador_da_playlist : playlists --> usuarios &
  musicas_do_album : albuns <-> musicas &
  albuns_do_artista : artistas <-> albuns &
- artistas_da_gravadora : gravadoras <-> artistas
+ artistas_da_gravadora : gravadoras <-> artistas &
+ criador_da_tag : tags --> usuarios &
+ musica_da_tag : tags --> musicas &
+ album_da_tag : tags --> albuns &
+ artista_da_tag : tags --> artistas
 
 INITIALISATION
  musicas_da_playlist := {} || 
  criador_da_playlist := {} ||
  musicas_do_album := {} ||
  albuns_do_artista := {} ||
- artistas_da_gravadora := {}
+ artistas_da_gravadora := {} ||
+ criador_da_tag := {} ||
+ musica_da_tag := {} ||
+ album_da_tag := {} ||
+ artista_da_tag := {}
 
 OPERATIONS
 
@@ -230,7 +245,110 @@ OPERATIONS
 	aa : artistas
  THEN
 	gg := dom(artistas_da_gravadora |> { aa })
+ END;
+
+// Tags, usuarios, musicas, albuns e artistas ==========================================================
+ cadastrar_tag_do_usuario_na_musica(tt, uu, mm) = 
+ PRE
+	tt : TAG & tt /: tags &
+	uu : usuarios &
+	mm : musicas &
+	tt |-> mm /: musica_da_tag 
+ THEN 
+	cadastrar_tag(tt) ||
+	criador_da_tag := criador_da_tag \/ { tt |-> uu } ||
+	musica_da_tag := musica_da_tag \/ { tt |-> mm }
+ END;
+
+ cadastrar_tag_do_usuario_no_album(tt, uu, aa) = 
+ PRE
+	tt : TAG & tt /: tags &
+	uu : usuarios &
+	aa : albuns &
+	tt |-> aa /: album_da_tag 
+ THEN 
+	cadastrar_tag(tt) ||
+	criador_da_tag := criador_da_tag \/ { tt |-> uu } ||
+	album_da_tag := album_da_tag \/ { tt |-> aa }
+ END;
+
+ cadastrar_tag_do_usuario_no_artista(tt, uu, aa) = 
+ PRE
+	tt : TAG & tt /: tags &
+	uu : usuarios &
+	aa : artistas &
+	tt |-> aa /: artista_da_tag 
+ THEN 
+	cadastrar_tag(tt) ||
+	criador_da_tag := criador_da_tag \/ { tt |-> uu } ||
+	artista_da_tag := artista_da_tag \/ { tt |-> aa }
+ END;
+
+ remover_tag_do_usuario_na_musica(tt, uu, mm) =
+ PRE 
+	tt : TAG & tt : tags &
+	uu : usuarios &
+	mm : musicas &
+	tt |-> mm : musica_da_tag 
+ THEN 
+	remover_tag(tt) ||
+	criador_da_tag := criador_da_tag - { tt |-> uu } ||
+	musica_da_tag := musica_da_tag - { tt |-> mm }
+ END;
+
+ remover_tag_do_usuario_no_album(tt, uu, aa) =
+ PRE 
+	tt : TAG & tt : tags &
+	uu : usuarios &
+	aa : albuns &
+	tt |-> aa : album_da_tag 
+ THEN 
+	remover_tag(tt) ||
+	criador_da_tag := criador_da_tag - { tt |-> uu } ||
+	album_da_tag := album_da_tag - { tt |-> aa }
+ END;
+
+ remover_tag_do_usuario_no_artista(tt, uu, aa) =
+ PRE 
+	tt : TAG & tt : tags &
+	uu : usuarios &
+	aa : artistas &
+	tt |-> aa : artista_da_tag 
+ THEN 
+	remover_tag(tt) ||
+	criador_da_tag := criador_da_tag - { tt |-> uu } ||
+	artista_da_tag := artista_da_tag - { tt |-> aa }
+ END;
+ 
+ rr <-- consultar_usuario_criador_da_tag(tt) =
+ PRE 
+	tt : tags & tt : dom(criador_da_tag)
+ THEN
+	rr := criador_da_tag(tt)
+ END;
+
+ rr <-- consultar_tags_do_usuario(uu) =
+ PRE 
+	uu : usuarios & uu : ran(criador_da_tag)
+ THEN
+	rr := dom(criador_da_tag |> { uu })
  END
+
+/* Operação bugada
+ rr <-- consultar_alvo_da_tag(tt) =
+ PRE 
+	tt : tags & 
+	(tt : dom(musica_da_tag) or tt : dom(album_da_tag) or tt : dom(artista_da_tag))
+ THEN
+	IF tt : dom(musica_da_tag) 
+	THEN rr := musica_da_tag(tt);
+
+	IF tt : dom(album_da_tag) 
+	THEN rr := album_da_tag(tt);
+
+	IF tt : dom(artista_da_tag)
+	THEN rr := artista_da_tag(tt);
+ END */
 
 END
 
