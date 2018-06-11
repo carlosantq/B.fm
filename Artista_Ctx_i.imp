@@ -1,0 +1,5 @@
+IMPLEMENTATION Artista_Ctx_i
+REFINES Artista_Ctx
+VALUES
+    ARTISTA = 0..100
+ END

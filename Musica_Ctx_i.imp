@@ -1,0 +1,5 @@
+IMPLEMENTATION Musica_Ctx_i
+REFINES Musica_Ctx
+VALUES
+    MUSICA = 0..100
+ END

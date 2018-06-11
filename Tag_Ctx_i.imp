@@ -1,0 +1,5 @@
+IMPLEMENTATION Tag_Ctx_i
+REFINES Tag_Ctx
+VALUES
+    TAG = 0..100
+ END

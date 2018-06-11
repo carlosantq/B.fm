@@ -1,0 +1,5 @@
+IMPLEMENTATION Album_Ctx_i
+REFINES Album_Ctx
+VALUES
+    ALBUM = 0..100
+END

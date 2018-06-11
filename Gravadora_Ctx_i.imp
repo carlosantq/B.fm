@@ -1,0 +1,5 @@
+IMPLEMENTATION Gravadora_Ctx_i
+REFINES Gravadora_Ctx
+VALUES
+    GRAVADORA = 0..100
+ END

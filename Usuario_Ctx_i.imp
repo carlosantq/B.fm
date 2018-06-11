@@ -1,0 +1,5 @@
+IMPLEMENTATION Usuario_Ctx_i
+REFINES Usuario_Ctx
+VALUES
+    USUARIO = 0..100
+ END

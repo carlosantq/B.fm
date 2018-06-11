@@ -1,0 +1,5 @@
+IMPLEMENTATION Playlist_Ctx_i
+REFINES Playlist_Ctx
+VALUES
+    PLAYLIST = 0..100
+ END
