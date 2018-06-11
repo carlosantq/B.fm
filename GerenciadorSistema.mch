@@ -237,8 +237,7 @@ OPERATIONS
  PRE
 	gg : gravadoras & aa : artistas & aa /: artistas_da_gravadora[{ gg }] & aa : ran(artistas_da_gravadora)
  THEN
-	artistas_da_gravadora := artistas_da_gravadora - (artistas_da_gravadora |> {aa});
-	artistas_da_gravadora := artistas_da_gravadora \/ {gg |-> aa}
+	artistas_da_gravadora := (artistas_da_gravadora - (artistas_da_gravadora |> {aa})) \/ {gg |-> aa}
  END;
 
  cadastrar_artista_numa_gravadora(aa, gg) =
@@ -270,7 +269,7 @@ OPERATIONS
  END;
 
 // Tags, usuarios, musicas, albuns e artistas ==========================================================
- cadastrar_tag_do_usuario_na_musica(tt, uu, mm) = 
+ /*cadastrar_tag_do_usuario_na_musica(tt, uu, mm) = 
  PRE
 	tt : TAG & tt /: tags &
 	uu : usuarios &
@@ -354,7 +353,7 @@ OPERATIONS
 	uu : usuarios & uu : ran(criador_da_tag)
  THEN
 	rr := dom(criador_da_tag |> { uu })
- END;
+ END;*/
 
 /* Operação bugada
  rr <-- consultar_alvo_da_tag(tt) =

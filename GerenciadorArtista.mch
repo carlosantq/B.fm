@@ -23,12 +23,12 @@ OPERATIONS
 
   remover_artista(aa) =
   PRE
-	aa : artistas
+	aa : ARTISTA
   THEN 
 	artistas := artistas - { aa }
   END;
 
- aa <-- listar_artistas =  aa := artistas
+ //aa <-- listar_artistas =  aa := artistas
 
 END
 

@@ -1,0 +1,28 @@
+IMPLEMENTATION GerenciadorAlbum_i
+REFINES GerenciadorAlbum
+
+SEES
+ Album_Ctx
+ 
+CONCRETE_VARIABLES
+    albuns_i
+
+INVARIANT
+    albuns_i : ALBUM --> BOOL &
+    dom(albuns_i |> {TRUE}) = albuns
+    
+INITIALISATION
+    albuns_i := (0..100) * {FALSE}
+
+OPERATIONS
+ cadastrar_album(aa) =
+ 	albuns_i(aa) := TRUE;
+
+ remover_album(aa) =
+	albuns_i(aa) := FALSE
+	//;
+	
+ //aa <-- listar_albuns = 
+ //   aa := albuns_i
+    
+ END

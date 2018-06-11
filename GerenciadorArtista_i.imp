@@ -1,0 +1,24 @@
+IMPLEMENTATION GerenciadorArtista_i
+REFINES GerenciadorArtista
+
+SEES
+ Artista_Ctx
+ 
+CONCRETE_VARIABLES
+    artistas_i
+
+INVARIANT
+    artistas_i : ARTISTA --> BOOL &
+    dom(artistas_i |> {TRUE}) = artistas
+    
+INITIALISATION
+    artistas_i := (0..100) * {FALSE}
+    
+OPERATIONS
+  cadastrar_artista(aa) =
+	artistas_i(aa) := TRUE;
+
+  remover_artista(aa) =
+	artistas_i(aa) := FALSE
+
+ END

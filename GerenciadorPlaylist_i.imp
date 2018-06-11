@@ -1,0 +1,32 @@
+/* GerenciadorPlaylist_i
+ * Author: jonathan.rocha
+ * Creation date: 11/06/2018
+ */
+
+IMPLEMENTATION GerenciadorPlaylist_i
+REFINES GerenciadorPlaylist
+
+SEES
+ Playlist_Ctx
+
+
+OPERATIONS
+ cadastrar_playlist(pp) = 
+ PRE 
+	pp : PLAYLIST & pp /: playlists
+ THEN 
+	playlists := playlists \/ { pp }
+ END;
+
+
+ remover_playlist(pp) = 
+ PRE 
+	pp : PLAYLIST & pp : playlists
+ THEN 
+	playlists := playlists - { pp }
+ END;
+
+
+
+
+ END

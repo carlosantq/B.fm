@@ -1,0 +1,32 @@
+/* GerenciadorMusica_i
+ * Author: jonathan.rocha
+ * Creation date: 11/06/2018
+ */
+
+IMPLEMENTATION GerenciadorMusica_i
+REFINES GerenciadorMusica
+
+SEES 
+ Musica_Ctx
+
+
+OPERATIONS
+ cadastrar_musica(mm) =
+ PRE
+	mm : MUSICA & mm /: musicas
+ THEN
+	musicas := musicas \/ { mm }
+ END;
+
+
+ remover_musica(mm) =
+ PRE
+ 	mm : MUSICA & mm : musicas
+ THEN
+	musicas := musicas - { mm }
+ END;
+
+
+
+
+ END

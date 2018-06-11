@@ -23,13 +23,14 @@ OPERATIONS
 
  remover_album(aa) =
  PRE
-	aa <: albuns
+	aa : ALBUM
  THEN
-	albuns := albuns - aa
- END;
+	albuns := albuns - {aa}
+ END
+ //;
 
  /* Lista todos os albuns */
- aa <-- listar_albuns = aa := albuns 
+ //aa <-- listar_albuns = aa := albuns 
 
 END
 

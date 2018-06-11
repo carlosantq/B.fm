@@ -1,19 +1,16 @@
-MACHINE GerenciadorGravadora
+/* GerenciadorGravadora_i
+ * Author: jonathan.rocha
+ * Creation date: 11/06/2018
+ */
+
+IMPLEMENTATION GerenciadorGravadora_i
+REFINES GerenciadorGravadora
 
 SEES
  Gravadora_Ctx
 
-VARIABLES
- gravadoras
-
-INVARIANT
- gravadoras <: GRAVADORA
-
-INITIALISATION
- gravadoras := {}
 
 OPERATIONS
- 
  cadastrar_gravadora(gg) =
  PRE
 	gg : GRAVADORA & gg /: gravadoras
@@ -21,12 +18,14 @@ OPERATIONS
  	gravadoras := gravadoras \/ { gg }
  END;
 
+
  remover_gravadora(gg) =
  PRE
 	gg : GRAVADORA
  THEN 
 	gravadoras := gravadoras - { gg }
  END;
+
 
  gg <-- listar_gravadoras =  gg := gravadoras
 
@@ -43,9 +42,6 @@ OPERATIONS
  THEN
  	gravadorasArtistas := gravadorasArtistas - (gravadorasArtistas |> { aa });
 	gravadorasArtistas := gravadorasArtistas \/ { gg |-> aa }
- END;
-*/
+ END
 
-END
-
-
+ END
