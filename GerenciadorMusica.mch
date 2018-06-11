@@ -26,9 +26,9 @@ OPERATIONS
  	mm : MUSICA & mm : musicas
  THEN
 	musicas := musicas - { mm }
- END;
+ END/*;
 
- mm <-- listar_musicas = mm := musicas
+ mm <-- listar_musicas = mm := musicas*/
 
 END
 

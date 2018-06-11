@@ -1,32 +1,25 @@
-/* GerenciadorPlaylist_i
- * Author: jonathan.rocha
- * Creation date: 11/06/2018
- */
-
 IMPLEMENTATION GerenciadorPlaylist_i
 REFINES GerenciadorPlaylist
 
 SEES
  Playlist_Ctx
 
+CONCRETE_VARIABLES
+	playlists_i
+
+INVARIANT
+	playlists_i : PLAYLIST --> BOOL &
+	dom(playlists_i |> {TRUE}) = playlists
+
+INITIALISATION
+	playlists_i := (0..100) * {FALSE}
 
 OPERATIONS
- cadastrar_playlist(pp) = 
- PRE 
-	pp : PLAYLIST & pp /: playlists
- THEN 
-	playlists := playlists \/ { pp }
- END;
 
+ cadastrar_playlist(pp) = 
+	playlists_i(pp) := TRUE;
 
  remover_playlist(pp) = 
- PRE 
-	pp : PLAYLIST & pp : playlists
- THEN 
-	playlists := playlists - { pp }
- END;
-
-
-
+ 	playlists_i(pp) := FALSE
 
  END

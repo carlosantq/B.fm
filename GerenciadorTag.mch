@@ -26,8 +26,8 @@ OPERATIONS
 	tt : TAG & tt : tags
  THEN 
 	tags := tags - { tt }
- END;
+ END/*;
 
- tt <-- listar_tags = tt := tags
+ tt <-- listar_tags = tt := tags*/
 
 END

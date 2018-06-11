@@ -1,0 +1,24 @@
+IMPLEMENTATION GerenciadorUsuario_i
+REFINES GerenciadorUsuario
+
+SEES
+ Usuario_Ctx
+
+CONCRETE_VARIABLES
+    usuarios_i
+
+INVARIANT
+    usuarios_i : USUARIO --> BOOL &
+    dom(usuarios_i |> {TRUE}) = usuarios
+    
+INITIALISATION
+    usuarios_i := (0..100) * {FALSE}
+    
+OPERATIONS
+  cadastrar_usuario(uu) =
+	usuarios_i(uu) := TRUE;
+
+  remover_usuario(uu) =
+	usuarios_i(uu) := FALSE
+
+ END

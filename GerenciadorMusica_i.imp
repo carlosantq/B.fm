@@ -1,32 +1,25 @@
-/* GerenciadorMusica_i
- * Author: jonathan.rocha
- * Creation date: 11/06/2018
- */
-
 IMPLEMENTATION GerenciadorMusica_i
 REFINES GerenciadorMusica
 
 SEES 
  Musica_Ctx
 
+CONCRETE_VARIABLES
+ 	musicas_i
+
+INVARIANT
+	musicas_i : MUSICA --> BOOL &
+    	dom(musicas_i |> {TRUE}) = musicas
+
+INITIALISATION
+	musicas_i := (0..100) * {FALSE}
 
 OPERATIONS
- cadastrar_musica(mm) =
- PRE
-	mm : MUSICA & mm /: musicas
- THEN
-	musicas := musicas \/ { mm }
- END;
 
+ cadastrar_musica(mm) = 
+ 	musicas_i(mm) := TRUE;
 
- remover_musica(mm) =
- PRE
- 	mm : MUSICA & mm : musicas
- THEN
-	musicas := musicas - { mm }
- END;
-
-
-
+ remover_musica(mm) = 
+	musicas_i(mm) := FALSE
 
  END

@@ -1,32 +1,24 @@
-/* GerenciadorTag_i
- * Author: jonathan.rocha
- * Creation date: 11/06/2018
- */
-
 IMPLEMENTATION GerenciadorTag_i
 REFINES GerenciadorTag
 
 SEES
  Tag_Ctx
 
+CONCRETE_VARIABLES
+    tags_i
 
+INVARIANT
+    tags_i : TAG --> BOOL &
+    dom(tags_i |> {TRUE}) = tags
+    
+INITIALISATION
+    tags_i := (0..100) * {FALSE}
+    
 OPERATIONS
- cadastrar_tag(tt) = 
- PRE
-	tt : TAG & tt /: tags
- THEN 
-	tags := tags \/ { tt }
- END;
+  cadastrar_tag(tt) =
+	tags_i(tt) := TRUE;
 
-
- remover_tag(tt) = 
- PRE 
-	tt : TAG & tt : tags
- THEN 
-	tags := tags - { tt }
- END;
-
-
-
+  remover_tag(tt) =
+	tags_i(tt) := FALSE
 
  END

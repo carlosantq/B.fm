@@ -26,9 +26,9 @@ OPERATIONS
  	uu : USUARIO & uu : usuarios
  THEN
 	usuarios := usuarios - { uu }
- END;
+ END/*;
 
- uu <-- listar_usuarios = uu := usuarios
+ uu <-- listar_usuarios = uu := usuarios*/
 
 END
 

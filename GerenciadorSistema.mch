@@ -474,4 +474,3 @@ OPERATIONS
 	mm := card(ran({ uu } <| biblioteca_musicas_usuario) /\ ran({ us } <| biblioteca_musicas_usuario))
  END
 END
-

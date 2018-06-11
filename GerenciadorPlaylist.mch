@@ -23,11 +23,11 @@ OPERATIONS
 
  remover_playlist(pp) = 
  PRE 
-	pp : PLAYLIST & pp : playlists
+	pp : PLAYLIST
  THEN 
 	playlists := playlists - { pp }
- END;
+ END/*;
 
- pp <-- listar_playlists = pp := playlists
+ pp <-- listar_playlists = pp := playlists*/
 
 END

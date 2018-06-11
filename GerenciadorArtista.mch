@@ -26,9 +26,9 @@ OPERATIONS
 	aa : ARTISTA
   THEN 
 	artistas := artistas - { aa }
-  END;
+  END/*;
 
- //aa <-- listar_artistas =  aa := artistas
+ aa <-- listar_artistas =  aa := artistas*/
 
 END
 
