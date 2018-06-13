@@ -19,6 +19,9 @@ OPERATIONS
 	usuarios_i(uu) := TRUE;
 
   remover_usuario(uu) =
-	usuarios_i(uu) := FALSE
+	usuarios_i(uu) := FALSE;
+
+  rr <-- buscar_usuario(uu) =
+	rr := usuarios_i(uu)
 
  END

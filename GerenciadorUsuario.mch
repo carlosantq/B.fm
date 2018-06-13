@@ -26,9 +26,20 @@ OPERATIONS
  	uu : USUARIO & uu : usuarios
  THEN
 	usuarios := usuarios - { uu }
- END/*;
+ END;
 
- uu <-- listar_usuarios = uu := usuarios*/
+ rr <-- buscar_usuario(uu) =
+ PRE
+	uu : USUARIO
+ THEN
+	IF uu : usuarios THEN
+		rr := TRUE
+	ELSE
+		rr := FALSE
+	END
+ END
+
+ //uu <-- listar_usuarios = uu := usuarios*/
 
 END
 

@@ -20,6 +20,9 @@ OPERATIONS
  	musicas_i(mm) := TRUE;
 
  remover_musica(mm) = 
-	musicas_i(mm) := FALSE
+	musicas_i(mm) := FALSE;
+
+  rr <-- buscar_musica(mm) =
+	rr := musicas_i(mm)
 
  END

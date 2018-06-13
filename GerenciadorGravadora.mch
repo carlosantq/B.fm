@@ -26,9 +26,20 @@ OPERATIONS
 	gg : GRAVADORA
  THEN 
 	gravadoras := gravadoras - { gg }
- END/*;
+ END;
 
- gg <-- listar_gravadoras =  gg := gravadoras*/
+ rr <-- buscar_gravadora(gg) =
+ PRE
+	gg : GRAVADORA
+ THEN
+	IF gg : gravadoras THEN
+		rr := TRUE
+	ELSE
+		rr := FALSE
+	END
+ END
+
+ //gg <-- listar_gravadoras =  gg := gravadoras*/
 
 END
 

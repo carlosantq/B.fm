@@ -26,8 +26,19 @@ OPERATIONS
 	tt : TAG & tt : tags
  THEN 
 	tags := tags - { tt }
- END/*;
+ END;
 
- tt <-- listar_tags = tt := tags*/
+ rr <-- buscar_tag(tt) =
+ PRE
+	tt : TAG
+ THEN
+	IF tt : tags THEN
+		rr := TRUE
+	ELSE
+		rr := FALSE
+	END
+ END
+
+ //tt <-- listar_tags = tt := tags*/
 
 END

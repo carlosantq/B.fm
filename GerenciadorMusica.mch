@@ -26,9 +26,20 @@ OPERATIONS
  	mm : MUSICA & mm : musicas
  THEN
 	musicas := musicas - { mm }
- END/*;
+ END;
 
- mm <-- listar_musicas = mm := musicas*/
+ rr <-- buscar_musica(mm) =
+ PRE
+	mm : MUSICA
+ THEN
+	IF mm : musicas THEN
+		rr := TRUE
+	ELSE
+		rr := FALSE
+	END
+ END
+
+ //mm <-- listar_musicas = mm := musicas*/
 
 END
 

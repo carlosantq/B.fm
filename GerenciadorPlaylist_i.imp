@@ -20,6 +20,9 @@ OPERATIONS
 	playlists_i(pp) := TRUE;
 
  remover_playlist(pp) = 
- 	playlists_i(pp) := FALSE
+ 	playlists_i(pp) := FALSE;
+
+  rr <-- buscar_playlist(pp) =
+	rr := playlists_i(pp)
 
  END

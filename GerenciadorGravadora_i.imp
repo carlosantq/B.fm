@@ -19,6 +19,9 @@ OPERATIONS
 	gravadoras_i(gg) := TRUE;
 
   remover_gravadora(gg) =
-	gravadoras_i(gg) := FALSE
+	gravadoras_i(gg) := FALSE;
+
+  rr <-- buscar_gravadora(gg) =
+	rr := gravadoras_i(gg)
 
  END

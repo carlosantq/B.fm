@@ -19,6 +19,9 @@ OPERATIONS
 	tags_i(tt) := TRUE;
 
   remover_tag(tt) =
-	tags_i(tt) := FALSE
+	tags_i(tt) := FALSE;
+
+  rr <-- buscar_tag(tt) =
+	rr := tags_i(tt)
 
  END

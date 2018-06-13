@@ -14,21 +14,32 @@ INITIALISATION
 
 OPERATIONS
 
-  cadastrar_artista(aa) =
-  PRE 
-	aa : ARTISTA & aa /: artistas
-  THEN 
-	artistas := artistas \/ {aa}
-  END;
+ cadastrar_artista(aa) =
+ PRE 
+    aa : ARTISTA & aa /: artistas
+ THEN 
+    artistas := artistas \/ {aa}
+ END;
 
-  remover_artista(aa) =
-  PRE
-	aa : ARTISTA
-  THEN 
-	artistas := artistas - { aa }
-  END/*;
+ remover_artista(aa) =
+ PRE
+    aa : ARTISTA
+ THEN 
+    artistas := artistas - { aa }
+ END;
 
- aa <-- listar_artistas =  aa := artistas*/
+ rr <-- buscar_artista(aa) =
+ PRE
+    aa : ARTISTA
+ THEN
+    IF aa : artistas THEN
+        rr := TRUE
+    ELSE
+        rr := FALSE
+    END
+ END
+
+ //aa <-- listar_artistas =  aa := artistas
 
 END
 

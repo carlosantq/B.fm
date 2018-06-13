@@ -26,8 +26,19 @@ OPERATIONS
 	pp : PLAYLIST
  THEN 
 	playlists := playlists - { pp }
- END/*;
+ END;
 
- pp <-- listar_playlists = pp := playlists*/
+ rr <-- buscar_playlist(pp) =
+ PRE
+	pp : PLAYLIST
+ THEN
+	IF pp : playlists THEN
+		rr := TRUE
+	ELSE
+		rr := FALSE
+	END
+ END
+
+ //pp <-- listar_playlists = pp := playlists*/
 
 END

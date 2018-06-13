@@ -26,8 +26,18 @@ OPERATIONS
 	aa : ALBUM
  THEN
 	albuns := albuns - {aa}
+ END;
+
+ rr <-- buscar_album(aa) =
+ PRE
+	aa : ALBUM
+ THEN
+	IF aa : albuns THEN
+		rr := TRUE
+	ELSE
+		rr := FALSE
+	END
  END
- //;
 
  /* Lista todos os albuns */
  //aa <-- listar_albuns = aa := albuns 

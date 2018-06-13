@@ -19,6 +19,9 @@ OPERATIONS
 	artistas_i(aa) := TRUE;
 
   remover_artista(aa) =
-	artistas_i(aa) := FALSE
+	artistas_i(aa) := FALSE;
+
+  rr <-- buscar_artista(aa) =
+	rr := artistas_i(aa)
 
  END
