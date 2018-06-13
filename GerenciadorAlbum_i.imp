@@ -22,9 +22,9 @@ OPERATIONS
 	albuns_i(aa) := FALSE;
 
  rr <-- buscar_album(aa) =
-	rr := albuns_i(aa)
+	rr := albuns_i(aa);
 	
- //aa <-- listar_albuns = 
- //   aa := albuns_i
+ aa <-- listar_albuns = 
+    aa := albuns_i
     
  END
