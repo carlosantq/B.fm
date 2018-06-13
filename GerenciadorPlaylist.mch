@@ -37,8 +37,11 @@ OPERATIONS
 	ELSE
 		rr := FALSE
 	END
- END
+ END;
 
- //pp <-- listar_playlists = pp := playlists*/
+ pp <-- listar_playlists =
+ ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = playlists THEN
+    pp := lista
+ END 
 
 END

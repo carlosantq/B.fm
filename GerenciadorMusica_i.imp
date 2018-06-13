@@ -23,6 +23,9 @@ OPERATIONS
 	musicas_i(mm) := FALSE;
 
   rr <-- buscar_musica(mm) =
-	rr := musicas_i(mm)
+	rr := musicas_i(mm);
+
+ mm <-- listar_musicas = 
+    mm := musicas_i
 
  END

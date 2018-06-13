@@ -22,6 +22,9 @@ OPERATIONS
 	tags_i(tt) := FALSE;
 
   rr <-- buscar_tag(tt) =
-	rr := tags_i(tt)
+	rr := tags_i(tt);
+
+ tt <-- listar_tags = 
+    tt := tags_i
 
  END

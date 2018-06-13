@@ -37,9 +37,12 @@ OPERATIONS
 	ELSE
 		rr := FALSE
 	END
- END
+ END;
 
- //gg <-- listar_gravadoras =  gg := gravadoras*/
+ gg <-- listar_gravadoras =
+ ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = gravadoras THEN
+    gg := lista
+ END 
 
 END
 

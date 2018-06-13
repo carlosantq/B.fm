@@ -37,9 +37,12 @@ OPERATIONS
 	ELSE
 		rr := FALSE
 	END
- END
+ END;
 
- //uu <-- listar_usuarios = uu := usuarios*/
+ uu <-- listar_usuarios =
+ ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = usuarios THEN
+    uu := lista
+ END 
 
 END
 

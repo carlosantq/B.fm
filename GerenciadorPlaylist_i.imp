@@ -23,6 +23,9 @@ OPERATIONS
  	playlists_i(pp) := FALSE;
 
   rr <-- buscar_playlist(pp) =
-	rr := playlists_i(pp)
+	rr := playlists_i(pp);
+
+ pp <-- listar_playlists = 
+    pp := playlists_i
 
  END

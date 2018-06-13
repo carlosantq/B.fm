@@ -22,6 +22,9 @@ OPERATIONS
 	gravadoras_i(gg) := FALSE;
 
   rr <-- buscar_gravadora(gg) =
-	rr := gravadoras_i(gg)
+	rr := gravadoras_i(gg);
+
+ gg <-- listar_gravadoras = 
+    gg := gravadoras_i
 
  END

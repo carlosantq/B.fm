@@ -37,9 +37,12 @@ OPERATIONS
 	ELSE
 		rr := FALSE
 	END
- END
+ END;
 
- //mm <-- listar_musicas = mm := musicas*/
+ mm <-- listar_musicas =
+ ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = musicas THEN
+    mm := lista
+ END 
 
 END
 

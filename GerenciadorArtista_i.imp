@@ -22,6 +22,9 @@ OPERATIONS
 	artistas_i(aa) := FALSE;
 
   rr <-- buscar_artista(aa) =
-	rr := artistas_i(aa)
+	rr := artistas_i(aa);
 
+ aa <-- listar_artistas = 
+    aa := artistas_i
+  
  END

@@ -39,12 +39,10 @@ OPERATIONS
 	END
  END;
 
- /* Lista todos os albuns */
  aa <-- listar_albuns =
-     ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = albuns THEN
-         aa := lista
-     END
-         
+ ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = albuns THEN
+ 	aa := lista
+ END    
 
 END
 
