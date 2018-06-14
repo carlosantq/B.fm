@@ -12,7 +12,7 @@ INVARIANT
     dom(tags_i |> {TRUE}) = tags
     
 INITIALISATION
-    tags_i := (0..100) * {FALSE}
+    tags_i := TAG * {FALSE}
     
 OPERATIONS
   cadastrar_tag(tt) =

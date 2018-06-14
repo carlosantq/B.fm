@@ -12,7 +12,7 @@ INVARIANT
     	dom(musicas_i |> {TRUE}) = musicas
 
 INITIALISATION
-	musicas_i := (0..100) * {FALSE}
+	musicas_i := MUSICA * {FALSE}
 
 OPERATIONS
 

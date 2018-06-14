@@ -12,7 +12,7 @@ INVARIANT
     dom(usuarios_i |> {TRUE}) = usuarios
     
 INITIALISATION
-    usuarios_i := (0..100) * {FALSE}
+    usuarios_i := USUARIO * {FALSE}
     
 OPERATIONS
   cadastrar_usuario(uu) =

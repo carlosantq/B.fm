@@ -12,7 +12,7 @@ INVARIANT
 	dom(playlists_i |> {TRUE}) = playlists
 
 INITIALISATION
-	playlists_i := (0..100) * {FALSE}
+	playlists_i := PLAYLIST * {FALSE}
 
 OPERATIONS
 

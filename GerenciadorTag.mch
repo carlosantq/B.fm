@@ -40,7 +40,7 @@ OPERATIONS
  END;
 
  tt <-- listar_tags =
- ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = tags THEN
+ ANY lista WHERE lista : TAG --> BOOL & dom(lista |> {TRUE}) = tags THEN
     tt := lista
  END 
 

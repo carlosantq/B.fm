@@ -12,7 +12,7 @@ INVARIANT
     dom(gravadoras_i |> {TRUE}) = gravadoras
     
 INITIALISATION
-    gravadoras_i := (0..100) * {FALSE}
+    gravadoras_i := GRAVADORA * {FALSE}
     
 OPERATIONS
   cadastrar_gravadora(gg) =

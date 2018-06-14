@@ -40,7 +40,7 @@ OPERATIONS
  END;
 
  pp <-- listar_playlists =
- ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = playlists THEN
+ ANY lista WHERE lista : PLAYLIST --> BOOL & dom(lista |> {TRUE}) = playlists THEN
     pp := lista
  END 
 

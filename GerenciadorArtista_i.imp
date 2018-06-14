@@ -12,7 +12,7 @@ INVARIANT
     dom(artistas_i |> {TRUE}) = artistas
     
 INITIALISATION
-    artistas_i := (0..100) * {FALSE}
+    artistas_i := ARTISTA * {FALSE}
     
 OPERATIONS
   cadastrar_artista(aa) =

@@ -40,7 +40,7 @@ OPERATIONS
  END;
 
  aa <-- listar_albuns =
- ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = albuns THEN
+ ANY lista WHERE lista : ALBUM --> BOOL & dom(lista |> {TRUE}) = albuns THEN
  	aa := lista
  END    
 

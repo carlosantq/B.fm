@@ -40,7 +40,7 @@ OPERATIONS
  END;
 
  mm <-- listar_musicas =
- ANY lista WHERE lista : (0..100) --> BOOL & dom(lista |> {TRUE}) = musicas THEN
+ ANY lista WHERE lista : MUSICA --> BOOL & dom(lista |> {TRUE}) = musicas THEN
     mm := lista
  END 
 

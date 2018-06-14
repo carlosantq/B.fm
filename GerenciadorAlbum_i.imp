@@ -12,7 +12,7 @@ INVARIANT
     dom(albuns_i |> {TRUE}) = albuns
     
 INITIALISATION
-    albuns_i := (0..100) * {FALSE}
+    albuns_i := ALBUM * {FALSE}
 
 OPERATIONS
  cadastrar_album(aa) =
