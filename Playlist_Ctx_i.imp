@@ -1,5 +1,10 @@
 IMPLEMENTATION Playlist_Ctx_i
 REFINES Playlist_Ctx
+
+SEES
+    Max_num
+
 VALUES
-    PLAYLIST = 0..100
+    PLAYLIST = 0..MAX_NUM
+
  END

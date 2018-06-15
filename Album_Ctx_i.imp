@@ -1,5 +1,10 @@
 IMPLEMENTATION Album_Ctx_i
 REFINES Album_Ctx
+
+SEES
+    Max_num
+
 VALUES
-    ALBUM = 0..100
+    ALBUM = 0..MAX_NUM
+
 END

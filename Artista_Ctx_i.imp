@@ -1,5 +1,9 @@
 IMPLEMENTATION Artista_Ctx_i
 REFINES Artista_Ctx
+
+SEES
+    Max_num
+
 VALUES
-    ARTISTA = 0..100
+    ARTISTA = 0..MAX_NUM
  END

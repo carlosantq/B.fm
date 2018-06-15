@@ -1,5 +1,10 @@
 IMPLEMENTATION Tag_Ctx_i
 REFINES Tag_Ctx
+
+SEES
+    Max_num
+
 VALUES
-    TAG = 0..100
+    TAG = 0..MAX_NUM
+
  END

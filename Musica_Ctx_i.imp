@@ -1,5 +1,10 @@
 IMPLEMENTATION Musica_Ctx_i
 REFINES Musica_Ctx
+
+SEES
+    Max_num
+
 VALUES
-    MUSICA = 0..100
+    MUSICA = 0..MAX_NUM
+    
  END
