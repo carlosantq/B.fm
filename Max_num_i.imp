@@ -1,5 +1,7 @@
 IMPLEMENTATION Max_num_i
 REFINES Max_num
+
 VALUES
-    MAX_NUM = 25
+    MAX_NUM = 5
+
 END

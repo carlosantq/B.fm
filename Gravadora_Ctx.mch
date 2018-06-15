@@ -1,6 +1,12 @@
 MACHINE Gravadora_Ctx
+
+SEES
+    Max_num
+
 CONSTANTS
     GRAVADORA
+
 PROPERTIES
-    GRAVADORA = 0..100
+    GRAVADORA = 0..MAX_NUM
+
 END

@@ -3,16 +3,16 @@ REFINES GerenciadorAlbum
 
 SEES
  Album_Ctx
- 
+
 CONCRETE_VARIABLES
     albuns_i
 
 INVARIANT
     albuns_i : ALBUM --> BOOL &
-    dom(albuns_i |> {TRUE}) = albuns
-    
+    dom(albuns_i |> { TRUE }) = albuns
+
 INITIALISATION
-    albuns_i := ALBUM * {FALSE}
+    albuns_i := ALBUM * { FALSE }
 
 OPERATIONS
  cadastrar_album(aa) =
@@ -23,8 +23,8 @@ OPERATIONS
 
  rr <-- buscar_album(aa) =
 	rr := albuns_i(aa);
-	
- aa <-- listar_albuns = 
+
+ aa <-- listar_albuns =
     aa := albuns_i
-    
+
  END

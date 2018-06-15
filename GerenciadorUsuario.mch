@@ -40,8 +40,10 @@ OPERATIONS
  END;
 
  uu <-- listar_usuarios =
- ANY lista WHERE lista : USUARIO --> BOOL & dom(lista |> {TRUE}) = usuarios THEN
-    uu := lista
+ ANY
+	lista WHERE lista : USUARIO --> BOOL & dom(lista |> { TRUE }) = usuarios
+ THEN
+	uu := lista
  END 
 
 END

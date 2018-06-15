@@ -1,6 +1,9 @@
 MACHINE Max_num
+
 CONSTANTS
     MAX_NUM
+
 PROPERTIES
-    MAX_NUM = 25
+    MAX_NUM = 5
+
 END

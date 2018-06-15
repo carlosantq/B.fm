@@ -1,0 +1,69 @@
+IMPLEMENTATION GerenciadorSistema_i
+REFINES GerenciadorSistema
+
+SEES
+ Playlist_Ctx,
+ Tag_Ctx,
+ Usuario_Ctx,
+ Max_num
+
+INCLUDES
+ GerenciadorPlaylist,
+ GerenciadorUsuario/*,
+ GerenciadorMusica,
+ GerenciadorAlbum,
+ GerenciadorArtista,
+ GerenciadorGravadora,
+ GerenciadorTag*/
+
+PROMOTES
+ listar_playlists,
+ listar_usuarios,
+ cadastrar_usuario/*,
+ listar_musicas,
+ cadastrar_musica,
+ listar_albuns,
+ cadastrar_album,
+ listar_artistas,
+ cadastrar_artista,
+ listar_gravadoras,
+ cadastrar_gravadora,
+ listar_tags*/
+
+CONCRETE_VARIABLES
+    criador_da_playlist_i
+
+INVARIANT
+    criador_da_playlist_i : PLAYLIST * USUARIO --> BOOL &
+    dom(criador_da_playlist_i  |> { TRUE })  = criador_da_playlist
+
+INITIALISATION
+    criador_da_playlist_i := PLAYLIST * USUARIO * { FALSE }
+
+OPERATIONS
+ cadastrar_playlist_do_usuario(pp, uu) = 
+ BEGIN
+	cadastrar_playlist(pp);
+	criador_da_playlist_i(pp,uu) := TRUE
+	
+ END;
+
+ remover_playlist_do_usuario(pp, uu) = 
+ BEGIN
+	remover_playlist(pp); 
+	criador_da_playlist_i(pp,uu) := FALSE
+	// musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
+ END
+
+/* uu <-- consultar_usuario_criador_da_playlist(pp) =
+ BEGIN
+	uu := criador_da_playlist(pp)
+ END;
+
+ pp <-- consultar_playlists_do_usuario(uu) =
+ BEGIN
+	pp := dom(criador_da_playlist |> { uu })
+ END*/
+
+END
+

@@ -16,7 +16,7 @@ INCLUDES
 PROMOTES
  listar_playlists,
  listar_usuarios,
- cadastrar_usuario,
+ cadastrar_usuario/*,
  listar_musicas,
  cadastrar_musica,
  listar_albuns,
@@ -25,11 +25,11 @@ PROMOTES
  cadastrar_artista,
  listar_gravadoras,
  cadastrar_gravadora,
- listar_tags
+ listar_tags*/
 
 VARIABLES 
- musicas_da_playlist,
- criador_da_playlist,
+ /*musicas_da_playlist,*/
+ criador_da_playlist/*,
  musicas_do_album,
  albuns_do_artista,
  artistas_da_gravadora,
@@ -41,11 +41,11 @@ VARIABLES
  biblioteca_artistas_usuario,
  biblioteca_albuns_usuario,
  obsessao_do_momento,
- amigos
+ amigos*/
 
 INVARIANT
- musicas_da_playlist : playlists <-> musicas &
- criador_da_playlist : playlists --> usuarios &
+ /*musicas_da_playlist : playlists <-> musicas &*/
+ criador_da_playlist : playlists --> usuarios /*&
  musicas_do_album : albuns <-> musicas &
  albuns_do_artista : artistas <-> albuns &
  artistas_da_gravadora : gravadoras <-> artistas &
@@ -57,11 +57,11 @@ INVARIANT
  biblioteca_musicas_usuario : usuarios <-> musicas &
  biblioteca_albuns_usuario : usuarios <-> albuns &
  obsessao_do_momento : usuarios <-> musicas &
- amigos : usuarios <-> usuarios
+ amigos : usuarios <-> usuarios*/
 
 INITIALISATION
- musicas_da_playlist := {} || 
- criador_da_playlist := {} ||
+ /*musicas_da_playlist := {}|| */
+ criador_da_playlist := {}/* ||
  musicas_do_album := {} ||
  albuns_do_artista := {} ||
  artistas_da_gravadora := {} ||
@@ -73,7 +73,7 @@ INITIALISATION
  biblioteca_musicas_usuario := {} ||
  biblioteca_albuns_usuario := {} ||
  obsessao_do_momento := {} || 
- amigos := {}
+ amigos := {}*/
 
 OPERATIONS
 
@@ -91,11 +91,11 @@ OPERATIONS
 	pp : PLAYLIST & pp : playlists & uu : usuarios & pp |-> uu : criador_da_playlist
  THEN 
 	remover_playlist(pp) || 
-	criador_da_playlist := criador_da_playlist - { pp |-> uu } ||
-	musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
- END;
+	criador_da_playlist := criador_da_playlist - { pp |-> uu }
+	// musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
+ END
 
- uu <-- consultar_usuario_criador_da_playlist(pp) =
+ /*uu <-- consultar_usuario_criador_da_playlist(pp) =
  PRE 
 	pp : playlists
  THEN
@@ -107,10 +107,10 @@ OPERATIONS
 	uu : usuarios
  THEN
 	pp := dom(criador_da_playlist |> { uu })
- END;
+ END*/
 
 // Playlists e musicas ==========================================================
- cadastrar_musica_na_playlist(pp, mm) =
+/* cadastrar_musica_na_playlist(pp, mm) =
  PRE 
 	mm : musicas & pp : playlists & pp |-> mm /: musicas_da_playlist
  THEN 
@@ -129,10 +129,10 @@ OPERATIONS
 	pp : playlists
  THEN 
 	mm := ran({ pp } <| musicas_da_playlist)
- END;
+ END*/
 
 // Albuns e musicas ==========================================================
- remover_album_e_retirar_musicas(aa) =
+/* remover_album_e_retirar_musicas(aa) =
  PRE
 	aa : albuns
  THEN
@@ -169,16 +169,16 @@ OPERATIONS
  THEN
 	aa := dom(musicas_do_album |> { mm })
  END;
-
+*/
 // Artistas e albuns ==========================================================
- remover_artista_apagando_albuns(aa) =
+/* remover_artista_apagando_albuns(aa) =
  PRE
 	aa : artistas
  THEN 
 	remover_artista(aa) ||
 
 	// Remove os albuns do artista do sistema
-	remover_album(ran({ aa } <| albuns_do_artista)) ||
+	// remover_album(ran({ aa } <| albuns_do_artista)) ||
 
 	// Remove as relacoes das musicas com os albuns (que foram removidos acima)
 	musicas_do_album := musicas_do_album - (ran({ aa } <| albuns_do_artista) <| musicas_do_album) ||
@@ -223,9 +223,9 @@ OPERATIONS
  THEN
 	rr := dom(albuns_do_artista |> { aa })
  END;
-
+*/
 // Gravadoras e artistas ==========================================================
-  remover_gravadora_apagando_artistas(gg) =
+/*  remover_gravadora_apagando_artistas(gg) =
   PRE
 	gg : gravadoras
   THEN 
@@ -267,7 +267,7 @@ OPERATIONS
  THEN
 	gg := dom(artistas_da_gravadora |> { aa })
  END;
-
+*/
 // Tags, usuarios, musicas, albuns e artistas ==========================================================
  /*cadastrar_tag_do_usuario_na_musica(tt, uu, mm) = 
  PRE
@@ -372,7 +372,7 @@ OPERATIONS
  END */
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
- cadastrar_artista_biblioteca(aa, uu) =
+/* cadastrar_artista_biblioteca(aa, uu) =
  PRE
  	uu : usuarios & aa : artistas & { uu |-> aa } /<: biblioteca_artistas_usuario 
  THEN
@@ -442,9 +442,9 @@ OPERATIONS
  THEN
 	rr := obsessao_do_momento[{ uu }]
  END;
-
+*/
 // Amigos ==========================================================
- cadastrar_relacao_amizade(uu, us) =
+/* cadastrar_relacao_amizade(uu, us) =
  PRE
  	uu : usuarios & us : usuarios & uu /= us
  THEN
@@ -472,5 +472,5 @@ OPERATIONS
  	ar := card(ran({ uu } <| biblioteca_artistas_usuario) /\ ran({ us } <| biblioteca_artistas_usuario)) ||
 	ab := card(ran({ uu } <| biblioteca_albuns_usuario) /\ ran({ us } <| biblioteca_albuns_usuario)) ||
 	mm := card(ran({ uu } <| biblioteca_musicas_usuario) /\ ran({ us } <| biblioteca_musicas_usuario))
- END
+ END*/
 END

@@ -10,7 +10,7 @@ INVARIANT
  albuns <: ALBUM
 
 INITIALISATION
- albuns := {}
+ albuns := {-1}
 
 OPERATIONS
 
@@ -23,9 +23,9 @@ OPERATIONS
 
  remover_album(aa) =
  PRE
-	aa : ALBUM
+	aa : ALBUM & aa : albuns
  THEN
-	albuns := albuns - {aa}
+	albuns := albuns - { aa }
  END;
 
  rr <-- buscar_album(aa) =
@@ -40,9 +40,10 @@ OPERATIONS
  END;
 
  aa <-- listar_albuns =
- ANY lista WHERE lista : ALBUM --> BOOL & dom(lista |> {TRUE}) = albuns THEN
+ ANY
+	lista WHERE lista : ALBUM --> BOOL & dom(lista |> { TRUE }) = albuns
+ THEN
  	aa := lista
- END    
+ END
 
 END
-

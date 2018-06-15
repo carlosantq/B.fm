@@ -40,8 +40,10 @@ OPERATIONS
  END;
 
  gg <-- listar_gravadoras =
- ANY lista WHERE lista : GRAVADORA --> BOOL & dom(lista |> {TRUE}) = gravadoras THEN
-    gg := lista
+ ANY
+	lista WHERE lista : GRAVADORA --> BOOL & dom(lista |> { TRUE }) = gravadoras
+ THEN
+	gg := lista
  END 
 
 END
