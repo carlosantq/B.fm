@@ -5,6 +5,7 @@ SEES
     Max_num
 
 VALUES
-    PLAYLIST = 0..MAX_NUM
+    PLAYLIST = 0..MAX_NUM;
+    PLAYLIST_DUMMY = 0
 
  END

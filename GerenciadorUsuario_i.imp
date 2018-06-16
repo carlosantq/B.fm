@@ -10,10 +10,11 @@ CONCRETE_VARIABLES
 INVARIANT
     usuarios_i : USUARIO --> BOOL &
     dom(usuarios_i |> {TRUE}) = usuarios
-    
+
 INITIALISATION
-    usuarios_i := USUARIO * {FALSE}
-    
+    usuarios_i := USUARIO * {FALSE};
+    usuarios_i(USUARIO_DUMMY) := TRUE
+
 OPERATIONS
   cadastrar_usuario(uu) =
 	usuarios_i(uu) := TRUE;
@@ -24,7 +25,7 @@ OPERATIONS
   rr <-- buscar_usuario(uu) =
 	rr := usuarios_i(uu);
 
- uu <-- listar_usuarios = 
+ uu <-- listar_usuarios =
     uu := usuarios_i
 
  END

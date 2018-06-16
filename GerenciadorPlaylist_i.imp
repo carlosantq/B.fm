@@ -12,20 +12,20 @@ INVARIANT
 	dom(playlists_i |> {TRUE}) = playlists
 
 INITIALISATION
-	playlists_i := PLAYLIST * {FALSE}
+	playlists_i := PLAYLIST * {FALSE};
+  playlists_i(PLAYLIST_DUMMY) := TRUE
 
 OPERATIONS
-
- cadastrar_playlist(pp) = 
+ cadastrar_playlist(pp) =
 	playlists_i(pp) := TRUE;
 
- remover_playlist(pp) = 
+ remover_playlist(pp) =
  	playlists_i(pp) := FALSE;
 
   rr <-- buscar_playlist(pp) =
 	rr := playlists_i(pp);
 
- pp <-- listar_playlists = 
+ pp <-- listar_playlists =
     pp := playlists_i
 
  END

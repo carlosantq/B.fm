@@ -10,7 +10,7 @@ INVARIANT
  albuns <: ALBUM
 
 INITIALISATION
- albuns := {-1}
+ albuns := {}
 
 OPERATIONS
 

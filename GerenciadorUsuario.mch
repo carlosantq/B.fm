@@ -1,6 +1,6 @@
 MACHINE GerenciadorUsuario
 
-SEES 
+SEES
  Usuario_Ctx
 
 VARIABLES
@@ -10,7 +10,7 @@ INVARIANT
  usuarios <: USUARIO
 
 INITIALISATION
- usuarios := {}
+ usuarios := {USUARIO_DUMMY}
 
 OPERATIONS
 
@@ -23,7 +23,7 @@ OPERATIONS
 
  remover_usuario(uu) =
  PRE
- 	uu : USUARIO & uu : usuarios
+ 	uu : USUARIO & uu : usuarios & uu /= USUARIO_DUMMY
  THEN
 	usuarios := usuarios - { uu }
  END;
@@ -44,8 +44,6 @@ OPERATIONS
 	lista WHERE lista : USUARIO --> BOOL & dom(lista |> { TRUE }) = usuarios
  THEN
 	uu := lista
- END 
+ END
 
 END
-
-

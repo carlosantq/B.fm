@@ -3,28 +3,28 @@ MACHINE GerenciadorPlaylist
 SEES
  Playlist_Ctx
 
-VARIABLES 
+VARIABLES
  playlists
 
 INVARIANT
  playlists <: PLAYLIST
 
-INITIALISATION 
- playlists := {}
+INITIALISATION
+ playlists := {PLAYLIST_DUMMY}
 
 OPERATIONS
 
- cadastrar_playlist(pp) = 
- PRE 
+ cadastrar_playlist(pp) =
+ PRE
 	pp : PLAYLIST & pp /: playlists
- THEN 
+ THEN
 	playlists := playlists \/ { pp }
  END;
 
- remover_playlist(pp) = 
- PRE 
-	pp : PLAYLIST
- THEN 
+ remover_playlist(pp) =
+ PRE
+	pp : PLAYLIST & pp : playlists & pp /= PLAYLIST_DUMMY
+ THEN
 	playlists := playlists - { pp }
  END;
 
@@ -44,6 +44,6 @@ OPERATIONS
 	lista WHERE lista : PLAYLIST --> BOOL & dom(lista |> {TRUE}) = playlists
  THEN
 	pp := lista
- END 
+ END
 
 END

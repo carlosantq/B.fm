@@ -5,5 +5,7 @@ SEES
     Max_num
 
 VALUES
-    USUARIO = 0..MAX_NUM
+    USUARIO = 0..MAX_NUM;
+    USUARIO_DUMMY = 0
+
  END

@@ -1,17 +1,19 @@
 MACHINE GerenciadorSistema
 
 SEES
+ Max_num,
  Playlist_Ctx,
+ Usuario_Ctx,
  Tag_Ctx
 
 INCLUDES
  GerenciadorPlaylist,
- GerenciadorUsuario,
+ GerenciadorUsuario/*,
  GerenciadorMusica,
  GerenciadorAlbum,
  GerenciadorArtista,
  GerenciadorGravadora,
- GerenciadorTag
+ GerenciadorTag*/
 
 PROMOTES
  listar_playlists,
@@ -45,7 +47,7 @@ VARIABLES
 
 INVARIANT
  /*musicas_da_playlist : playlists <-> musicas &*/
- criador_da_playlist : playlists --> usuarios /*&
+ criador_da_playlist : PLAYLIST --> USUARIO /*&
  musicas_do_album : albuns <-> musicas &
  albuns_do_artista : artistas <-> albuns &
  artistas_da_gravadora : gravadoras <-> artistas &
@@ -61,7 +63,7 @@ INVARIANT
 
 INITIALISATION
  /*musicas_da_playlist := {}|| */
- criador_da_playlist := {}/* ||
+ criador_da_playlist := PLAYLIST * {USUARIO_DUMMY}/* ||
  musicas_do_album := {} ||
  albuns_do_artista := {} ||
  artistas_da_gravadora := {} ||
@@ -80,33 +82,40 @@ OPERATIONS
 // Playlists e usuarios ==========================================================
  cadastrar_playlist_do_usuario(pp, uu) = 
  PRE 
-	pp : PLAYLIST & pp /: playlists & uu : usuarios
+	pp : PLAYLIST & pp /: playlists & uu : USUARIO & uu : usuarios & uu /= USUARIO_DUMMY
  THEN 
 	cadastrar_playlist(pp) || 
-	criador_da_playlist := criador_da_playlist \/ { pp |-> uu }
+	criador_da_playlist(pp) := uu
  END;
 
- remover_playlist_do_usuario(pp, uu) = 
+ remover_playlist_do_usuario(pp) = 
  PRE 
-	pp : PLAYLIST & pp : playlists & uu : usuarios & pp |-> uu : criador_da_playlist
+	pp : PLAYLIST & pp : playlists & pp /= PLAYLIST_DUMMY
  THEN 
 	remover_playlist(pp) || 
-	criador_da_playlist := criador_da_playlist - { pp |-> uu }
+	criador_da_playlist(pp) := USUARIO_DUMMY
 	// musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
- END
-
- /*uu <-- consultar_usuario_criador_da_playlist(pp) =
- PRE 
-	pp : playlists
- THEN
-	uu := criador_da_playlist(pp)
  END;
 
- pp <-- consultar_playlists_do_usuario(uu) =
+ uu <-- consultar_usuario_criador_da_playlist(pp) =
  PRE 
-	uu : usuarios
+	pp : PLAYLIST
  THEN
-	pp := dom(criador_da_playlist |> { uu })
+	uu := criador_da_playlist(pp)
+ END
+
+/* pp <-- consultar_playlists_do_usuario(uu) =
+ PRE 
+	uu : USUARIO & uu : usuarios
+ THEN
+	ANY
+		lista
+	WHERE
+		lista : PLAYLIST --> BOOL & 
+		dom(lista |> { TRUE }) = dom(criador_da_playlist |> { uu }) 
+	THEN
+        		pp := lista
+     	END
  END*/
 
 // Playlists e musicas ==========================================================

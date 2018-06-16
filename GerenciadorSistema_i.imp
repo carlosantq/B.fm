@@ -2,12 +2,12 @@ IMPLEMENTATION GerenciadorSistema_i
 REFINES GerenciadorSistema
 
 SEES
+ Max_num,
  Playlist_Ctx,
- Tag_Ctx,
  Usuario_Ctx,
- Max_num
-
-INCLUDES
+ Tag_Ctx
+ 
+IMPORTS
  GerenciadorPlaylist,
  GerenciadorUsuario/*,
  GerenciadorMusica,
@@ -34,36 +34,52 @@ CONCRETE_VARIABLES
     criador_da_playlist_i
 
 INVARIANT
-    criador_da_playlist_i : PLAYLIST * USUARIO --> BOOL &
-    dom(criador_da_playlist_i  |> { TRUE })  = criador_da_playlist
+    criador_da_playlist_i : PLAYLIST --> USUARIO &
+    criador_da_playlist_i = criador_da_playlist
 
 INITIALISATION
-    criador_da_playlist_i := PLAYLIST * USUARIO * { FALSE }
+    criador_da_playlist_i := PLAYLIST * { USUARIO_DUMMY }
 
 OPERATIONS
  cadastrar_playlist_do_usuario(pp, uu) = 
  BEGIN
 	cadastrar_playlist(pp);
-	criador_da_playlist_i(pp,uu) := TRUE
-	
+	criador_da_playlist_i(pp) := uu
  END;
 
- remover_playlist_do_usuario(pp, uu) = 
+ remover_playlist_do_usuario(pp) = 
  BEGIN
 	remover_playlist(pp); 
-	criador_da_playlist_i(pp,uu) := FALSE
+	criador_da_playlist_i(pp) := USUARIO_DUMMY
 	// musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
- END
-
-/* uu <-- consultar_usuario_criador_da_playlist(pp) =
- BEGIN
-	uu := criador_da_playlist(pp)
  END;
 
- pp <-- consultar_playlists_do_usuario(uu) =
+ uu <-- consultar_usuario_criador_da_playlist(pp) =
  BEGIN
-	pp := dom(criador_da_playlist |> { uu })
- END*/
+	uu := criador_da_playlist_i(pp)
+ END
 
+/* pp <-- consultar_playlists_do_usuario(uu) =
+ BEGIN
+	VAR xx, retorno IN
+		xx := 0;
+		retorno := PLAYLIST * { FALSE };
+
+		WHILE xx < MAX_NUM DO
+			xx := xx + 1;
+
+			IF criador_da_playlist_i(xx) = uu
+			THEN retorno(xx) := TRUE
+			END
+			
+		INVARIANT
+			!yy . (yy : NAT & yy <= xx => retorno(xx) = TRUE => criador_da_playlist_i(xx) = uu)
+		VARIANT
+			MAX_NUM - xx
+		END;
+	pp := retorno
+	END
+ END*/
+ 
 END
 
