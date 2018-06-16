@@ -4,27 +4,30 @@ SEES
  Max_num,
  Playlist_Ctx,
  Usuario_Ctx,
- Tag_Ctx
+ Tag_Ctx,
+ Musica_Ctx,
+ Album_Ctx,
+ Artista_Ctx
 
 INCLUDES
  GerenciadorPlaylist,
- GerenciadorUsuario/*,
+ GerenciadorUsuario,
  GerenciadorMusica,
  GerenciadorAlbum,
- GerenciadorArtista,
+ GerenciadorArtista/*,
  GerenciadorGravadora,
  GerenciadorTag*/
 
 PROMOTES
  listar_playlists,
  listar_usuarios,
- cadastrar_usuario/*,
+ cadastrar_usuario,
  listar_musicas,
  cadastrar_musica,
  listar_albuns,
  cadastrar_album,
  listar_artistas,
- cadastrar_artista,
+ cadastrar_artista/*,
  listar_gravadoras,
  cadastrar_gravadora,
  listar_tags*/
@@ -38,43 +41,43 @@ VARIABLES
  criador_da_tag,
  musica_da_tag,
  album_da_tag,
- artista_da_tag,
+ artista_da_tag*/,
  biblioteca_musicas_usuario,
  biblioteca_artistas_usuario,
  biblioteca_albuns_usuario,
- obsessao_do_momento,
+ obsessao_do_momento/*,
  amigos*/
 
 INVARIANT
  /*musicas_da_playlist : playlists <-> musicas &*/
- criador_da_playlist : PLAYLIST --> USUARIO /*&
- musicas_do_album : albuns <-> musicas &
+ criador_da_playlist : PLAYLIST --> USUARIO &
+ /*musicas_do_album : albuns <-> musicas &
  albuns_do_artista : artistas <-> albuns &
  artistas_da_gravadora : gravadoras <-> artistas &
  criador_da_tag : tags --> usuarios &
  musica_da_tag : tags --> musicas &
  album_da_tag : tags --> albuns &
- artista_da_tag : tags --> artistas &
- biblioteca_artistas_usuario : usuarios <-> artistas &
- biblioteca_musicas_usuario : usuarios <-> musicas &
- biblioteca_albuns_usuario : usuarios <-> albuns &
- obsessao_do_momento : usuarios <-> musicas &
+ artista_da_tag : tags --> artistas &*/
+ biblioteca_artistas_usuario : USUARIO <-> ARTISTA &
+ biblioteca_musicas_usuario : USUARIO <-> MUSICA &
+ biblioteca_albuns_usuario : USUARIO <-> ALBUM &
+ obsessao_do_momento : USUARIO <-> MUSICA/* &
  amigos : usuarios <-> usuarios*/
 
 INITIALISATION
  /*musicas_da_playlist := {}|| */
- criador_da_playlist := PLAYLIST * {USUARIO_DUMMY}/* ||
- musicas_do_album := {} ||
+ criador_da_playlist := PLAYLIST * {USUARIO_DUMMY} ||
+ /*musicas_do_album := {} ||
  albuns_do_artista := {} ||
  artistas_da_gravadora := {} ||
  criador_da_tag := {} ||
  musica_da_tag := {} ||
  album_da_tag := {} ||
- artista_da_tag := {} ||
+ artista_da_tag := {} ||*/
  biblioteca_artistas_usuario := {} ||
  biblioteca_musicas_usuario := {} ||
  biblioteca_albuns_usuario := {} ||
- obsessao_do_momento := {} || 
+ obsessao_do_momento := {}/* || 
  amigos := {}*/
 
 OPERATIONS
@@ -102,7 +105,7 @@ OPERATIONS
 	pp : PLAYLIST
  THEN
 	uu := criador_da_playlist(pp)
- END
+ END;
 
 /* pp <-- consultar_playlists_do_usuario(uu) =
  PRE 
@@ -381,77 +384,77 @@ OPERATIONS
  END */
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
-/* cadastrar_artista_biblioteca(aa, uu) =
+ cadastrar_artista_biblioteca(aa, uu) =
  PRE
- 	uu : usuarios & aa : artistas & { uu |-> aa } /<: biblioteca_artistas_usuario 
+ 	uu : USUARIO & uu : usuarios & aa : ARTISTA & aa : artistas & { uu |-> aa } /<: biblioteca_artistas_usuario & uu > USUARIO_DUMMY
  THEN
  	biblioteca_artistas_usuario := biblioteca_artistas_usuario \/ { uu |-> aa }
  END;
 
  remover_artista_biblioteca(aa, uu) =
  PRE
- 	uu : usuarios & aa : artistas & { uu |-> aa } <: biblioteca_artistas_usuario
+ 	uu : USUARIO & uu : usuarios & aa : ARTISTA & aa : artistas & { uu |-> aa } <: biblioteca_artistas_usuario & uu > USUARIO_DUMMY
  THEN
  	biblioteca_artistas_usuario := biblioteca_artistas_usuario - { uu |-> aa }
  END;
  
  cadastrar_album_biblioteca(aa, uu) =
  PRE
- 	uu : usuarios & aa : albuns & { uu |-> aa } /<: biblioteca_albuns_usuario 
+ 	uu : USUARIO & uu : usuarios & aa : ALBUM & aa : albuns & { uu |-> aa } /<: biblioteca_albuns_usuario & uu > USUARIO_DUMMY
  THEN
  	biblioteca_albuns_usuario := biblioteca_albuns_usuario \/ { uu |-> aa }
  END;
 
  remover_album_biblioteca(aa, uu) =
  PRE
- 	uu : usuarios & aa : albuns & { uu |-> aa } <: biblioteca_albuns_usuario
+ 	uu : USUARIO & uu : usuarios & aa : ALBUM & aa : albuns & { uu |-> aa } <: biblioteca_albuns_usuario & uu > USUARIO_DUMMY
  THEN
  	biblioteca_albuns_usuario := biblioteca_albuns_usuario - { uu |-> aa }
  END;
 
  cadastrar_musica_biblioteca(mm, uu) =
  PRE
- 	uu : usuarios & mm : musicas & { uu |-> mm } /<: biblioteca_musicas_usuario 
+ 	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } /<: biblioteca_musicas_usuario & uu > USUARIO_DUMMY & mm > MUSICA_DUMMY
  THEN
  	biblioteca_musicas_usuario := biblioteca_musicas_usuario \/ { uu |-> mm }
  END;
 
  remover_musica_biblioteca(mm, uu) =
  PRE
- 	uu : usuarios & mm : musicas & { uu |-> mm } <: biblioteca_musicas_usuario
+ 	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } <: biblioteca_musicas_usuario & uu > USUARIO_DUMMY & mm > MUSICA_DUMMY
  THEN
  	biblioteca_musicas_usuario := biblioteca_musicas_usuario - { uu |-> mm } ||
 	IF mm : obsessao_do_momento[{ uu }] THEN obsessao_do_momento := obsessao_do_momento - { uu |-> mm } END
  END;
 
- ab, ar, mm <-- consultar_biblioteca(uu) = 
+ /*ab, ar, mm <-- consultar_biblioteca(uu) = 
  PRE
 	uu : usuarios
  THEN
 	ab := ran({ uu } <| biblioteca_albuns_usuario) || ar := ran({ uu } <| biblioteca_artistas_usuario) || mm := ran({ uu } <| biblioteca_musicas_usuario)
- END; 
+ END;*/
 
  cadastrar_obsessao_do_momento(uu, mm) =
  PRE
-	uu : usuarios & mm : musicas & { uu |-> mm } <: biblioteca_musicas_usuario & obsessao_do_momento[{ uu }] = {}
+	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } <: biblioteca_musicas_usuario & obsessao_do_momento[{ uu }] = {} & mm > MUSICA_DUMMY
  THEN
 	obsessao_do_momento := obsessao_do_momento \/  { uu |-> mm }
  END;
 
  remover_obsessao_do_momento(uu) =
  PRE
-	uu : usuarios & obsessao_do_momento[{ uu }] /= {}
+	uu : USUARIO & uu : usuarios & obsessao_do_momento[{ uu }] /= {} & uu > USUARIO_DUMMY
  THEN
 	obsessao_do_momento := obsessao_do_momento - ({ uu } <| obsessao_do_momento)
  END;
 
  rr <-- consultar_obsessao_do_momento(uu) =
  PRE
-	uu : usuarios
+	uu : USUARIO & uu : usuarios & uu > USUARIO_DUMMY
  THEN
-	rr := obsessao_do_momento[{ uu }]
- END;
-*/
+	rr := obsessao_do_momento(uu)
+ END //;
+
 // Amigos ==========================================================
 /* cadastrar_relacao_amizade(uu, us) =
  PRE

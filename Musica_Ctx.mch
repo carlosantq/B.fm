@@ -4,9 +4,11 @@ SEES
     Max_num
 
 CONSTANTS
-    MUSICA
+    MUSICA,
+    MUSICA_DUMMY
 
 PROPERTIES
-    MUSICA = 0..MAX_NUM
-
+    MUSICA = 0..MAX_NUM &
+    MUSICA_DUMMY = 0
+    
 END

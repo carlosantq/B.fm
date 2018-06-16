@@ -5,40 +5,59 @@ SEES
  Max_num,
  Playlist_Ctx,
  Usuario_Ctx,
- Tag_Ctx
+ Tag_Ctx,
+ Musica_Ctx,
+ Artista_Ctx,
+ Album_Ctx
  
 IMPORTS
  GerenciadorPlaylist,
- GerenciadorUsuario/*,
+ GerenciadorUsuario,
  GerenciadorMusica,
  GerenciadorAlbum,
- GerenciadorArtista,
+ GerenciadorArtista/*,
  GerenciadorGravadora,
  GerenciadorTag*/
 
 PROMOTES
  listar_playlists,
  listar_usuarios,
- cadastrar_usuario/*,
+ cadastrar_usuario,
  listar_musicas,
  cadastrar_musica,
  listar_albuns,
  cadastrar_album,
  listar_artistas,
- cadastrar_artista,
+ cadastrar_artista/*,
  listar_gravadoras,
  cadastrar_gravadora,
  listar_tags*/
 
 CONCRETE_VARIABLES
-    criador_da_playlist_i
+    criador_da_playlist_i,
+    biblioteca_musicas_usuario_i,
+    biblioteca_artistas_usuario_i,
+    biblioteca_albuns_usuario_i,
+    obsessao_do_momento_i
 
 INVARIANT
     criador_da_playlist_i : PLAYLIST --> USUARIO &
-    criador_da_playlist_i = criador_da_playlist
+    criador_da_playlist_i = criador_da_playlist &
+    biblioteca_musicas_usuario_i : USUARIO * MUSICA --> BOOL &
+    dom(biblioteca_musicas_usuario_i |> {TRUE}) = biblioteca_musicas_usuario &
+    biblioteca_artistas_usuario_i : USUARIO * ARTISTA --> BOOL &
+    dom(biblioteca_artistas_usuario_i |> {TRUE}) = biblioteca_artistas_usuario &
+    biblioteca_albuns_usuario_i : USUARIO * ALBUM --> BOOL &
+    dom(biblioteca_albuns_usuario_i |> {TRUE}) = biblioteca_albuns_usuario &
+    obsessao_do_momento_i : USUARIO --> MUSICA &
+    obsessao_do_momento_i = obsessao_do_momento
 
 INITIALISATION
-    criador_da_playlist_i := PLAYLIST * { USUARIO_DUMMY }
+    criador_da_playlist_i := PLAYLIST * { USUARIO_DUMMY };
+    biblioteca_musicas_usuario_i := (USUARIO * MUSICA) * {FALSE};
+    biblioteca_artistas_usuario_i := (USUARIO * ARTISTA) * {FALSE};
+    biblioteca_albuns_usuario_i := (USUARIO * ALBUM) * {FALSE};
+    obsessao_do_momento_i := USUARIO * {0}
 
 OPERATIONS
  cadastrar_playlist_do_usuario(pp, uu) = 
@@ -57,7 +76,7 @@ OPERATIONS
  uu <-- consultar_usuario_criador_da_playlist(pp) =
  BEGIN
 	uu := criador_da_playlist_i(pp)
- END
+ END;
 
 /* pp <-- consultar_playlists_do_usuario(uu) =
  BEGIN
@@ -80,6 +99,59 @@ OPERATIONS
 	pp := retorno
 	END
  END*/
+
+// Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
+ cadastrar_artista_biblioteca(aa, uu) =
+ BEGIN
+ 	biblioteca_artistas_usuario_i(aa, uu) := TRUE
+ END;
+
+ remover_artista_biblioteca(aa, uu) =
+ BEGIN
+ 	biblioteca_artistas_usuario_i(aa, uu) := FALSE
+ END;
  
+ cadastrar_album_biblioteca(aa, uu) =
+ BEGIN
+ 	biblioteca_albuns_usuario_i(aa, uu) := TRUE
+ END;
+
+ remover_album_biblioteca(aa, uu) =
+ BEGIN
+ 	biblioteca_albuns_usuario_i(aa, uu) := FALSE
+ END;
+
+ cadastrar_musica_biblioteca(mm, uu) =
+ BEGIN
+ 	biblioteca_musicas_usuario_i(mm, uu) := TRUE
+ END;
+
+ remover_musica_biblioteca(mm, uu) =
+ BEGIN
+ 	biblioteca_musicas_usuario_i(mm, uu) := FALSE //||
+	//IF mm : obsessao_do_momento[{ uu }] THEN obsessao_do_momento := obsessao_do_momento - { uu |-> mm } END
+ END;
+
+ /*ab, ar, mm <-- consultar_biblioteca(uu) = 
+ PRE
+	uu : usuarios
+ THEN
+	ab := ran({ uu } <| biblioteca_albuns_usuario) || ar := ran({ uu } <| biblioteca_artistas_usuario) || mm := ran({ uu } <| biblioteca_musicas_usuario)
+ END;*/ 
+
+ cadastrar_obsessao_do_momento(uu, mm) =
+ BEGIN
+	obsessao_do_momento_i(uu) := mm
+ END;
+
+ remover_obsessao_do_momento(uu) =
+ BEGIN
+	obsessao_do_momento_i(uu) := 0
+ END;
+ 
+ rr <-- consultar_obsessao_do_momento(uu) =
+ BEGIN
+	rr := obsessao_do_momento_i(uu)
+ END
 END
 
