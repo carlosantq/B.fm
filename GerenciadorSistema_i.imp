@@ -8,15 +8,16 @@ SEES
  Tag_Ctx,
  Musica_Ctx,
  Artista_Ctx,
- Album_Ctx
+ Album_Ctx,
+ Gravadora_Ctx
  
 IMPORTS
  GerenciadorPlaylist,
  GerenciadorUsuario,
  GerenciadorMusica,
  GerenciadorAlbum,
- GerenciadorArtista/*,
- GerenciadorGravadora,
+ GerenciadorArtista,
+ GerenciadorGravadora/*,
  GerenciadorTag*/
 
 PROMOTES
@@ -28,13 +29,14 @@ PROMOTES
  listar_albuns,
  cadastrar_album,
  listar_artistas,
- cadastrar_artista/*,
+ cadastrar_artista,
  listar_gravadoras,
- cadastrar_gravadora,
+ cadastrar_gravadora/*,
  listar_tags*/
 
 CONCRETE_VARIABLES
     criador_da_playlist_i,
+    artistas_da_gravadora_i,
     biblioteca_musicas_usuario_i,
     biblioteca_artistas_usuario_i,
     biblioteca_albuns_usuario_i,
@@ -44,6 +46,8 @@ CONCRETE_VARIABLES
 INVARIANT
     criador_da_playlist_i : PLAYLIST --> USUARIO &
     criador_da_playlist_i = criador_da_playlist &
+    artistas_da_gravadora_i : GRAVADORA * ARTISTA --> BOOL &
+    dom(artistas_da_gravadora_i |> {TRUE}) = artistas_da_gravadora &
     biblioteca_musicas_usuario_i : USUARIO * MUSICA --> BOOL &
     dom(biblioteca_musicas_usuario_i |> {TRUE}) = biblioteca_musicas_usuario &
     biblioteca_artistas_usuario_i : USUARIO * ARTISTA --> BOOL &
@@ -57,6 +61,7 @@ INVARIANT
 
 INITIALISATION
     criador_da_playlist_i := PLAYLIST * { USUARIO_DUMMY };
+    artistas_da_gravadora_i := (GRAVADORA * ARTISTA) * {FALSE};
     biblioteca_musicas_usuario_i := (USUARIO * MUSICA) * {FALSE};
     biblioteca_artistas_usuario_i := (USUARIO * ARTISTA) * {FALSE};
     biblioteca_albuns_usuario_i := (USUARIO * ALBUM) * {FALSE};
@@ -103,6 +108,43 @@ OPERATIONS
 	pp := retorno
 	END
  END*/
+
+// Gravadoras e artistas ==========================================================
+ remover_gravadora_apagando_artistas(gg) =
+ BEGIN
+	remover_gravadora(gg);
+	artistas_da_gravadora_i := (GRAVADORA * ARTISTA) * {FALSE}
+ END;
+
+ alterar_gravadora_do_artista(gg, aa) =
+ BEGIN
+	artistas_da_gravadora_i := (GRAVADORA * ARTISTA) * {FALSE};
+	artistas_da_gravadora_i(gg, aa) := TRUE
+ END;
+
+ cadastrar_artista_numa_gravadora(gg, aa) =
+ BEGIN
+	artistas_da_gravadora_i(gg, aa) := TRUE
+ END;
+
+ remover_artista_da_gravadora(gg, aa) =
+ BEGIN
+	artistas_da_gravadora_i(gg, aa) := FALSE
+ END;
+
+ /*aa <-- consultar_artistas_da_gravadora(gg) =
+ PRE
+	gg : GRAVADORA & gg : gravadoras
+ THEN
+	aa := artistas_da_gravadora[{ gg }]
+ END;
+
+ gg <-- consultar_gravadora_do_artista(aa) =
+ PRE
+	aa : ARTISTA & aa : artistas
+ THEN
+	gg := dom(artistas_da_gravadora |> { aa })
+ END;*/
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
  cadastrar_artista_biblioteca(uu, aa) =
@@ -184,7 +226,7 @@ OPERATIONS
            END;
            ii := ii + 1
        INVARIANT
-           ab : NAT & ab <= MAX_NUM*MAX_NUM
+           ab : NAT & ab <= MAX_NUM
        VARIANT
            MAX_NUM - ii
        END
@@ -201,7 +243,7 @@ OPERATIONS
            END;
            ii := ii + 1
        INVARIANT
-           ar : NAT & ar <= MAX_NUM*MAX_NUM
+           ar : NAT & ar <= MAX_NUM
        VARIANT
            MAX_NUM - ii
        END
@@ -218,7 +260,7 @@ OPERATIONS
            END;
            ii := ii + 1
        INVARIANT
-           mm : NAT & mm <= MAX_NUM*MAX_NUM
+           mm : NAT & mm <= MAX_NUM
        VARIANT
            MAX_NUM - ii
        END

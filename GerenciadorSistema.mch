@@ -7,16 +7,17 @@ SEES
  Tag_Ctx,
  Musica_Ctx,
  Album_Ctx,
- Artista_Ctx
+ Artista_Ctx, 
+ Gravadora_Ctx
 
 INCLUDES
  GerenciadorPlaylist,
  GerenciadorUsuario,
  GerenciadorMusica,
  GerenciadorAlbum,
- GerenciadorArtista/*,
+ GerenciadorArtista,
  GerenciadorGravadora,
- GerenciadorTag*/
+ GerenciadorTag
 
 PROMOTES
  listar_playlists,
@@ -27,21 +28,21 @@ PROMOTES
  listar_albuns,
  cadastrar_album,
  listar_artistas,
- cadastrar_artista/*,
+ cadastrar_artista,
  listar_gravadoras,
  cadastrar_gravadora,
- listar_tags*/
+ listar_tags
 
 VARIABLES 
- /*musicas_da_playlist,*/
- criador_da_playlist/*,
+ musicas_da_playlist,
+ criador_da_playlist,
  musicas_do_album,
  albuns_do_artista,
  artistas_da_gravadora,
  criador_da_tag,
  musica_da_tag,
  album_da_tag,
- artista_da_tag*/,
+ artista_da_tag,
  biblioteca_musicas_usuario,
  biblioteca_artistas_usuario,
  biblioteca_albuns_usuario,
@@ -49,15 +50,15 @@ VARIABLES
  amigos
 
 INVARIANT
- /*musicas_da_playlist : playlists <-> musicas &*/
+ musicas_da_playlist : playlists <-> musicas &
  criador_da_playlist : PLAYLIST --> USUARIO &
- /*musicas_do_album : albuns <-> musicas &
+ musicas_do_album : albuns <-> musicas &
  albuns_do_artista : artistas <-> albuns &
- artistas_da_gravadora : gravadoras <-> artistas &
+ artistas_da_gravadora : GRAVADORA <-> ARTISTA &
  criador_da_tag : tags --> usuarios &
  musica_da_tag : tags --> musicas &
  album_da_tag : tags --> albuns &
- artista_da_tag : tags --> artistas &*/
+ artista_da_tag : tags --> artistas &
  biblioteca_artistas_usuario : USUARIO <-> ARTISTA &
  biblioteca_musicas_usuario : USUARIO <-> MUSICA &
  biblioteca_albuns_usuario : USUARIO <-> ALBUM &
@@ -65,15 +66,15 @@ INVARIANT
  amigos : USUARIO <-> USUARIO
 
 INITIALISATION
- /*musicas_da_playlist := {}|| */
+ musicas_da_playlist := {}|| 
  criador_da_playlist := PLAYLIST * {USUARIO_DUMMY} ||
- /*musicas_do_album := {} ||
+ musicas_do_album := {} ||
  albuns_do_artista := {} ||
  artistas_da_gravadora := {} ||
  criador_da_tag := {} ||
  musica_da_tag := {} ||
  album_da_tag := {} ||
- artista_da_tag := {} ||*/
+ artista_da_tag := {} ||
  biblioteca_artistas_usuario := {} ||
  biblioteca_musicas_usuario := {} ||
  biblioteca_albuns_usuario := {} ||
@@ -183,14 +184,14 @@ OPERATIONS
  END;
 */
 // Artistas e albuns ==========================================================
-/* remover_artista_apagando_albuns(aa) =
+remover_artista_apagando_albuns(aa) =
  PRE
 	aa : artistas
  THEN 
 	remover_artista(aa) ||
 
 	// Remove os albuns do artista do sistema
-	// remover_album(ran({ aa } <| albuns_do_artista)) ||
+	remover_album(ran({ aa } <| albuns_do_artista)) ||
 
 	// Remove as relacoes das musicas com os albuns (que foram removidos acima)
 	musicas_do_album := musicas_do_album - (ran({ aa } <| albuns_do_artista) <| musicas_do_album) ||
@@ -207,7 +208,7 @@ OPERATIONS
 	//Remove os albuns do artista das bibliotecas dos usuarios
 	biblioteca_albuns_usuario := biblioteca_albuns_usuario - (biblioteca_albuns_usuario |> (ran({ aa } <| albuns_do_artista)))
  END;
-
+ /*
  cadastrar_album_para_artista(ar, al) =
  PRE
 	ar : artistas & al : albuns & al/:ran(albuns_do_artista)
@@ -237,49 +238,48 @@ OPERATIONS
  END;
 */
 // Gravadoras e artistas ==========================================================
-/*  remover_gravadora_apagando_artistas(gg) =
+  remover_gravadora_apagando_artistas(gg) =
   PRE
-	gg : gravadoras
+	gg: GRAVADORA & gg : gravadoras
   THEN 
 	remover_gravadora(gg) ||
 	artistas_da_gravadora := artistas_da_gravadora - ({ gg } <| artistas_da_gravadora)
   END;
 
- alterar_gravadora_do_artista(aa, gg) =
+ alterar_gravadora_do_artista(gg, aa) =
  PRE
-	gg : gravadoras & aa : artistas & aa /: artistas_da_gravadora[{ gg }] & aa : ran(artistas_da_gravadora)
+	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & aa /: artistas_da_gravadora[{ gg }] & aa : ran(artistas_da_gravadora)
  THEN
 	artistas_da_gravadora := (artistas_da_gravadora - (artistas_da_gravadora |> {aa})) \/ {gg |-> aa}
  END;
 
- cadastrar_artista_numa_gravadora(aa, gg) =
+ cadastrar_artista_numa_gravadora(gg, aa) =
  PRE
-	gg : gravadoras & aa : artistas & gg |-> aa /: artistas_da_gravadora
+	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & aa /: ran(artistas_da_gravadora)
  THEN
 	artistas_da_gravadora := artistas_da_gravadora \/ { gg |-> aa }
  END;
 
- remover_artista_da_gravadora(aa, gg) =
+ remover_artista_da_gravadora(gg, aa) =
  PRE
-	gg : gravadoras & aa : artistas & gg |-> aa : artistas_da_gravadora
+	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & gg |-> aa : artistas_da_gravadora
  THEN
 	artistas_da_gravadora := artistas_da_gravadora - { gg |-> aa }
  END;
 
- aa <-- consultar_artistas_da_gravadora(gg) =
+ /*aa <-- consultar_artistas_da_gravadora(gg) =
  PRE
-	gg : gravadoras
+	gg : GRAVADORA & gg : gravadoras
  THEN
 	aa := artistas_da_gravadora[{ gg }]
  END;
 
  gg <-- consultar_gravadora_do_artista(aa) =
  PRE
-	aa : artistas
+	aa : ARTISTA & aa : artistas
  THEN
 	gg := dom(artistas_da_gravadora |> { aa })
- END;
-*/
+ END;*/
 // Tags, usuarios, musicas, albuns e artistas ==========================================================
  /*cadastrar_tag_do_usuario_na_musica(tt, uu, mm) = 
  PRE
@@ -470,7 +470,7 @@ OPERATIONS
 	amigos := amigos - { uu |-> us }
  END;
 
- rr <-- consultar_amigos = rr := amigos;
+ //rr <-- consultar_amigos = rr := amigos;
 
  ab, ar, mm <-- compatibilidade_musical(uu, us) =
  PRE
