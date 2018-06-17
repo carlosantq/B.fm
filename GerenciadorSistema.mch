@@ -98,8 +98,8 @@ OPERATIONS
 	pp : PLAYLIST & pp : playlists & pp /= PLAYLIST_DUMMY
  THEN
 	remover_playlist(pp) ||
-	criador_da_playlist(pp) := USUARIO_DUMMY
-	// musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
+	criador_da_playlist(pp) := USUARIO_DUMMY ||
+	musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
  END;
 
  uu <-- consultar_usuario_criador_da_playlist(pp) =
@@ -109,7 +109,7 @@ OPERATIONS
 	uu := criador_da_playlist(pp)
  END;
 
-/* pp <-- consultar_playlists_do_usuario(uu) =
+ /*pp <-- consultar_playlists_do_usuario(uu) =
  PRE
 	uu : USUARIO & uu : usuarios
  THEN
@@ -121,7 +121,7 @@ OPERATIONS
 	THEN
         		pp := lista
      	END
- END*/
+ END;*/
 
  // Playlists e musicas ==========================================================
   cadastrar_musica_na_playlist(pp, mm) =
@@ -150,7 +150,7 @@ OPERATIONS
   END;*/
 
 // Albuns e musicas ==========================================================
- /*remover_album_e_retirar_musicas(aa) =
+ remover_album_e_retirar_musicas(aa) =
  PRE
 	aa : ALBUM & aa : albuns & aa /= ALBUM_DUMMY
  THEN
@@ -158,7 +158,7 @@ OPERATIONS
 	musicas_do_album := musicas_do_album - ({ aa } <| musicas_do_album) ||
 	albuns_do_artista := albuns_do_artista - (albuns_do_artista |> { aa }) ||
 	biblioteca_albuns_usuario := biblioteca_albuns_usuario - (biblioteca_albuns_usuario |> { aa })
- END;*/
+ END;
 
  cadastrar_musica_em_album(aa, mm) =
  PRE

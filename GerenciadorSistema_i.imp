@@ -90,9 +90,26 @@ OPERATIONS
 
  remover_playlist_do_usuario(pp) =
  BEGIN
+
   remover_playlist(pp);
-  criador_da_playlist_i(pp) := USUARIO_DUMMY
-  // musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
+  criador_da_playlist_i(pp) := USUARIO_DUMMY;
+
+  //Remove musicas da playlist
+  VAR ii, aux IN
+	ii := 0;
+	aux := FALSE;
+	WHILE ii <= MAX_NUM DO
+		aux := musicas_da_playlist_i(pp, ii);
+		IF aux = TRUE THEN
+			musicas_da_playlist_i(pp, ii) := FALSE
+		END;
+		ii := ii + 1
+	INVARIANT
+		aux : BOOL
+	VARIANT
+		MAX_NUM - ii
+	END
+  END
  END;
 
  uu <-- consultar_usuario_criador_da_playlist(pp) =
@@ -100,11 +117,11 @@ OPERATIONS
   uu := criador_da_playlist_i(pp)
  END;
 
-/* pp <-- consultar_playlists_do_usuario(uu) =
+ /*pp <-- consultar_playlists_do_usuario(uu) =
  BEGIN
   VAR xx, retorno IN
     xx := 0;
-    retorno := PLAYLIST * { FALSE };
+    retorno := PLAYLIST --> BOOL;
 
     WHILE xx < MAX_NUM DO
       xx := xx + 1;
@@ -120,7 +137,7 @@ OPERATIONS
     END;
   pp := retorno
   END
- END*/
+ END;*/
 
 // Playlists e musicas ==========================================================
  cadastrar_musica_na_playlist(pp, mm) =
@@ -134,16 +151,61 @@ OPERATIONS
  END;
 
 // Albuns e musicas ==========================================================
+ remover_album_e_retirar_musicas(aa) =
+ BEGIN
+  remover_album( aa );
 
- /*remover_album_e_retirar_musicas(aa) =
- PRE
-  aa : ALBUM & aa : albuns & aa /= ALBUM_DUMMY
- THEN
-  remover_album( aa ) ||
-  musicas_do_album := musicas_do_album - ({ aa } <| musicas_do_album) ||
-  albuns_do_artista := albuns_do_artista - (albuns_do_artista |> { aa }) ||
-  biblioteca_albuns_usuario := biblioteca_albuns_usuario - (biblioteca_albuns_usuario |> { aa })
- END;*/
+  //Remover musicas do album
+  VAR ii, aux IN
+	ii := 0;
+	aux := FALSE;
+	WHILE ii <= MAX_NUM DO
+		aux := musicas_do_album_i(aa, ii);
+		IF aux = TRUE THEN
+			musicas_do_album_i(aa, ii) := FALSE
+		END;
+		ii := ii + 1
+	INVARIANT
+		aux : BOOL
+	VARIANT
+		MAX_NUM - ii
+	END
+  END;
+  
+  //Remover album do artista
+  VAR ii, aux IN
+	ii := 1;
+	aux := FALSE;
+	WHILE ii <= MAX_NUM DO
+		aux := albuns_do_artista_i(ii, aa);
+		IF aux = TRUE THEN
+			albuns_do_artista_i(ii, aa) := FALSE
+		END;
+		ii := ii + 1
+	INVARIANT
+		aux : BOOL
+	VARIANT
+		MAX_NUM - ii
+	END
+  END;
+  
+  //Remover album das bibliotecas dos usuarios
+  VAR ii, aux IN
+	ii := 1;
+	aux := FALSE;
+	WHILE ii <= MAX_NUM DO
+		aux := biblioteca_albuns_usuario_i(ii, aa);
+		IF aux = TRUE THEN
+			biblioteca_albuns_usuario_i(ii, aa) := FALSE
+		END;
+		ii := ii + 1
+	INVARIANT
+		aux : BOOL
+	VARIANT
+		MAX_NUM - ii
+	END
+  END
+ END;
 
  cadastrar_musica_em_album(aa, mm) =
  BEGIN
