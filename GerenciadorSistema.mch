@@ -45,8 +45,8 @@ VARIABLES
  biblioteca_musicas_usuario,
  biblioteca_artistas_usuario,
  biblioteca_albuns_usuario,
- obsessao_do_momento/*,
- amigos*/
+ obsessao_do_momento,
+ amigos
 
 INVARIANT
  /*musicas_da_playlist : playlists <-> musicas &*/
@@ -61,8 +61,8 @@ INVARIANT
  biblioteca_artistas_usuario : USUARIO <-> ARTISTA &
  biblioteca_musicas_usuario : USUARIO <-> MUSICA &
  biblioteca_albuns_usuario : USUARIO <-> ALBUM &
- obsessao_do_momento : USUARIO <-> MUSICA/* &
- amigos : usuarios <-> usuarios*/
+ obsessao_do_momento : USUARIO <-> MUSICA &
+ amigos : USUARIO <-> USUARIO
 
 INITIALISATION
  /*musicas_da_playlist := {}|| */
@@ -77,8 +77,8 @@ INITIALISATION
  biblioteca_artistas_usuario := {} ||
  biblioteca_musicas_usuario := {} ||
  biblioteca_albuns_usuario := {} ||
- obsessao_do_momento := {}/* || 
- amigos := {}*/
+ obsessao_do_momento := {}|| 
+ amigos := {}
 
 OPERATIONS
 
@@ -384,42 +384,42 @@ OPERATIONS
  END */
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
- cadastrar_artista_biblioteca(aa, uu) =
+ cadastrar_artista_biblioteca(uu, aa) =
  PRE
  	uu : USUARIO & uu : usuarios & aa : ARTISTA & aa : artistas & { uu |-> aa } /<: biblioteca_artistas_usuario & uu > USUARIO_DUMMY
  THEN
  	biblioteca_artistas_usuario := biblioteca_artistas_usuario \/ { uu |-> aa }
  END;
 
- remover_artista_biblioteca(aa, uu) =
+ remover_artista_biblioteca(uu, aa) =
  PRE
  	uu : USUARIO & uu : usuarios & aa : ARTISTA & aa : artistas & { uu |-> aa } <: biblioteca_artistas_usuario & uu > USUARIO_DUMMY
  THEN
  	biblioteca_artistas_usuario := biblioteca_artistas_usuario - { uu |-> aa }
  END;
  
- cadastrar_album_biblioteca(aa, uu) =
+ cadastrar_album_biblioteca(uu, aa) =
  PRE
  	uu : USUARIO & uu : usuarios & aa : ALBUM & aa : albuns & { uu |-> aa } /<: biblioteca_albuns_usuario & uu > USUARIO_DUMMY
  THEN
  	biblioteca_albuns_usuario := biblioteca_albuns_usuario \/ { uu |-> aa }
  END;
 
- remover_album_biblioteca(aa, uu) =
+ remover_album_biblioteca(uu, aa) =
  PRE
  	uu : USUARIO & uu : usuarios & aa : ALBUM & aa : albuns & { uu |-> aa } <: biblioteca_albuns_usuario & uu > USUARIO_DUMMY
  THEN
  	biblioteca_albuns_usuario := biblioteca_albuns_usuario - { uu |-> aa }
  END;
 
- cadastrar_musica_biblioteca(mm, uu) =
+ cadastrar_musica_biblioteca(uu, mm) =
  PRE
  	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } /<: biblioteca_musicas_usuario & uu > USUARIO_DUMMY & mm > MUSICA_DUMMY
  THEN
  	biblioteca_musicas_usuario := biblioteca_musicas_usuario \/ { uu |-> mm }
  END;
 
- remover_musica_biblioteca(mm, uu) =
+ remover_musica_biblioteca(uu, mm) =
  PRE
  	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } <: biblioteca_musicas_usuario & uu > USUARIO_DUMMY & mm > MUSICA_DUMMY
  THEN
@@ -453,36 +453,31 @@ OPERATIONS
 	uu : USUARIO & uu : usuarios & uu > USUARIO_DUMMY
  THEN
 	rr := obsessao_do_momento(uu)
- END //;
+ END;
 
 // Amigos ==========================================================
-/* cadastrar_relacao_amizade(uu, us) =
+ cadastrar_relacao_amizade(uu, us) =
  PRE
- 	uu : usuarios & us : usuarios & uu /= us
+ 	uu : USUARIO & uu : usuarios & us : USUARIO & us : usuarios & uu /= us  & uu > USUARIO_DUMMY & us > USUARIO_DUMMY
  THEN
 	amigos := amigos \/ { uu |-> us }
  END;
 
  remover_relacao_amizade(uu, us) =
  PRE
-	uu : usuarios & us : usuarios & uu /= us & ({ uu |-> us } <: amigos)
+	uu : USUARIO & uu : usuarios & us : USUARIO & us : usuarios & uu /= us & ({ uu |-> us } <: amigos) & uu > USUARIO_DUMMY & us > USUARIO_DUMMY
  THEN
 	amigos := amigos - { uu |-> us }
  END;
 
- rr <-- consultar_amigos(uu) =
- PRE
-	uu : usuarios
- THEN
-	rr := amigos[{ uu }]
- END;
+ rr <-- consultar_amigos = rr := amigos;
 
  ab, ar, mm <-- compatibilidade_musical(uu, us) =
  PRE
-	uu : usuarios & us : usuarios & uu /= us
+	uu : USUARIO & uu : usuarios & us : USUARIO & us : usuarios & uu /= us & uu > USUARIO_DUMMY & us > USUARIO_DUMMY
  THEN
  	ar := card(ran({ uu } <| biblioteca_artistas_usuario) /\ ran({ us } <| biblioteca_artistas_usuario)) ||
 	ab := card(ran({ uu } <| biblioteca_albuns_usuario) /\ ran({ us } <| biblioteca_albuns_usuario)) ||
 	mm := card(ran({ uu } <| biblioteca_musicas_usuario) /\ ran({ us } <| biblioteca_musicas_usuario))
- END*/
+ END
 END

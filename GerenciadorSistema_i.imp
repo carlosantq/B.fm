@@ -38,7 +38,8 @@ CONCRETE_VARIABLES
     biblioteca_musicas_usuario_i,
     biblioteca_artistas_usuario_i,
     biblioteca_albuns_usuario_i,
-    obsessao_do_momento_i
+    obsessao_do_momento_i,
+    amigos_i
 
 INVARIANT
     criador_da_playlist_i : PLAYLIST --> USUARIO &
@@ -50,14 +51,17 @@ INVARIANT
     biblioteca_albuns_usuario_i : USUARIO * ALBUM --> BOOL &
     dom(biblioteca_albuns_usuario_i |> {TRUE}) = biblioteca_albuns_usuario &
     obsessao_do_momento_i : USUARIO --> MUSICA &
-    obsessao_do_momento_i = obsessao_do_momento
+    obsessao_do_momento_i = obsessao_do_momento &
+    amigos_i : USUARIO * USUARIO --> BOOL &
+    dom(amigos_i |> {TRUE}) = amigos
 
 INITIALISATION
     criador_da_playlist_i := PLAYLIST * { USUARIO_DUMMY };
     biblioteca_musicas_usuario_i := (USUARIO * MUSICA) * {FALSE};
     biblioteca_artistas_usuario_i := (USUARIO * ARTISTA) * {FALSE};
     biblioteca_albuns_usuario_i := (USUARIO * ALBUM) * {FALSE};
-    obsessao_do_momento_i := USUARIO * {0}
+    obsessao_do_momento_i := USUARIO * {0};
+    amigos_i := (USUARIO * USUARIO) * {FALSE}
 
 OPERATIONS
  cadastrar_playlist_do_usuario(pp, uu) = 
@@ -101,34 +105,34 @@ OPERATIONS
  END*/
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
- cadastrar_artista_biblioteca(aa, uu) =
+ cadastrar_artista_biblioteca(uu, aa) =
  BEGIN
- 	biblioteca_artistas_usuario_i(aa, uu) := TRUE
+ 	biblioteca_artistas_usuario_i(uu, aa) := TRUE
  END;
 
- remover_artista_biblioteca(aa, uu) =
+ remover_artista_biblioteca(uu, aa) =
  BEGIN
- 	biblioteca_artistas_usuario_i(aa, uu) := FALSE
+ 	biblioteca_artistas_usuario_i(uu, aa) := FALSE
  END;
  
- cadastrar_album_biblioteca(aa, uu) =
+ cadastrar_album_biblioteca(uu, aa) =
  BEGIN
- 	biblioteca_albuns_usuario_i(aa, uu) := TRUE
+ 	biblioteca_albuns_usuario_i(uu, aa) := TRUE
  END;
 
- remover_album_biblioteca(aa, uu) =
+ remover_album_biblioteca(uu, aa) =
  BEGIN
- 	biblioteca_albuns_usuario_i(aa, uu) := FALSE
+ 	biblioteca_albuns_usuario_i(uu, aa) := FALSE
  END;
 
- cadastrar_musica_biblioteca(mm, uu) =
+ cadastrar_musica_biblioteca(uu, mm) =
  BEGIN
- 	biblioteca_musicas_usuario_i(mm, uu) := TRUE
+ 	biblioteca_musicas_usuario_i(uu, mm) := TRUE
  END;
 
- remover_musica_biblioteca(mm, uu) =
+ remover_musica_biblioteca(uu, mm) =
  BEGIN
- 	biblioteca_musicas_usuario_i(mm, uu) := FALSE //||
+ 	biblioteca_musicas_usuario_i(uu, mm) := FALSE //||
 	//IF mm : obsessao_do_momento[{ uu }] THEN obsessao_do_momento := obsessao_do_momento - { uu |-> mm } END
  END;
 
@@ -152,6 +156,74 @@ OPERATIONS
  rr <-- consultar_obsessao_do_momento(uu) =
  BEGIN
 	rr := obsessao_do_momento_i(uu)
+ END;
+ 
+// Amigos ==========================================================
+ cadastrar_relacao_amizade(uu, us) =
+ BEGIN
+	amigos_i(uu, us) := TRUE
+ END;
+
+ remover_relacao_amizade(uu, us) =
+ BEGIN
+	amigos_i(uu, us) := FALSE
+ END;
+
+ //rr <-- consultar_amigos = rr := amigos_i;
+
+ ab, ar, mm <-- compatibilidade_musical(uu, us) =
+ BEGIN
+   VAR ii IN
+       ab := 0;
+       ii := 1;
+       WHILE ii <= MAX_NUM DO
+           IF biblioteca_albuns_usuario_i(uu, ii) = TRUE THEN
+               IF biblioteca_albuns_usuario_i(us, ii) = TRUE THEN
+               ab := ab + 1
+               END
+           END;
+           ii := ii + 1
+       INVARIANT
+           ab : NAT & ab <= MAX_NUM*MAX_NUM
+       VARIANT
+           MAX_NUM - ii
+       END
+    END;
+    
+    VAR ii IN
+       ar := 0;
+       ii := 1;
+       WHILE ii <= MAX_NUM DO
+           IF biblioteca_artistas_usuario_i(uu, ii) = TRUE THEN
+               IF biblioteca_artistas_usuario_i(us, ii) = TRUE THEN
+               ar := ar + 1
+               END
+           END;
+           ii := ii + 1
+       INVARIANT
+           ar : NAT & ar <= MAX_NUM*MAX_NUM
+       VARIANT
+           MAX_NUM - ii
+       END
+   END;
+     
+   VAR ii IN
+       mm := 0;
+       ii := 1;
+       WHILE ii <= MAX_NUM DO
+           IF biblioteca_musicas_usuario_i(uu, ii) = TRUE THEN
+               IF biblioteca_musicas_usuario_i(us, ii) = TRUE THEN
+               mm := mm + 1
+               END
+           END;
+           ii := ii + 1
+       INVARIANT
+           mm : NAT & mm <= MAX_NUM*MAX_NUM
+       VARIANT
+           MAX_NUM - ii
+       END
+   END
  END
+ 
 END
 
