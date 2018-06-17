@@ -191,30 +191,21 @@ OPERATIONS
  END;
 */
 // Artistas e albuns ==========================================================
- /*remover_artista_apagando_albuns(aa) =
+ remover_artista_e_retirar_albuns(aa) =
  PRE
 	aa : ARTISTA & aa : artistas & aa /= ARTISTA_DUMMY
  THEN
 	remover_artista(aa) ||
 
-	// Remove os albuns do artista do sistema
-	//remover_album(ran({ aa } <| albuns_do_artista)) ||
-
-	// Remove as relacoes das musicas com os albuns (que foram removidos acima)
-	musicas_do_album := musicas_do_album - (ran({ aa } <| albuns_do_artista) <| musicas_do_album) ||
-
-	// Remove as relacoes dos albuns (removidos acima) com o artista
+	// Remove as relacoes dos albuns com o artista
 	albuns_do_artista := albuns_do_artista - ({ aa } <| albuns_do_artista) ||
 
 	// Remove as relacoes do artista com gravadoras
 	artistas_da_gravadora := artistas_da_gravadora - (artistas_da_gravadora |> { aa }) ||
 
 	//Remove o artista das bibliotecas dos usuarios
-	biblioteca_artistas_usuario := biblioteca_artistas_usuario - (biblioteca_artistas_usuario |> { aa }) ||
-
-	//Remove os albuns do artista das bibliotecas dos usuarios
-	biblioteca_albuns_usuario := biblioteca_albuns_usuario - (biblioteca_albuns_usuario |> (ran({ aa } <| albuns_do_artista)))
- END;*/
+	biblioteca_artistas_usuario := biblioteca_artistas_usuario - (biblioteca_artistas_usuario |> { aa })
+ END;
  
  cadastrar_album_para_artista(ar, al) =
  PRE

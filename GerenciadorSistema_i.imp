@@ -218,28 +218,63 @@ OPERATIONS
  END;
 
 // Artistas e albuns ==========================================================
- /*remover_artista_apagando_albuns(aa) =
+ remover_artista_e_retirar_albuns(aa) =
  BEGIN
-  remover_artista(aa) ||
+ remover_artista(aa);
 
-  // Remove os albuns do artista do sistema
-  //remover_album(ran({ aa } <| albuns_do_artista)) ||
-
-  // Remove as relacoes das musicas com os albuns (que foram removidos acima)
-  musicas_do_album := musicas_do_album - (ran({ aa } <| albuns_do_artista) <| musicas_do_album) ||
-
-  // Remove as relacoes dos albuns (removidos acima) com o artista
-  albuns_do_artista := albuns_do_artista - ({ aa } <| albuns_do_artista) ||
+  // Remove as relacoes dos albuns com o artista no sistema
+ VAR ii, aux IN
+	ii := 1;
+	aux := FALSE;
+	WHILE ii <= MAX_NUM DO
+		aux := albuns_do_artista_i(aa, ii);
+		IF aux = TRUE THEN
+			albuns_do_artista_i(aa, ii) := FALSE
+		END;
+		ii := ii + 1
+	INVARIANT
+		aux : BOOL
+	VARIANT
+		MAX_NUM - ii
+	END
+  END;
 
   // Remove as relacoes do artista com gravadoras
-  artistas_da_gravadora := artistas_da_gravadora - (artistas_da_gravadora |> { aa }) ||
+  //artistas_da_gravadora := artistas_da_gravadora - (artistas_da_gravadora |> { aa }) ||
+  VAR ii, aux IN
+	ii := 1;
+	aux := FALSE;
+	WHILE ii <= MAX_NUM DO
+		aux := artistas_da_gravadora_i(ii, aa);
+		IF aux = TRUE THEN
+			artistas_da_gravadora_i(ii, aa) := FALSE
+		END;
+		ii := ii + 1
+	INVARIANT
+		aux : BOOL
+	VARIANT
+		MAX_NUM - ii
+	END
+  END;
 
   //Remove o artista das bibliotecas dos usuarios
-  biblioteca_artistas_usuario := biblioteca_artistas_usuario - (biblioteca_artistas_usuario |> { aa }) ||
-
-  //Remove os albuns do artista das bibliotecas dos usuarios
-  biblioteca_albuns_usuario := biblioteca_albuns_usuario - (biblioteca_albuns_usuario |> (ran({ aa } <| albuns_do_artista)))
- END;*/
+  //biblioteca_artistas_usuario := biblioteca_artistas_usuario - (biblioteca_artistas_usuario |> { aa }) ||
+  VAR ii, aux IN
+	ii := 1;
+	aux := FALSE;
+	WHILE ii <= MAX_NUM DO
+		aux := biblioteca_artistas_usuario_i(ii, aa);
+		IF aux = TRUE THEN
+			biblioteca_artistas_usuario_i(ii, aa) := FALSE
+		END;
+		ii := ii + 1
+	INVARIANT
+		aux : BOOL
+	VARIANT
+		MAX_NUM - ii
+	END
+  END
+ END;
  
  cadastrar_album_para_artista(ar, al) =
  BEGIN
