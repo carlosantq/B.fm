@@ -51,50 +51,50 @@ CONCRETE_VARIABLES
     amigos_i
 
 INVARIANT
-    musicas_da_playlist_i : (0..PLAYLIST_MAX) * (0..MUSICA_MAX) --> BOOL &
+    musicas_da_playlist_i : (1..PLAYLIST_MAX) * (1..MUSICA_MAX) --> BOOL &
     dom(musicas_da_playlist_i |> {TRUE}) = musicas_da_playlist &
     criador_da_playlist_i : (0..PLAYLIST_MAX) --> (0..USUARIO_MAX) &
     criador_da_playlist_i = criador_da_playlist &
-    musicas_do_album_i : (0..ALBUM_MAX) * (0..MUSICA_MAX) --> BOOL &
+    musicas_do_album_i : (1..ALBUM_MAX) * (1..MUSICA_MAX) --> BOOL &
     dom(musicas_do_album_i |> {TRUE}) = musicas_do_album &
-    albuns_do_artista_i : (0..ARTISTA_MAX) * (0..ALBUM_MAX) --> BOOL &
+    albuns_do_artista_i : (1..ARTISTA_MAX) * (1..ALBUM_MAX) --> BOOL &
     dom(albuns_do_artista_i |> {TRUE}) = albuns_do_artista &
     criador_da_tag_i : (0..TAG_MAX) --> (0..USUARIO_MAX) &
     criador_da_tag_i = criador_da_tag &
-    musicas_da_tag_i : (0..TAG_MAX) * (0..MUSICA_MAX) --> BOOL &
+    musicas_da_tag_i : (1..TAG_MAX) * (1..MUSICA_MAX) --> BOOL &
     dom(musicas_da_tag_i |> {TRUE}) = musicas_da_tag &    
-    albuns_da_tag_i : (0..TAG_MAX) * (0..ALBUM_MAX) --> BOOL &
+    albuns_da_tag_i : (1..TAG_MAX) * (1..ALBUM_MAX) --> BOOL &
     dom(albuns_da_tag_i |> {TRUE}) = albuns_da_tag & 
-    artistas_da_tag_i : (0..TAG_MAX) * (0..ARTISTA_MAX) --> BOOL &
+    artistas_da_tag_i : (1..TAG_MAX) * (1..ARTISTA_MAX) --> BOOL &
     dom(artistas_da_tag_i |> {TRUE}) = artistas_da_tag & 
-    artistas_da_gravadora_i : (0..GRAVADORA_MAX) * (0..ARTISTA_MAX) --> BOOL &
+    artistas_da_gravadora_i : (1..GRAVADORA_MAX) * (1..ARTISTA_MAX) --> BOOL &
     dom(artistas_da_gravadora_i |> {TRUE}) = artistas_da_gravadora &
-    biblioteca_musicas_usuario_i : (0..USUARIO_MAX) * (0..MUSICA_MAX) --> BOOL &
+    biblioteca_musicas_usuario_i : (1..USUARIO_MAX) * (1..MUSICA_MAX) --> BOOL &
     dom(biblioteca_musicas_usuario_i |> {TRUE}) = biblioteca_musicas_usuario &
-    biblioteca_artistas_usuario_i : (0..USUARIO_MAX) * (0..ARTISTA_MAX) --> BOOL &
+    biblioteca_artistas_usuario_i : (1..USUARIO_MAX) * (1..ARTISTA_MAX) --> BOOL &
     dom(biblioteca_artistas_usuario_i |> {TRUE}) = biblioteca_artistas_usuario &
-    biblioteca_albuns_usuario_i : (0..USUARIO_MAX) * (0..ALBUM_MAX) --> BOOL &
+    biblioteca_albuns_usuario_i : (1..USUARIO_MAX) * (1..ALBUM_MAX) --> BOOL &
     dom(biblioteca_albuns_usuario_i |> {TRUE}) = biblioteca_albuns_usuario &
     obsessao_do_momento_i : (0..USUARIO_MAX) --> (0..MUSICA_MAX) &
     obsessao_do_momento_i = obsessao_do_momento &
-    amigos_i : (0..USUARIO_MAX) * (0..USUARIO_MAX) --> BOOL &
+    amigos_i : (1..USUARIO_MAX) * (1..USUARIO_MAX) --> BOOL &
     dom(amigos_i |> {TRUE}) = amigos
 
 INITIALISATION
-    musicas_da_playlist_i := (0..PLAYLIST_MAX) * (0..MUSICA_MAX) * {FALSE};
-    musicas_do_album_i := (0..ALBUM_MAX) * (0..MUSICA_MAX) * {FALSE};
+    musicas_da_playlist_i := (1..PLAYLIST_MAX) * (1..MUSICA_MAX) * {FALSE};
+    musicas_do_album_i := (1..ALBUM_MAX) * (1..MUSICA_MAX) * {FALSE};
     criador_da_playlist_i := (0..PLAYLIST_MAX) * { USUARIO_DUMMY };
-    albuns_do_artista_i := (0..ARTISTA_MAX) * (0..ALBUM_MAX) * {FALSE};
+    albuns_do_artista_i := (1..ARTISTA_MAX) * (1..ALBUM_MAX) * {FALSE};
     criador_da_tag_i := (0..TAG_MAX) * { USUARIO_DUMMY };
-    musicas_da_tag_i := (0..TAG_MAX) * (0..MUSICA_MAX) * {FALSE};
-    albuns_da_tag_i := (0..TAG_MAX) * (0..ALBUM_MAX) * {FALSE};
-    artistas_da_tag_i := (0..TAG_MAX) * (0..ARTISTA_MAX) * {FALSE};
-    artistas_da_gravadora_i := ((0..GRAVADORA_MAX) * (0..ARTISTA_MAX)) * {FALSE};
-    biblioteca_musicas_usuario_i := ((0..USUARIO_MAX) * (0..MUSICA_MAX)) * {FALSE};
-    biblioteca_artistas_usuario_i := ((0..USUARIO_MAX) * (0..ARTISTA_MAX)) * {FALSE};
-    biblioteca_albuns_usuario_i := ((0..USUARIO_MAX) * (0..ALBUM_MAX)) * {FALSE};
+    musicas_da_tag_i := (1..TAG_MAX) * (1..MUSICA_MAX) * {FALSE};
+    albuns_da_tag_i := (1..TAG_MAX) * (1..ALBUM_MAX) * {FALSE};
+    artistas_da_tag_i := (1..TAG_MAX) * (1..ARTISTA_MAX) * {FALSE};
+    artistas_da_gravadora_i := ((1..GRAVADORA_MAX) * (1..ARTISTA_MAX)) * {FALSE};
+    biblioteca_musicas_usuario_i := ((1..USUARIO_MAX) * (1..MUSICA_MAX)) * {FALSE};
+    biblioteca_artistas_usuario_i := ((1..USUARIO_MAX) * (1..ARTISTA_MAX)) * {FALSE};
+    biblioteca_albuns_usuario_i := ((1..USUARIO_MAX) * (1..ALBUM_MAX)) * {FALSE};
     obsessao_do_momento_i := (0..USUARIO_MAX) * { MUSICA_DUMMY };
-    amigos_i := (0..USUARIO_MAX) * (0..USUARIO_MAX) * {FALSE}
+    amigos_i := (1..USUARIO_MAX) * (1..USUARIO_MAX) * {FALSE}
 
 OPERATIONS
 // Playlists e usuarios ==========================================================
@@ -112,7 +112,7 @@ OPERATIONS
 
   //Remove musicas da playlist
   VAR ii, aux IN
-  ii := 0;
+  ii := 1;
   aux := FALSE;
   WHILE ii <= MAX_NUM DO
     aux := musicas_da_playlist_i(pp, ii);
@@ -133,28 +133,6 @@ OPERATIONS
   uu := criador_da_playlist_i(pp)
  END;
 
- /*pp <-- consultar_playlists_do_usuario(uu) =
- BEGIN
-  VAR xx, retorno IN
-    xx := 0;
-    retorno := PLAYLIST --> BOOL;
-
-    WHILE xx < MAX_NUM DO
-      xx := xx + 1;
-
-      IF criador_da_playlist_i(xx) = uu
-      THEN retorno(xx) := TRUE
-      END
-
-    INVARIANT
-      !yy . (yy : NAT & yy <= xx => retorno(xx) = TRUE => criador_da_playlist_i(xx) = uu)
-    VARIANT
-      MAX_NUM - xx
-    END;
-  pp := retorno
-  END
- END;*/
-
 // Playlists e musicas ==========================================================
  cadastrar_musica_na_playlist(pp, mm) =
  BEGIN
@@ -166,6 +144,8 @@ OPERATIONS
   musicas_da_playlist_i(pp, mm) := FALSE
  END;
 
+ pp <-- consultar_playlists_e_musicas = pp := musicas_da_playlist_i;
+
 // Albuns e musicas ==========================================================
  remover_album_e_retirar_musicas(aa) =
  BEGIN
@@ -173,7 +153,7 @@ OPERATIONS
 
   //Remover musicas do album
   VAR ii, aux IN
-  ii := 0;
+  ii := 1;
   aux := FALSE;
   WHILE ii <= MAX_NUM DO
     aux := musicas_do_album_i(aa, ii);
@@ -233,10 +213,7 @@ OPERATIONS
   musicas_do_album_i(aa, mm) := FALSE
  END;
 
- mm <-- consultar_albuns_e_musicas =
- BEGIN
-  mm := musicas_do_album_i
- END;
+ mm <-- consultar_albuns_e_musicas =  mm := musicas_do_album_i;
 
 // Artistas e albuns ==========================================================
  remover_artista_e_retirar_albuns(aa) =
@@ -307,31 +284,18 @@ OPERATIONS
   albuns_do_artista_i(ar, al) := FALSE
  END;
 
- /*rr <-- consultar_albuns_do_artista(aa) =
- PRE
-  aa : artistas
- THEN
-  rr := albuns_do_artista[{ aa }]
- END;
-
- rr <-- consultar_artistas_do_album(aa) =
- PRE
-  aa : albuns
- THEN
-  rr := dom(albuns_do_artista |> { aa })
- END;
-*/
+ aa <-- consultar_artistas_e_albuns = aa := albuns_do_artista_i;
 
 // Gravadoras e artistas ==========================================================
  remover_gravadora_apagando_artistas(gg) =
  BEGIN
   remover_gravadora(gg);
-  artistas_da_gravadora_i := (0..GRAVADORA_MAX) * (0..ARTISTA_MAX) * {FALSE}
+  artistas_da_gravadora_i := (1..GRAVADORA_MAX) * (1..ARTISTA_MAX) * {FALSE}
  END;
 
  alterar_gravadora_do_artista(gg, aa) =
  BEGIN
-  artistas_da_gravadora_i := (0..GRAVADORA_MAX) * (0..ARTISTA_MAX) * {FALSE};
+  artistas_da_gravadora_i := (1..GRAVADORA_MAX) * (1..ARTISTA_MAX) * {FALSE};
   artistas_da_gravadora_i(gg, aa) := TRUE
  END;
 
@@ -345,19 +309,7 @@ OPERATIONS
   artistas_da_gravadora_i(gg, aa) := FALSE
  END;
 
- /*aa <-- consultar_artistas_da_gravadora(gg) =
- PRE
-  gg : GRAVADORA & gg : gravadoras
- THEN
-  aa := artistas_da_gravadora[{ gg }]
- END;
-
- gg <-- consultar_gravadora_do_artista(aa) =
- PRE
-  aa : ARTISTA & aa : artistas
- THEN
-  gg := dom(artistas_da_gravadora |> { aa })
- END;*/
+ gg <-- consultar_gravadoras_e_artistas = gg := artistas_da_gravadora_i;
 
 // Tags, usuarios, musicas, albuns e artistas ==========================================================
  cadastrar_tag_do_usuario_na_musica(tt, uu, mm) =
@@ -432,19 +384,16 @@ OPERATIONS
   artistas_da_tag_i(tt, aa) := FALSE
  END;
 
- /*rr <-- consultar_usuario_criador_da_tag(tt) =
- PRE
-  tt : tags & tt : dom(criador_da_tag)
- THEN
-  rr := criador_da_tag(tt)
+ uu <-- consultar_usuario_criador_da_tag(tt) =
+ BEGIN
+     uu := criador_da_playlist_i(tt)
  END;
 
- rr <-- consultar_tags_do_usuario(uu) =
- PRE
-  uu : usuarios & uu : ran(criador_da_tag)
- THEN
-  rr := dom(criador_da_tag |> { uu })
- END;*/
+ tt <-- consultar_tags_e_musicas = tt := musicas_da_tag_i;
+
+ tt <-- consultar_tags_e_albuns = tt := albuns_da_tag_i;
+
+ tt <-- consultar_tags_e_artistas = tt := artistas_da_tag_i;
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
  cadastrar_artista_biblioteca(uu, aa) =
@@ -483,12 +432,11 @@ OPERATIONS
   END
  END;
 
- /*ab, ar, mm <-- consultar_biblioteca(uu) =
- PRE
-  uu : usuarios
- THEN
-  ab := ran({ uu } <| biblioteca_albuns_usuario) || ar := ran({ uu } <| biblioteca_artistas_usuario) || mm := ran({ uu } <| biblioteca_musicas_usuario)
- END;*/
+ ab <-- consultar_biblioteca_albuns = ab := biblioteca_albuns_usuario_i;
+
+ ar <-- consultar_biblioteca_artistas = ar := biblioteca_artistas_usuario_i;
+
+ mm <-- consultar_biblioteca_musicas = mm := biblioteca_musicas_usuario_i;
 
  cadastrar_obsessao_do_momento(uu, mm) =
  BEGIN
@@ -516,7 +464,7 @@ OPERATIONS
   amigos_i(uu, us) := FALSE
  END;
 
- //rr <-- consultar_amigos = rr := amigos_i;
+ aa <-- consultar_relacoes_amigos = aa := amigos_i;
 
  ab, ar, mm <-- compatibilidade_musical(uu, us) =
  BEGIN

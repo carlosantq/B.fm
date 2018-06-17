@@ -104,24 +104,10 @@ OPERATIONS
 
  uu <-- consultar_usuario_criador_da_playlist(pp) =
  PRE
-	pp : PLAYLIST
+	pp : PLAYLIST & pp /= PLAYLIST_DUMMY
  THEN
 	uu := criador_da_playlist(pp)
  END;
-
- /*pp <-- consultar_playlists_do_usuario(uu) =
- PRE
-	uu : USUARIO & uu : usuarios
- THEN
-	ANY
-		lista
-	WHERE
-		lista : PLAYLIST --> BOOL &
-		dom(lista |> { TRUE }) = dom(criador_da_playlist |> { uu })
-	THEN
-        		pp := lista
-     	END
- END;*/
 
  // Playlists e musicas ==========================================================
   cadastrar_musica_na_playlist(pp, mm) =
@@ -134,20 +120,18 @@ OPERATIONS
 
   remover_musica_da_playlist(pp, mm) =
   PRE
- 	mm : MUSICA & mm : musicas & pp : PLAYLIST & pp : playlists & pp |-> mm : musicas_da_playlist
+ 	mm : MUSICA & mm : musicas & pp : PLAYLIST & pp : playlists & pp |-> mm : musicas_da_playlist &
+ 	pp /= PLAYLIST_DUMMY & mm /= MUSICA_DUMMY
   THEN
  	musicas_da_playlist := musicas_da_playlist - { pp |-> mm }
   END;
 
- /*  mm <-- consultar_musicas_da_playlist(pp) =
-  PRE
- 	pp: PLAYLIST & pp : playlists
-  THEN
- 	ANY lista
- 	WHERE lista : MUSICA --> BOOL & ran({ pp } <| musicas_da_playlist) = dom(lista |> { TRUE })
- 	THEN mm := lista
- 	END
-  END;*/
+ pp <-- consultar_playlists_e_musicas =
+ ANY
+	lista WHERE lista : (1..PLAYLIST_MAX)*(1..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) =  musicas_da_playlist
+ THEN
+ 	pp := lista
+ END;
 
 // Albuns e musicas ==========================================================
  remover_album_e_retirar_musicas(aa) =
@@ -178,7 +162,7 @@ OPERATIONS
 
  mm <-- consultar_albuns_e_musicas =
  ANY
-	lista WHERE lista : (0..ALBUM_MAX)*(0..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) = musicas_do_album
+	lista WHERE lista : (1..ALBUM_MAX)*(1..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) = musicas_do_album
  THEN
  	mm := lista
  END;
@@ -202,32 +186,25 @@ OPERATIONS
  
  cadastrar_album_para_artista(ar, al) =
  PRE
-	ar : ARTISTA & ar : artistas & al : ALBUM & al : albuns & al/:ran(albuns_do_artista)
+	ar : ARTISTA & ar : artistas & al : ALBUM & al : albuns & al/:ran(albuns_do_artista) & ar /= ARTISTA_DUMMY & al /= ALBUM_DUMMY
  THEN
 	albuns_do_artista := albuns_do_artista \/ { ar |-> al }
  END;
 
  remover_album_do_artista(ar, al) =
  PRE
-	ar : ARTISTA & ar : artistas & al : ALBUM & al : albuns & ar |-> al : albuns_do_artista
+	ar : ARTISTA & ar : artistas & al : ALBUM & al : albuns & ar |-> al : albuns_do_artista & ar /= ARTISTA_DUMMY & al /= ALBUM_DUMMY
  THEN
 	albuns_do_artista := albuns_do_artista - { ar |-> al }
  END;
 
- /*rr <-- consultar_albuns_do_artista(aa) =
- PRE
-	aa : artistas
+ aa <-- consultar_artistas_e_albuns =
+ ANY
+	lista WHERE lista : (1..ARTISTA_MAX)*(1..ALBUM_MAX) --> BOOL & dom(lista |> { TRUE }) = albuns_do_artista
  THEN
-	rr := albuns_do_artista[{ aa }]
+ 	aa := lista
  END;
 
- rr <-- consultar_artistas_do_album(aa) =
- PRE
-	aa : albuns
- THEN
-	rr := dom(albuns_do_artista |> { aa })
- END;
-*/
 // Gravadoras e artistas ==========================================================
  remover_gravadora_apagando_artistas(gg) =
  PRE
@@ -239,38 +216,32 @@ OPERATIONS
 
  alterar_gravadora_do_artista(gg, aa) =
  PRE
-	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & aa /: artistas_da_gravadora[{ gg }] & aa : ran(artistas_da_gravadora)
+	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & aa /: artistas_da_gravadora[{ gg }] & aa : ran(artistas_da_gravadora) & aa /= ARTISTA_DUMMY & gg /= GRAVADORA_DUMMY
  THEN
 	artistas_da_gravadora := (artistas_da_gravadora - (artistas_da_gravadora |> {aa})) \/ {gg |-> aa}
  END;
 
  cadastrar_artista_numa_gravadora(gg, aa) =
  PRE
-	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & aa /: ran(artistas_da_gravadora)
+	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & aa /: ran(artistas_da_gravadora) & aa /= ARTISTA_DUMMY & gg /= GRAVADORA_DUMMY
  THEN
 	artistas_da_gravadora := artistas_da_gravadora \/ { gg |-> aa }
  END;
 
  remover_artista_da_gravadora(gg, aa) =
  PRE
-	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & gg |-> aa : artistas_da_gravadora
+	gg : GRAVADORA & gg : gravadoras & aa : ARTISTA & aa : artistas & gg |-> aa : artistas_da_gravadora & aa /= ARTISTA_DUMMY & gg /= GRAVADORA_DUMMY
  THEN
 	artistas_da_gravadora := artistas_da_gravadora - { gg |-> aa }
  END;
 
- /*aa <-- consultar_artistas_da_gravadora(gg) =
- PRE
-	gg : GRAVADORA & gg : gravadoras
+ gg <-- consultar_gravadoras_e_artistas =
+ ANY
+	lista WHERE lista : (1..GRAVADORA_MAX)*(1..ARTISTA_MAX) --> BOOL & dom(lista |> { TRUE }) = artistas_da_gravadora
  THEN
-	aa := artistas_da_gravadora[{ gg }]
+ 	gg := lista
  END;
 
- gg <-- consultar_gravadora_do_artista(aa) =
- PRE
-	aa : ARTISTA & aa : artistas
- THEN
-	gg := dom(artistas_da_gravadora |> { aa })
- END;*/
 // Tags, usuarios, musicas, albuns e artistas ==========================================================
  cadastrar_tag_do_usuario_na_musica(tt, uu, mm) =
  PRE
@@ -279,7 +250,7 @@ OPERATIONS
 	mm : MUSICA & mm : musicas & mm /= MUSICA_DUMMY /*&
 	tt |-> mm /: musicas_da_tag*/
  THEN
-	IF criador_da_tag(tt) = 0 THEN
+	IF criador_da_tag(tt) = USUARIO_DUMMY THEN
 		criador_da_tag(tt) := uu 
 	END ||
 	IF tt /: tags THEN
@@ -294,7 +265,7 @@ OPERATIONS
 	uu : USUARIO & uu : usuarios & uu /= USUARIO_DUMMY &
 	aa : ALBUM & aa : albuns & aa /= ALBUM_DUMMY
 THEN
-	IF criador_da_tag(tt) = 0 THEN
+	IF criador_da_tag(tt) = USUARIO_DUMMY THEN
 		criador_da_tag(tt) := uu 
 	END ||
 	IF tt /: tags THEN
@@ -309,7 +280,7 @@ THEN
 	uu : USUARIO & uu : usuarios & uu /= USUARIO_DUMMY &
 	aa : ARTISTA & aa : artistas & aa /= ARTISTA_DUMMY
  THEN
-	IF criador_da_tag(tt) = 0 THEN
+	IF criador_da_tag(tt) = USUARIO_DUMMY THEN
 		criador_da_tag(tt) := uu 
 	END ||
 	IF tt /: tags THEN
@@ -356,87 +327,99 @@ THEN
 	END ||
 	artistas_da_tag := artistas_da_tag - { tt |-> aa }
  END;
-
- /*rr <-- consultar_usuario_criador_da_tag(tt) =
+ 
+ uu <-- consultar_usuario_criador_da_tag(tt) =
  PRE
-	tt : tags & tt : dom(criador_da_tag)
+	tt : TAG & tt /= TAG_DUMMY
  THEN
-	rr := criador_da_tag(tt)
+	uu := criador_da_playlist(tt)
  END;
 
- rr <-- consultar_tags_do_usuario(uu) =
- PRE
-	uu : usuarios & uu : ran(criador_da_tag)
+ tt <-- consultar_tags_e_musicas =
+ ANY
+	lista WHERE lista : (1..TAG_MAX)*(1..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) = musicas_da_tag
  THEN
-	rr := dom(criador_da_tag |> { uu })
- END;*/
+ 	tt := lista
+ END;
 
-/* Operação bugada
- rr <-- consultar_alvo_da_tag(tt) =
- PRE
-	tt : tags &
-	(tt : dom(musicas_da_tag) or tt : dom(albuns_da_tag) or tt : dom(artistas_da_tag))
+ tt <-- consultar_tags_e_albuns =
+ ANY
+	lista WHERE lista : (1..TAG_MAX)*(1..ALBUM_MAX) --> BOOL & dom(lista |> { TRUE }) = albuns_da_tag
  THEN
-	IF tt : dom(musicas_da_tag)
-	THEN rr := musicas_da_tag(tt);
+ 	tt := lista
+ END;
 
-	IF tt : dom(albuns_da_tag)
-	THEN rr := albuns_da_tag(tt);
-
-	IF tt : dom(artistas_da_tag)
-	THEN rr := artistas_da_tag(tt);
- END */
+ tt <-- consultar_tags_e_artistas =
+ ANY
+	lista WHERE lista : (1..TAG_MAX)*(1..ARTISTA_MAX) --> BOOL & dom(lista |> { TRUE }) = artistas_da_tag
+ THEN
+ 	tt := lista
+ END;
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
  cadastrar_artista_biblioteca(uu, aa) =
  PRE
- 	uu : USUARIO & uu : usuarios & aa : ARTISTA & aa : artistas & { uu |-> aa } /<: biblioteca_artistas_usuario & uu > USUARIO_DUMMY
+ 	uu : USUARIO & uu : usuarios & aa : ARTISTA & aa : artistas & { uu |-> aa } /<: biblioteca_artistas_usuario & uu /= USUARIO_DUMMY & aa /= ARTISTA_DUMMY
  THEN
  	biblioteca_artistas_usuario := biblioteca_artistas_usuario \/ { uu |-> aa }
  END;
 
  remover_artista_biblioteca(uu, aa) =
  PRE
- 	uu : USUARIO & uu : usuarios & aa : ARTISTA & aa : artistas & { uu |-> aa } <: biblioteca_artistas_usuario & uu > USUARIO_DUMMY
+ 	uu : USUARIO & uu : usuarios & aa : ARTISTA & aa : artistas & { uu |-> aa } <: biblioteca_artistas_usuario & uu /= USUARIO_DUMMY & aa /= ARTISTA_DUMMY
  THEN
  	biblioteca_artistas_usuario := biblioteca_artistas_usuario - { uu |-> aa }
  END;
 
  cadastrar_album_biblioteca(uu, aa) =
  PRE
- 	uu : USUARIO & uu : usuarios & aa : ALBUM & aa : albuns & { uu |-> aa } /<: biblioteca_albuns_usuario & uu > USUARIO_DUMMY
+ 	uu : USUARIO & uu : usuarios & aa : ALBUM & aa : albuns & { uu |-> aa } /<: biblioteca_albuns_usuario & uu /= USUARIO_DUMMY & aa /= ARTISTA_DUMMY
  THEN
  	biblioteca_albuns_usuario := biblioteca_albuns_usuario \/ { uu |-> aa }
  END;
 
  remover_album_biblioteca(uu, aa) =
  PRE
- 	uu : USUARIO & uu : usuarios & aa : ALBUM & aa : albuns & { uu |-> aa } <: biblioteca_albuns_usuario & uu > USUARIO_DUMMY
+ 	uu : USUARIO & uu : usuarios & aa : ALBUM & aa : albuns & { uu |-> aa } <: biblioteca_albuns_usuario & uu /= USUARIO_DUMMY & aa /= ALBUM_DUMMY
  THEN
  	biblioteca_albuns_usuario := biblioteca_albuns_usuario - { uu |-> aa }
  END;
 
  cadastrar_musica_biblioteca(uu, mm) =
  PRE
- 	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } /<: biblioteca_musicas_usuario & uu > USUARIO_DUMMY & mm > MUSICA_DUMMY
+ 	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } /<: biblioteca_musicas_usuario & uu /= USUARIO_DUMMY & mm /= MUSICA_DUMMY
  THEN
  	biblioteca_musicas_usuario := biblioteca_musicas_usuario \/ { uu |-> mm }
  END;
 
  remover_musica_biblioteca(uu, mm) =
  PRE
- 	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } <: biblioteca_musicas_usuario & uu > USUARIO_DUMMY & mm > MUSICA_DUMMY
+ 	uu : USUARIO & uu : usuarios & mm : MUSICA & mm : musicas & { uu |-> mm } <: biblioteca_musicas_usuario & uu /= USUARIO_DUMMY & mm /= MUSICA_DUMMY
  THEN
  	biblioteca_musicas_usuario := biblioteca_musicas_usuario - { uu |-> mm } ||
 	IF mm : obsessao_do_momento[{ uu }] THEN obsessao_do_momento := obsessao_do_momento - { uu |-> mm } END
  END;
 
- /*ab, ar, mm <-- consultar_biblioteca(uu) =
- PRE
-	uu : usuarios
+ ab <-- consultar_biblioteca_albuns =
+ ANY
+	lista1 WHERE lista1 : (1..USUARIO_MAX)*(1..ALBUM_MAX) --> BOOL & dom(lista1 |> { TRUE }) = biblioteca_albuns_usuario
  THEN
-	ab := ran({ uu } <| biblioteca_albuns_usuario) || ar := ran({ uu } <| biblioteca_artistas_usuario) || mm := ran({ uu } <| biblioteca_musicas_usuario)
- END;*/
+ 	ab := lista1
+ END;
+
+ ar <-- consultar_biblioteca_artistas =
+ ANY
+	lista2 WHERE lista2 : (1..USUARIO_MAX)*(1..ARTISTA_MAX) --> BOOL & dom(lista2 |> { TRUE }) = biblioteca_artistas_usuario
+ THEN
+	ar := lista2
+ END;
+
+ mm <-- consultar_biblioteca_musicas =
+ ANY
+	lista3 WHERE lista3 : (1..USUARIO_MAX)*(1..MUSICA_MAX) --> BOOL & dom(lista3 |> { TRUE }) = biblioteca_musicas_usuario
+ THEN
+	mm := lista3
+ END;
 
  cadastrar_obsessao_do_momento(uu, mm) =
  PRE
@@ -449,13 +432,12 @@ THEN
  PRE
 	uu : USUARIO & uu : usuarios & obsessao_do_momento[{ uu }] /= {} & uu > USUARIO_DUMMY & obsessao_do_momento(uu) > MUSICA_DUMMY
  THEN
-	//obsessao_do_momento := obsessao_do_momento - ({ uu } <| obsessao_do_momento)
 	obsessao_do_momento(uu) := MUSICA_DUMMY
  END;
 
  rr <-- consultar_obsessao_do_momento(uu) =
  PRE
-	uu : USUARIO & uu : usuarios & uu > USUARIO_DUMMY & obsessao_do_momento(uu) /= 0
+	uu : USUARIO & uu : usuarios & uu /= USUARIO_DUMMY & obsessao_do_momento(uu) /= 0
  THEN
 	rr := obsessao_do_momento(uu)
  END;
@@ -475,7 +457,12 @@ THEN
 	amigos := amigos - { uu |-> us }
  END;
 
- //rr <-- consultar_amigos = rr := amigos;
+ aa <-- consultar_relacoes_amigos =
+ ANY
+	lista WHERE lista : (1..USUARIO_MAX)*(1..USUARIO_MAX) --> BOOL & dom(lista |> { TRUE }) = amigos
+ THEN
+ 	aa := lista
+ END;
 
  ab, ar, mm <-- compatibilidade_musical(uu, us) =
  PRE
