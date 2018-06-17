@@ -128,7 +128,7 @@ OPERATIONS
 
  pp <-- consultar_playlists_e_musicas =
  ANY
-	lista WHERE lista : (1..PLAYLIST_MAX)*(1..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) =  musicas_da_playlist
+	lista WHERE lista : (0..PLAYLIST_MAX)*(0..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) =  musicas_da_playlist
  THEN
  	pp := lista
  END;
@@ -162,7 +162,7 @@ OPERATIONS
 
  mm <-- consultar_albuns_e_musicas =
  ANY
-	lista WHERE lista : (1..ALBUM_MAX)*(1..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) = musicas_do_album
+	lista WHERE lista : (0..ALBUM_MAX)*(0..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) = musicas_do_album
  THEN
  	mm := lista
  END;
@@ -200,7 +200,7 @@ OPERATIONS
 
  aa <-- consultar_artistas_e_albuns =
  ANY
-	lista WHERE lista : (1..ARTISTA_MAX)*(1..ALBUM_MAX) --> BOOL & dom(lista |> { TRUE }) = albuns_do_artista
+	lista WHERE lista : (0..ARTISTA_MAX)*(0..ALBUM_MAX) --> BOOL & dom(lista |> { TRUE }) = albuns_do_artista
  THEN
  	aa := lista
  END;
@@ -237,7 +237,7 @@ OPERATIONS
 
  gg <-- consultar_gravadoras_e_artistas =
  ANY
-	lista WHERE lista : (1..GRAVADORA_MAX)*(1..ARTISTA_MAX) --> BOOL & dom(lista |> { TRUE }) = artistas_da_gravadora
+	lista WHERE lista : (0..GRAVADORA_MAX)*(0..ARTISTA_MAX) --> BOOL & dom(lista |> { TRUE }) = artistas_da_gravadora
  THEN
  	gg := lista
  END;
@@ -337,21 +337,21 @@ THEN
 
  tt <-- consultar_tags_e_musicas =
  ANY
-	lista WHERE lista : (1..TAG_MAX)*(1..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) = musicas_da_tag
+	lista WHERE lista : (0..TAG_MAX)*(0..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) = musicas_da_tag
  THEN
  	tt := lista
  END;
 
  tt <-- consultar_tags_e_albuns =
  ANY
-	lista WHERE lista : (1..TAG_MAX)*(1..ALBUM_MAX) --> BOOL & dom(lista |> { TRUE }) = albuns_da_tag
+	lista WHERE lista : (0..TAG_MAX)*(0..ALBUM_MAX) --> BOOL & dom(lista |> { TRUE }) = albuns_da_tag
  THEN
  	tt := lista
  END;
 
  tt <-- consultar_tags_e_artistas =
  ANY
-	lista WHERE lista : (1..TAG_MAX)*(1..ARTISTA_MAX) --> BOOL & dom(lista |> { TRUE }) = artistas_da_tag
+	lista WHERE lista : (0..TAG_MAX)*(0..ARTISTA_MAX) --> BOOL & dom(lista |> { TRUE }) = artistas_da_tag
  THEN
  	tt := lista
  END;
@@ -402,21 +402,21 @@ THEN
 
  ab <-- consultar_biblioteca_albuns =
  ANY
-	lista1 WHERE lista1 : (1..USUARIO_MAX)*(1..ALBUM_MAX) --> BOOL & dom(lista1 |> { TRUE }) = biblioteca_albuns_usuario
+	lista1 WHERE lista1 : (0..USUARIO_MAX)*(0..ALBUM_MAX) --> BOOL & dom(lista1 |> { TRUE }) = biblioteca_albuns_usuario
  THEN
  	ab := lista1
  END;
 
  ar <-- consultar_biblioteca_artistas =
  ANY
-	lista2 WHERE lista2 : (1..USUARIO_MAX)*(1..ARTISTA_MAX) --> BOOL & dom(lista2 |> { TRUE }) = biblioteca_artistas_usuario
+	lista2 WHERE lista2 : (0..USUARIO_MAX)*(0..ARTISTA_MAX) --> BOOL & dom(lista2 |> { TRUE }) = biblioteca_artistas_usuario
  THEN
 	ar := lista2
  END;
 
  mm <-- consultar_biblioteca_musicas =
  ANY
-	lista3 WHERE lista3 : (1..USUARIO_MAX)*(1..MUSICA_MAX) --> BOOL & dom(lista3 |> { TRUE }) = biblioteca_musicas_usuario
+	lista3 WHERE lista3 : (0..USUARIO_MAX)*(0..MUSICA_MAX) --> BOOL & dom(lista3 |> { TRUE }) = biblioteca_musicas_usuario
  THEN
 	mm := lista3
  END;
@@ -459,7 +459,7 @@ THEN
 
  aa <-- consultar_relacoes_amigos =
  ANY
-	lista WHERE lista : (1..USUARIO_MAX)*(1..USUARIO_MAX) --> BOOL & dom(lista |> { TRUE }) = amigos
+	lista WHERE lista : (0..USUARIO_MAX)*(0..USUARIO_MAX) --> BOOL & dom(lista |> { TRUE }) = amigos
  THEN
  	aa := lista
  END;
