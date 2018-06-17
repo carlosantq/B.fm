@@ -233,6 +233,11 @@ OPERATIONS
   musicas_do_album_i(aa, mm) := FALSE
  END;
 
+ mm <-- consultar_albuns_e_musicas =
+ BEGIN
+  mm := musicas_do_album_i
+ END;
+
 // Artistas e albuns ==========================================================
  remover_artista_e_retirar_albuns(aa) =
  BEGIN

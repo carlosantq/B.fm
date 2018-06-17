@@ -176,14 +176,14 @@ OPERATIONS
 	musicas_do_album := musicas_do_album - { aa |-> mm }
  END;
 
- /* mm <-- consultar_musicas_do_album(aa) =
- PRE
- 	aa : albuns
+ mm <-- consultar_albuns_e_musicas =
+ ANY
+	lista WHERE lista : (0..ALBUM_MAX)*(0..MUSICA_MAX) --> BOOL & dom(lista |> { TRUE }) = musicas_do_album
  THEN
-	mm := musicas_do_album[{ aa }]
+ 	mm := lista
  END;
 
- aa <-- consultar_albuns_da_musica(mm) =
+ /*aa <-- consultar_albuns_da_musica(mm) =
  PRE
 	mm : musicas
  THEN
@@ -493,5 +493,3 @@ THEN
 	mm := card(ran({ uu } <| biblioteca_musicas_usuario) /\ ran({ us } <| biblioteca_musicas_usuario))
  END
 END
-
-
