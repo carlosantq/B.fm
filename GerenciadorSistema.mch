@@ -1,13 +1,13 @@
 MACHINE GerenciadorSistema
 
 SEES
-Max_num,
-Playlist_Ctx,
-Usuario_Ctx,
-Musica_Ctx,
-Album_Ctx,
-Artista_Ctx,
-Tag_Ctx
+ Max_num,
+ Playlist_Ctx,
+ Usuario_Ctx,
+ Musica_Ctx,
+ Album_Ctx,
+ Artista_Ctx,
+ Tag_Ctx
 
 INCLUDES
  GerenciadorPlaylist,
@@ -34,8 +34,8 @@ PROMOTES
 
 VARIABLES
  musicas_da_playlist,
- criador_da_playlist/*,
- musicas_do_album,
+ criador_da_playlist,
+ musicas_do_album/*,
  albuns_do_artista,
  artistas_da_gravadora,
  criador_da_tag,
@@ -51,8 +51,8 @@ VARIABLES
 INVARIANT
  musicas_da_playlist : PLAYLIST <-> MUSICA &
  criador_da_playlist : PLAYLIST --> USUARIO &
- /*musicas_do_album : albuns <-> musicas &
- albuns_do_artista : artistas <-> albuns &
+ musicas_do_album : ALBUM <-> MUSICA &
+ /*albuns_do_artista : artistas <-> albuns &
  artistas_da_gravadora : gravadoras <-> artistas &
  criador_da_tag : tags --> usuarios &
  musica_da_tag : tags --> musicas &
@@ -67,8 +67,8 @@ INVARIANT
 INITIALISATION
  musicas_da_playlist := {}||
  criador_da_playlist := PLAYLIST * {USUARIO_DUMMY} ||
- /*musicas_do_album := {} ||
- albuns_do_artista := {} ||
+ musicas_do_album := {} ||
+ /*albuns_do_artista := {} ||
  artistas_da_gravadora := {} ||
  criador_da_tag := {} ||
  musica_da_tag := {} ||
@@ -156,23 +156,25 @@ OPERATIONS
 	musicas_do_album := musicas_do_album - ({ aa } <| musicas_do_album) ||
 	albuns_do_artista := albuns_do_artista - (albuns_do_artista |> { aa }) ||
 	biblioteca_albuns_usuario := biblioteca_albuns_usuario - (biblioteca_albuns_usuario |> { aa })
- END;
+ END;*/
 
  cadastrar_musica_em_album(aa, mm) =
  PRE
- 	aa : albuns & mm : musicas & mm/:ran(musicas_do_album)
+ 	aa: ALBUM & aa : albuns & mm : MUSICA & mm : musicas & mm/:ran(musicas_do_album) & 
+	aa /= ALBUM_DUMMY & mm /= MUSICA_DUMMY
  THEN
 	musicas_do_album := musicas_do_album \/ { aa |-> mm }
  END;
 
  remover_musica_de_album(aa, mm) =
  PRE
-	aa : albuns & mm : musicas & aa |-> mm : musicas_do_album
+	aa: ALBUM & aa : albuns & mm : MUSICA & mm : musicas & aa |-> mm : musicas_do_album & 
+	aa /= ALBUM_DUMMY & mm /= MUSICA_DUMMY
  THEN
 	musicas_do_album := musicas_do_album - { aa |-> mm }
  END;
 
- mm <-- consultar_musicas_do_album(aa) =
+ /* mm <-- consultar_musicas_do_album(aa) =
  PRE
  	aa : albuns
  THEN
@@ -474,7 +476,7 @@ OPERATIONS
 	amigos := amigos - { uu |-> us }
  END;
 
- rr <-- consultar_amigos = rr := amigos;
+ // rr <-- consultar_amigos = rr := amigos;
 
  ab, ar, mm <-- compatibilidade_musical(uu, us) =
  PRE

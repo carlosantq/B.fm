@@ -2,13 +2,13 @@ IMPLEMENTATION GerenciadorSistema_i
 REFINES GerenciadorSistema
 
 SEES
-Max_num,
-Playlist_Ctx,
-Usuario_Ctx,
-Musica_Ctx,
-Artista_Ctx,
-Album_Ctx,
-Tag_Ctx
+ Max_num,
+ Playlist_Ctx,
+ Usuario_Ctx,
+ Musica_Ctx,
+ Artista_Ctx,
+ Album_Ctx,
+ Tag_Ctx
 
 IMPORTS
  GerenciadorPlaylist,
@@ -36,6 +36,7 @@ PROMOTES
 CONCRETE_VARIABLES
     musicas_da_playlist_i,
     criador_da_playlist_i,
+    musicas_do_album_i,
     biblioteca_musicas_usuario_i,
     biblioteca_artistas_usuario_i,
     biblioteca_albuns_usuario_i,
@@ -47,6 +48,8 @@ INVARIANT
     dom(musicas_da_playlist_i |> {TRUE}) = musicas_da_playlist &
     criador_da_playlist_i : PLAYLIST --> USUARIO &
     criador_da_playlist_i = criador_da_playlist &
+    musicas_do_album_i : ALBUM * MUSICA --> BOOL &
+    dom(musicas_do_album_i |> {TRUE}) = musicas_do_album &
     biblioteca_musicas_usuario_i : USUARIO * MUSICA --> BOOL &
     dom(biblioteca_musicas_usuario_i |> {TRUE}) = biblioteca_musicas_usuario &
     biblioteca_artistas_usuario_i : USUARIO * ARTISTA --> BOOL &
@@ -60,6 +63,7 @@ INVARIANT
 
 INITIALISATION
     musicas_da_playlist_i := PLAYLIST * MUSICA * { FALSE };
+    musicas_do_album_i := ALBUM * MUSICA * { FALSE };
     criador_da_playlist_i := PLAYLIST * { USUARIO_DUMMY };
     biblioteca_musicas_usuario_i := (USUARIO * MUSICA) * {FALSE};
     biblioteca_artistas_usuario_i := (USUARIO * ARTISTA) * {FALSE};
@@ -118,6 +122,17 @@ OPERATIONS
  remover_musica_da_playlist(pp, mm) =
  BEGIN
 	musicas_da_playlist_i(pp, mm) := FALSE
+ END;
+
+ // Albuns e musicas ==========================================================
+ cadastrar_musica_em_album(aa, mm) =
+ BEGIN
+	musicas_do_album_i(aa, mm) := TRUE
+ END;
+
+ remover_musica_de_album(aa, mm) =
+ BEGIN
+	musicas_do_album_i(aa, mm) := FALSE
  END;
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
