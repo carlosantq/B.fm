@@ -5,5 +5,7 @@ SEES
     Max_num
 
 VALUES
-    ARTISTA = 0..MAX_NUM
+    ARTISTA = 0..MAX_NUM;
+    ARTISTA_DUMMY = 0
+    
  END

@@ -10,10 +10,11 @@ CONCRETE_VARIABLES
 INVARIANT
     tags_i : TAG --> BOOL &
     dom(tags_i |> {TRUE}) = tags
-    
+
 INITIALISATION
-    tags_i := TAG * {FALSE}
-    
+    tags_i := TAG * {FALSE};
+    tags_i(TAG_DUMMY) := TRUE
+
 OPERATIONS
   cadastrar_tag(tt) =
 	tags_i(tt) := TRUE;
@@ -24,7 +25,7 @@ OPERATIONS
   rr <-- buscar_tag(tt) =
 	rr := tags_i(tt);
 
- tt <-- listar_tags = 
+ tt <-- listar_tags =
     tt := tags_i
 
  END

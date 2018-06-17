@@ -4,9 +4,11 @@ SEES
     Max_num
 
 CONSTANTS
-    TAG
+    TAG,
+    TAG_DUMMY
 
 PROPERTIES
-    TAG = 0..MAX_NUM
+    TAG = 0..MAX_NUM &
+    TAG_DUMMY = 0
 
 END

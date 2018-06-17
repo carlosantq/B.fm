@@ -1,6 +1,6 @@
 MACHINE GerenciadorMusica
 
-SEES 
+SEES
  Musica_Ctx
 
 VARIABLES
@@ -10,7 +10,7 @@ INVARIANT
  musicas <: MUSICA
 
 INITIALISATION
- musicas := {}
+ musicas := {MUSICA_DUMMY}
 
 OPERATIONS
 
@@ -23,14 +23,14 @@ OPERATIONS
 
  remover_musica(mm) =
  PRE
- 	mm : MUSICA & mm : musicas
+ 	mm : MUSICA & mm : musicas & mm /= MUSICA_DUMMY
  THEN
 	musicas := musicas - { mm }
  END;
 
  rr <-- buscar_musica(mm) =
  PRE
-	mm : MUSICA
+	mm : MUSICA & mm : musicas & mm /= MUSICA_DUMMY
  THEN
 	IF mm : musicas THEN
 		rr := TRUE
@@ -44,8 +44,6 @@ OPERATIONS
 	lista WHERE lista : MUSICA --> BOOL & dom(lista |> { TRUE }) = musicas
  THEN
 	mm := lista
- END 
+ END
 
 END
-
-

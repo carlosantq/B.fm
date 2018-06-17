@@ -12,7 +12,8 @@ INVARIANT
     dom(albuns_i |> { TRUE }) = albuns
 
 INITIALISATION
-    albuns_i := ALBUM * { FALSE }
+    albuns_i := ALBUM * { FALSE };
+    albuns_i(ALBUM_DUMMY) := TRUE
 
 OPERATIONS
  cadastrar_album(aa) =

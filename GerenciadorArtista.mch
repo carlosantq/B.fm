@@ -10,7 +10,7 @@ INVARIANT
  artistas <: ARTISTA
 
 INITIALISATION
- artistas := {}
+ artistas := { ARTISTA_DUMMY }
 
 OPERATIONS
 
@@ -23,14 +23,14 @@ OPERATIONS
 
  remover_artista(aa) =
  PRE
-	aa : ARTISTA
+	aa : ARTISTA & aa : artistas & aa /= ARTISTA_DUMMY
  THEN
 	artistas := artistas - { aa }
  END;
 
  rr <-- buscar_artista(aa) =
  PRE
-	aa : ARTISTA
+	aa : ARTISTA & aa /= ARTISTA_DUMMY
  THEN
 	IF aa : artistas THEN
 		rr := TRUE

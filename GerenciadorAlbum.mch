@@ -10,7 +10,7 @@ INVARIANT
  albuns <: ALBUM
 
 INITIALISATION
- albuns := {}
+ albuns := { ALBUM_DUMMY }
 
 OPERATIONS
 
@@ -23,14 +23,14 @@ OPERATIONS
 
  remover_album(aa) =
  PRE
-	aa : ALBUM & aa : albuns
+	aa : ALBUM & aa : albuns & aa /= ALBUM_DUMMY
  THEN
 	albuns := albuns - { aa }
  END;
 
  rr <-- buscar_album(aa) =
  PRE
-	aa : ALBUM
+	aa : ALBUM & aa /= ALBUM_DUMMY
  THEN
 	IF aa : albuns THEN
 		rr := TRUE

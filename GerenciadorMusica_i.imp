@@ -1,7 +1,7 @@
 IMPLEMENTATION GerenciadorMusica_i
 REFINES GerenciadorMusica
 
-SEES 
+SEES
  Musica_Ctx
 
 CONCRETE_VARIABLES
@@ -12,20 +12,20 @@ INVARIANT
     	dom(musicas_i |> {TRUE}) = musicas
 
 INITIALISATION
-	musicas_i := MUSICA * {FALSE}
+	musicas_i := MUSICA * {FALSE};
+  musicas_i(MUSICA_DUMMY) := TRUE
 
 OPERATIONS
-
- cadastrar_musica(mm) = 
+ cadastrar_musica(mm) =
  	musicas_i(mm) := TRUE;
 
- remover_musica(mm) = 
+ remover_musica(mm) =
 	musicas_i(mm) := FALSE;
 
   rr <-- buscar_musica(mm) =
 	rr := musicas_i(mm);
 
- mm <-- listar_musicas = 
+ mm <-- listar_musicas =
     mm := musicas_i
 
  END
