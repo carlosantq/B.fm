@@ -41,9 +41,9 @@ VARIABLES
  albuns_do_artista,
  artistas_da_gravadora,
  criador_da_tag,
- musica_da_tag,
- album_da_tag,
- artista_da_tag,
+ musicas_da_tag,
+ albuns_da_tag,
+ artistas_da_tag,
  biblioteca_musicas_usuario,
  biblioteca_artistas_usuario,
  biblioteca_albuns_usuario,
@@ -57,9 +57,9 @@ INVARIANT
  albuns_do_artista : ARTISTA <-> ALBUM &
  artistas_da_gravadora : GRAVADORA <-> ARTISTA &
  criador_da_tag : TAG --> USUARIO &
- musica_da_tag : TAG <-> MUSICA &
- album_da_tag : TAG <-> ALBUM &
- artista_da_tag : TAG <-> ARTISTA &
+ musicas_da_tag : TAG <-> MUSICA &
+ albuns_da_tag : TAG <-> ALBUM &
+ artistas_da_tag : TAG <-> ARTISTA &
  biblioteca_artistas_usuario : USUARIO <-> ARTISTA &
  biblioteca_musicas_usuario : USUARIO <-> MUSICA &
  biblioteca_albuns_usuario : USUARIO <-> ALBUM &
@@ -73,9 +73,9 @@ INITIALISATION
  albuns_do_artista := {} ||
  artistas_da_gravadora := {} ||
  criador_da_tag := TAG * {USUARIO_DUMMY} ||
- musica_da_tag := {} ||
- album_da_tag := {} ||
- artista_da_tag := {} ||
+ musicas_da_tag := {} ||
+ albuns_da_tag := {} ||
+ artistas_da_tag := {} ||
  biblioteca_artistas_usuario := {} ||
  biblioteca_musicas_usuario := {} ||
  biblioteca_albuns_usuario := {} ||
@@ -279,11 +279,12 @@ OPERATIONS
 	gg := dom(artistas_da_gravadora |> { aa })
  END;*/
 // Tags, usuarios, musicas, albuns e artistas ==========================================================
- /*cadastrar_tag_do_usuario_na_musica(tt, uu, mm) =
+ cadastrar_tag_do_usuario_na_musica(tt, uu, mm) =
  PRE
 	tt : TAG & tt /= TAG_DUMMY &
 	uu : USUARIO & uu : usuarios & uu /= USUARIO_DUMMY &
-	mm : MUSICA & mm : musicas & mm /= MUSICA_DUMMY
+	mm : MUSICA & mm : musicas & mm /= MUSICA_DUMMY /*&
+	tt |-> mm /: musicas_da_tag*/
  THEN
 	IF criador_da_tag(tt) = 0 THEN
 		criador_da_tag(tt) := uu 
@@ -291,7 +292,7 @@ OPERATIONS
 	IF tt /: tags THEN
 		cadastrar_tag(tt)
 	END ||
-	musica_da_tag := musica_da_tag \/ { tt |-> mm }
+	musicas_da_tag := musicas_da_tag \/ { tt |-> mm }
  END;
 
  cadastrar_tag_do_usuario_no_album(tt, uu, aa) =
@@ -306,7 +307,7 @@ THEN
 	IF tt /: tags THEN
 		cadastrar_tag(tt)
 	END ||
-	album_da_tag := album_da_tag \/ { tt |-> aa }
+	albuns_da_tag := albuns_da_tag \/ { tt |-> aa }
  END;
 
  cadastrar_tag_do_usuario_no_artista(tt, uu, aa) =
@@ -321,7 +322,7 @@ THEN
 	IF tt /: tags THEN
 		cadastrar_tag(tt)
 	END ||
-	artista_da_tag := artista_da_tag \/ { tt |-> aa }
+	artistas_da_tag := artistas_da_tag \/ { tt |-> aa }
  END;
 
  remover_tag_do_usuario_na_musica(tt, uu, mm) =
@@ -334,7 +335,7 @@ THEN
 		remover_tag(tt) ||
 		criador_da_tag(tt) := USUARIO_DUMMY
 	END ||
-	musica_da_tag := musica_da_tag - { tt |-> mm }
+	musicas_da_tag := musicas_da_tag - { tt |-> mm }
  END;
 
  remover_tag_do_usuario_no_album(tt, uu, aa) =
@@ -347,7 +348,7 @@ THEN
 		remover_tag(tt) ||
 		criador_da_tag(tt) := USUARIO_DUMMY
 	END ||
-	album_da_tag := album_da_tag - { tt |-> aa }
+	albuns_da_tag := albuns_da_tag - { tt |-> aa }
  END;
 
  remover_tag_do_usuario_no_artista(tt, uu, aa) =
@@ -360,8 +361,8 @@ THEN
 		remover_tag(tt) ||
 		criador_da_tag(tt) := USUARIO_DUMMY
 	END ||
-	artista_da_tag := artista_da_tag - { tt |-> aa }
- END;*/
+	artistas_da_tag := artistas_da_tag - { tt |-> aa }
+ END;
 
  /*rr <-- consultar_usuario_criador_da_tag(tt) =
  PRE
@@ -376,6 +377,22 @@ THEN
  THEN
 	rr := dom(criador_da_tag |> { uu })
  END;*/
+
+/* Operação bugada
+ rr <-- consultar_alvo_da_tag(tt) =
+ PRE
+	tt : tags &
+	(tt : dom(musicas_da_tag) or tt : dom(albuns_da_tag) or tt : dom(artistas_da_tag))
+ THEN
+	IF tt : dom(musicas_da_tag)
+	THEN rr := musicas_da_tag(tt);
+
+	IF tt : dom(albuns_da_tag)
+	THEN rr := albuns_da_tag(tt);
+
+	IF tt : dom(artistas_da_tag)
+	THEN rr := artistas_da_tag(tt);
+ END */
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
  cadastrar_artista_biblioteca(uu, aa) =
@@ -476,4 +493,5 @@ THEN
 	mm := card(ran({ uu } <| biblioteca_musicas_usuario) /\ ran({ us } <| biblioteca_musicas_usuario))
  END
 END
+
 

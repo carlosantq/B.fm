@@ -39,6 +39,10 @@ CONCRETE_VARIABLES
     criador_da_playlist_i,
     musicas_do_album_i,
     albuns_do_artista_i,
+    criador_da_tag_i,
+    musicas_da_tag_i,
+    albuns_da_tag_i,
+    artistas_da_tag_i,
     artistas_da_gravadora_i,
     biblioteca_musicas_usuario_i,
     biblioteca_artistas_usuario_i,
@@ -55,6 +59,14 @@ INVARIANT
     dom(musicas_do_album_i |> {TRUE}) = musicas_do_album &
     albuns_do_artista_i : ARTISTA * ALBUM --> BOOL &
     dom(albuns_do_artista_i |> {TRUE}) = albuns_do_artista &
+    criador_da_tag_i : TAG --> USUARIO &
+    criador_da_tag_i = criador_da_tag &
+    musicas_da_tag_i : TAG * MUSICA --> BOOL &
+    dom(musicas_da_tag_i |> {TRUE}) = musicas_da_tag &    
+    albuns_da_tag_i : TAG * ALBUM --> BOOL &
+    dom(albuns_da_tag_i |> {TRUE}) = albuns_da_tag & 
+    artistas_da_tag_i : TAG * ARTISTA --> BOOL &
+    dom(artistas_da_tag_i |> {TRUE}) = artistas_da_tag & 
     artistas_da_gravadora_i : GRAVADORA * ARTISTA --> BOOL &
     dom(artistas_da_gravadora_i |> {TRUE}) = artistas_da_gravadora &
     biblioteca_musicas_usuario_i : USUARIO * MUSICA --> BOOL &
@@ -73,6 +85,10 @@ INITIALISATION
     musicas_do_album_i := ALBUM * MUSICA * {FALSE};
     criador_da_playlist_i := PLAYLIST * { USUARIO_DUMMY };
     albuns_do_artista_i := ARTISTA * ALBUM * {FALSE};
+    criador_da_tag_i := TAG * { USUARIO_DUMMY };
+    musicas_da_tag_i := TAG * MUSICA * {FALSE};
+    albuns_da_tag_i := TAG * ALBUM * {FALSE};
+    artistas_da_tag_i := TAG * ARTISTA * {FALSE};
     artistas_da_gravadora_i := (GRAVADORA * ARTISTA) * {FALSE};
     biblioteca_musicas_usuario_i := (USUARIO * MUSICA) * {FALSE};
     biblioteca_artistas_usuario_i := (USUARIO * ARTISTA) * {FALSE};
@@ -96,19 +112,19 @@ OPERATIONS
 
   //Remove musicas da playlist
   VAR ii, aux IN
-	ii := 0;
-	aux := FALSE;
-	WHILE ii <= MAX_NUM DO
-		aux := musicas_da_playlist_i(pp, ii);
-		IF aux = TRUE THEN
-			musicas_da_playlist_i(pp, ii) := FALSE
-		END;
-		ii := ii + 1
-	INVARIANT
-		aux : BOOL
-	VARIANT
-		MAX_NUM - ii
-	END
+  ii := 0;
+  aux := FALSE;
+  WHILE ii <= MAX_NUM DO
+    aux := musicas_da_playlist_i(pp, ii);
+    IF aux = TRUE THEN
+      musicas_da_playlist_i(pp, ii) := FALSE
+    END;
+    ii := ii + 1
+  INVARIANT
+    aux : BOOL
+  VARIANT
+    MAX_NUM - ii
+  END
   END
  END;
 
@@ -157,53 +173,53 @@ OPERATIONS
 
   //Remover musicas do album
   VAR ii, aux IN
-	ii := 0;
-	aux := FALSE;
-	WHILE ii <= MAX_NUM DO
-		aux := musicas_do_album_i(aa, ii);
-		IF aux = TRUE THEN
-			musicas_do_album_i(aa, ii) := FALSE
-		END;
-		ii := ii + 1
-	INVARIANT
-		aux : BOOL
-	VARIANT
-		MAX_NUM - ii
-	END
+  ii := 0;
+  aux := FALSE;
+  WHILE ii <= MAX_NUM DO
+    aux := musicas_do_album_i(aa, ii);
+    IF aux = TRUE THEN
+      musicas_do_album_i(aa, ii) := FALSE
+    END;
+    ii := ii + 1
+  INVARIANT
+    aux : BOOL
+  VARIANT
+    MAX_NUM - ii
+  END
   END;
   
   //Remover album do artista
   VAR ii, aux IN
-	ii := 1;
-	aux := FALSE;
-	WHILE ii <= MAX_NUM DO
-		aux := albuns_do_artista_i(ii, aa);
-		IF aux = TRUE THEN
-			albuns_do_artista_i(ii, aa) := FALSE
-		END;
-		ii := ii + 1
-	INVARIANT
-		aux : BOOL
-	VARIANT
-		MAX_NUM - ii
-	END
+  ii := 1;
+  aux := FALSE;
+  WHILE ii <= MAX_NUM DO
+    aux := albuns_do_artista_i(ii, aa);
+    IF aux = TRUE THEN
+      albuns_do_artista_i(ii, aa) := FALSE
+    END;
+    ii := ii + 1
+  INVARIANT
+    aux : BOOL
+  VARIANT
+    MAX_NUM - ii
+  END
   END;
   
   //Remover album das bibliotecas dos usuarios
   VAR ii, aux IN
-	ii := 1;
-	aux := FALSE;
-	WHILE ii <= MAX_NUM DO
-		aux := biblioteca_albuns_usuario_i(ii, aa);
-		IF aux = TRUE THEN
-			biblioteca_albuns_usuario_i(ii, aa) := FALSE
-		END;
-		ii := ii + 1
-	INVARIANT
-		aux : BOOL
-	VARIANT
-		MAX_NUM - ii
-	END
+  ii := 1;
+  aux := FALSE;
+  WHILE ii <= MAX_NUM DO
+    aux := biblioteca_albuns_usuario_i(ii, aa);
+    IF aux = TRUE THEN
+      biblioteca_albuns_usuario_i(ii, aa) := FALSE
+    END;
+    ii := ii + 1
+  INVARIANT
+    aux : BOOL
+  VARIANT
+    MAX_NUM - ii
+  END
   END
  END;
 
@@ -224,55 +240,55 @@ OPERATIONS
 
   // Remove as relacoes dos albuns com o artista no sistema
  VAR ii, aux IN
-	ii := 1;
-	aux := FALSE;
-	WHILE ii <= MAX_NUM DO
-		aux := albuns_do_artista_i(aa, ii);
-		IF aux = TRUE THEN
-			albuns_do_artista_i(aa, ii) := FALSE
-		END;
-		ii := ii + 1
-	INVARIANT
-		aux : BOOL
-	VARIANT
-		MAX_NUM - ii
-	END
+  ii := 1;
+  aux := FALSE;
+  WHILE ii <= MAX_NUM DO
+    aux := albuns_do_artista_i(aa, ii);
+    IF aux = TRUE THEN
+      albuns_do_artista_i(aa, ii) := FALSE
+    END;
+    ii := ii + 1
+  INVARIANT
+    aux : BOOL
+  VARIANT
+    MAX_NUM - ii
+  END
   END;
 
   // Remove as relacoes do artista com gravadoras
   //artistas_da_gravadora := artistas_da_gravadora - (artistas_da_gravadora |> { aa }) ||
   VAR ii, aux IN
-	ii := 1;
-	aux := FALSE;
-	WHILE ii <= MAX_NUM DO
-		aux := artistas_da_gravadora_i(ii, aa);
-		IF aux = TRUE THEN
-			artistas_da_gravadora_i(ii, aa) := FALSE
-		END;
-		ii := ii + 1
-	INVARIANT
-		aux : BOOL
-	VARIANT
-		MAX_NUM - ii
-	END
+  ii := 1;
+  aux := FALSE;
+  WHILE ii <= MAX_NUM DO
+    aux := artistas_da_gravadora_i(ii, aa);
+    IF aux = TRUE THEN
+      artistas_da_gravadora_i(ii, aa) := FALSE
+    END;
+    ii := ii + 1
+  INVARIANT
+    aux : BOOL
+  VARIANT
+    MAX_NUM - ii
+  END
   END;
 
   //Remove o artista das bibliotecas dos usuarios
   //biblioteca_artistas_usuario := biblioteca_artistas_usuario - (biblioteca_artistas_usuario |> { aa }) ||
   VAR ii, aux IN
-	ii := 1;
-	aux := FALSE;
-	WHILE ii <= MAX_NUM DO
-		aux := biblioteca_artistas_usuario_i(ii, aa);
-		IF aux = TRUE THEN
-			biblioteca_artistas_usuario_i(ii, aa) := FALSE
-		END;
-		ii := ii + 1
-	INVARIANT
-		aux : BOOL
-	VARIANT
-		MAX_NUM - ii
-	END
+  ii := 1;
+  aux := FALSE;
+  WHILE ii <= MAX_NUM DO
+    aux := biblioteca_artistas_usuario_i(ii, aa);
+    IF aux = TRUE THEN
+      biblioteca_artistas_usuario_i(ii, aa) := FALSE
+    END;
+    ii := ii + 1
+  INVARIANT
+    aux : BOOL
+  VARIANT
+    MAX_NUM - ii
+  END
   END
  END;
  
@@ -336,6 +352,93 @@ OPERATIONS
   aa : ARTISTA & aa : artistas
  THEN
   gg := dom(artistas_da_gravadora |> { aa })
+ END;*/
+
+// Tags, usuarios, musicas, albuns e artistas ==========================================================
+ cadastrar_tag_do_usuario_na_musica(tt, uu, mm) =
+ BEGIN
+  VAR temp IN
+      temp := criador_da_tag_i(tt);
+      IF temp = USUARIO_DUMMY THEN
+        criador_da_tag_i(tt) := uu;
+        cadastrar_tag(tt)
+      END
+  END;
+  musicas_da_tag_i(tt, mm) := TRUE
+ END;
+
+ cadastrar_tag_do_usuario_no_album(tt, uu, aa) =
+ BEGIN
+  VAR temp IN
+      temp := criador_da_tag_i(tt);
+      IF temp = USUARIO_DUMMY THEN
+        criador_da_tag_i(tt) := uu;
+        cadastrar_tag(tt)
+      END
+  END;
+  albuns_da_tag_i(tt, aa) := TRUE
+ END;
+
+ cadastrar_tag_do_usuario_no_artista(tt, uu, aa) =
+ BEGIN
+  VAR temp IN
+      temp := criador_da_tag_i(tt);
+      IF temp = USUARIO_DUMMY THEN
+        criador_da_tag_i(tt) := uu;
+        cadastrar_tag(tt)
+      END
+  END;
+  artistas_da_tag_i(tt, aa) := TRUE
+ END;
+
+ remover_tag_do_usuario_na_musica(tt, uu, mm) =
+ BEGIN
+  VAR temp IN
+      temp := criador_da_tag_i(tt);
+      IF temp = uu THEN
+        remover_tag(tt);
+        criador_da_tag_i(tt) := USUARIO_DUMMY
+      END
+  END;
+  musicas_da_tag_i(tt, mm) := FALSE
+ END;
+
+ remover_tag_do_usuario_no_album(tt, uu, aa) =
+ BEGIN
+  VAR temp IN
+      temp := criador_da_tag_i(tt);
+      IF temp = uu THEN
+        remover_tag(tt);
+        criador_da_tag_i(tt) := USUARIO_DUMMY
+      END
+  END;
+  albuns_da_tag_i(tt, aa) := FALSE
+ END;
+
+ remover_tag_do_usuario_no_artista(tt, uu, aa) =
+ BEGIN
+  VAR temp IN
+      temp := criador_da_tag_i(tt);
+      IF temp = uu THEN
+        remover_tag(tt);
+        criador_da_tag_i(tt) := USUARIO_DUMMY
+      END
+  END;
+  artistas_da_tag_i(tt, aa) := FALSE
+ END;
+
+ /*rr <-- consultar_usuario_criador_da_tag(tt) =
+ PRE
+  tt : tags & tt : dom(criador_da_tag)
+ THEN
+  rr := criador_da_tag(tt)
+ END;
+
+ rr <-- consultar_tags_do_usuario(uu) =
+ PRE
+  uu : usuarios & uu : ran(criador_da_tag)
+ THEN
+  rr := dom(criador_da_tag |> { uu })
  END;*/
 
 // Usuarios e bibliotecas de artistas, albuns e musicas ==========================================================
@@ -477,5 +580,3 @@ OPERATIONS
  END
 
 END
-
-
