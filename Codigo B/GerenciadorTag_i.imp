@@ -1,0 +1,31 @@
+IMPLEMENTATION GerenciadorTag_i
+REFINES GerenciadorTag
+
+SEES
+ Tag_Ctx
+
+CONCRETE_VARIABLES
+    tags_i
+
+INVARIANT
+    tags_i : (0..TAG_MAX) --> BOOL &
+    dom(tags_i |> {TRUE}) = tags
+
+INITIALISATION
+    tags_i := (0..TAG_MAX) * {FALSE};
+    tags_i(TAG_DUMMY) := TRUE
+
+OPERATIONS
+  cadastrar_tag(tt) =
+	tags_i(tt) := TRUE;
+
+  remover_tag(tt) =
+	tags_i(tt) := FALSE;
+
+  rr <-- buscar_tag(tt) =
+	rr := tags_i(tt);
+
+ tt <-- listar_tags =
+    tt := tags_i
+
+ END

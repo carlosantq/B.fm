@@ -1,0 +1,12 @@
+IMPLEMENTATION Usuario_Ctx_i
+REFINES Usuario_Ctx
+
+SEES
+    Max_num
+
+VALUES
+    USUARIO = 0..MAX_NUM;
+    USUARIO_DUMMY = 0;
+    USUARIO_MAX = MAX_NUM
+
+ END

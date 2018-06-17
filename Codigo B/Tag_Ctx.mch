@@ -1,0 +1,16 @@
+MACHINE Tag_Ctx
+
+SEES
+    Max_num
+
+CONSTANTS
+    TAG,
+    TAG_DUMMY,
+    TAG_MAX
+
+PROPERTIES
+    TAG = 0..MAX_NUM &
+    TAG_DUMMY = 0 &
+    TAG_MAX = MAX_NUM
+
+END

@@ -1,0 +1,31 @@
+IMPLEMENTATION GerenciadorAlbum_i
+REFINES GerenciadorAlbum
+
+SEES
+ Album_Ctx
+
+CONCRETE_VARIABLES
+    albuns_i
+
+INVARIANT
+    albuns_i : (0..ALBUM_MAX) --> BOOL &
+    dom(albuns_i |> { TRUE }) = albuns
+
+INITIALISATION
+    albuns_i := (0..ALBUM_MAX) * { FALSE };
+    albuns_i(ALBUM_DUMMY) := TRUE
+
+OPERATIONS
+ cadastrar_album(aa) =
+ 	albuns_i(aa) := TRUE;
+
+ remover_album(aa) =
+	albuns_i(aa) := FALSE;
+
+ rr <-- buscar_album(aa) =
+	rr := albuns_i(aa);
+
+ aa <-- listar_albuns =
+    aa := albuns_i
+
+ END

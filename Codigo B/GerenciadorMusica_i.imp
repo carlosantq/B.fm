@@ -1,0 +1,31 @@
+IMPLEMENTATION GerenciadorMusica_i
+REFINES GerenciadorMusica
+
+SEES
+ Musica_Ctx
+
+CONCRETE_VARIABLES
+ 	musicas_i
+
+INVARIANT
+	musicas_i : (0..MUSICA_MAX) --> BOOL &
+    	dom(musicas_i |> {TRUE}) = musicas
+
+INITIALISATION
+	musicas_i := (0..MUSICA_MAX) * {FALSE};
+  musicas_i(MUSICA_DUMMY) := TRUE
+
+OPERATIONS
+ cadastrar_musica(mm) =
+ 	musicas_i(mm) := TRUE;
+
+ remover_musica(mm) =
+	musicas_i(mm) := FALSE;
+
+  rr <-- buscar_musica(mm) =
+	rr := musicas_i(mm);
+
+ mm <-- listar_musicas =
+    mm := musicas_i
+
+ END

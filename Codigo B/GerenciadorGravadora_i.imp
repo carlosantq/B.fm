@@ -1,0 +1,31 @@
+IMPLEMENTATION GerenciadorGravadora_i
+REFINES GerenciadorGravadora
+
+SEES
+ Gravadora_Ctx
+
+CONCRETE_VARIABLES
+    gravadoras_i
+
+INVARIANT
+    gravadoras_i : (0..GRAVADORA_MAX) --> BOOL &
+    dom(gravadoras_i |> {TRUE}) = gravadoras
+
+INITIALISATION
+    gravadoras_i := (0..GRAVADORA_MAX) * {FALSE};
+    gravadoras_i(GRAVADORA_DUMMY) := TRUE
+
+OPERATIONS
+  cadastrar_gravadora(gg) =
+	gravadoras_i(gg) := TRUE;
+
+  remover_gravadora(gg) =
+	gravadoras_i(gg) := FALSE;
+
+  rr <-- buscar_gravadora(gg) =
+	rr := gravadoras_i(gg);
+
+ gg <-- listar_gravadoras =
+    gg := gravadoras_i
+
+ END

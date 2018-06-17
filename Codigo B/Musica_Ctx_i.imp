@@ -1,0 +1,12 @@
+IMPLEMENTATION Musica_Ctx_i
+REFINES Musica_Ctx
+
+SEES
+    Max_num
+
+VALUES
+    MUSICA = 0..MAX_NUM;
+    MUSICA_DUMMY = 0;
+    MUSICA_MAX = MAX_NUM
+
+ END

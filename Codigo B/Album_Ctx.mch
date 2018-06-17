@@ -1,0 +1,16 @@
+MACHINE Album_Ctx
+
+SEES
+    Max_num
+
+CONSTANTS
+    ALBUM,
+    ALBUM_DUMMY,
+    ALBUM_MAX
+
+PROPERTIES
+    ALBUM = 0..MAX_NUM &
+    ALBUM_DUMMY = 0 &
+    ALBUM_MAX = MAX_NUM
+
+END

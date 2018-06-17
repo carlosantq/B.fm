@@ -1,0 +1,12 @@
+IMPLEMENTATION Tag_Ctx_i
+REFINES Tag_Ctx
+
+SEES
+    Max_num
+
+VALUES
+    TAG = 0..MAX_NUM;
+    TAG_DUMMY = 0;
+    TAG_MAX = MAX_NUM
+
+ END

@@ -1,0 +1,31 @@
+IMPLEMENTATION GerenciadorPlaylist_i
+REFINES GerenciadorPlaylist
+
+SEES
+ Playlist_Ctx
+
+CONCRETE_VARIABLES
+	playlists_i
+
+INVARIANT
+	playlists_i : (0..PLAYLIST_MAX) --> BOOL &
+	dom(playlists_i |> {TRUE}) = playlists
+
+INITIALISATION
+	playlists_i := (0..PLAYLIST_MAX) * {FALSE};
+  playlists_i(PLAYLIST_DUMMY) := TRUE
+
+OPERATIONS
+ cadastrar_playlist(pp) =
+	playlists_i(pp) := TRUE;
+
+ remover_playlist(pp) =
+ 	playlists_i(pp) := FALSE;
+
+  rr <-- buscar_playlist(pp) =
+	rr := playlists_i(pp);
+
+ pp <-- listar_playlists =
+    pp := playlists_i
+
+ END

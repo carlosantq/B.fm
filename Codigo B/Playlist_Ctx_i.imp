@@ -1,0 +1,12 @@
+IMPLEMENTATION Playlist_Ctx_i
+REFINES Playlist_Ctx
+
+SEES
+    Max_num
+
+VALUES
+    PLAYLIST = 0..MAX_NUM;
+    PLAYLIST_DUMMY = 0;
+    PLAYLIST_MAX = MAX_NUM
+
+ END

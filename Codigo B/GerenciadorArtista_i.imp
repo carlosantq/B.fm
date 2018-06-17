@@ -1,0 +1,31 @@
+IMPLEMENTATION GerenciadorArtista_i
+REFINES GerenciadorArtista
+
+SEES
+ Artista_Ctx
+
+CONCRETE_VARIABLES
+    artistas_i
+
+INVARIANT
+    artistas_i : (0..ARTISTA_MAX) --> BOOL &
+    dom(artistas_i |> { TRUE }) = artistas
+
+INITIALISATION
+    artistas_i := (0..ARTISTA_MAX) * {FALSE};
+    artistas_i(ARTISTA_DUMMY) := TRUE
+
+OPERATIONS
+  cadastrar_artista(aa) =
+	artistas_i(aa) := TRUE;
+
+  remover_artista(aa) =
+	artistas_i(aa) := FALSE;
+
+  rr <-- buscar_artista(aa) =
+	rr := artistas_i(aa);
+
+ aa <-- listar_artistas =
+    aa := artistas_i
+
+ END
