@@ -183,13 +183,6 @@ OPERATIONS
  	mm := lista
  END;
 
- /*aa <-- consultar_albuns_da_musica(mm) =
- PRE
-	mm : musicas
- THEN
-	aa := dom(musicas_do_album |> { mm })
- END;
-*/
 // Artistas e albuns ==========================================================
  remover_artista_e_retirar_albuns(aa) =
  PRE
