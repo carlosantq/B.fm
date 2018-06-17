@@ -5,20 +5,20 @@ SEES
  Max_num,
  Playlist_Ctx,
  Usuario_Ctx,
- Tag_Ctx,
  Musica_Ctx,
  Artista_Ctx,
  Album_Ctx,
- Gravadora_Ctx
- 
+ Gravadora_Ctx,
+ Tag_Ctx
+
 IMPORTS
  GerenciadorPlaylist,
  GerenciadorUsuario,
  GerenciadorMusica,
  GerenciadorAlbum,
  GerenciadorArtista,
- GerenciadorGravadora/*,
- GerenciadorTag*/
+ GerenciadorGravadora,
+ GerenciadorTag
 
 PROMOTES
  listar_playlists,
@@ -31,11 +31,13 @@ PROMOTES
  listar_artistas,
  cadastrar_artista,
  listar_gravadoras,
- cadastrar_gravadora/*,
- listar_tags*/
+ cadastrar_gravadora,
+ listar_tags
 
 CONCRETE_VARIABLES
+    musicas_da_playlist_i,
     criador_da_playlist_i,
+    musicas_do_album_i,
     artistas_da_gravadora_i,
     biblioteca_musicas_usuario_i,
     biblioteca_artistas_usuario_i,
@@ -44,8 +46,12 @@ CONCRETE_VARIABLES
     amigos_i
 
 INVARIANT
+    musicas_da_playlist_i : PLAYLIST * MUSICA --> BOOL &
+    dom(musicas_da_playlist_i |> {TRUE}) = musicas_da_playlist &
     criador_da_playlist_i : PLAYLIST --> USUARIO &
     criador_da_playlist_i = criador_da_playlist &
+    musicas_do_album_i : ALBUM * MUSICA --> BOOL &
+    dom(musicas_do_album_i |> {TRUE}) = musicas_do_album &
     artistas_da_gravadora_i : GRAVADORA * ARTISTA --> BOOL &
     dom(artistas_da_gravadora_i |> {TRUE}) = artistas_da_gravadora &
     biblioteca_musicas_usuario_i : USUARIO * MUSICA --> BOOL &
@@ -60,6 +66,8 @@ INVARIANT
     dom(amigos_i |> {TRUE}) = amigos
 
 INITIALISATION
+    musicas_da_playlist_i := PLAYLIST * MUSICA * { FALSE };
+    musicas_do_album_i := ALBUM * MUSICA * { FALSE };
     criador_da_playlist_i := PLAYLIST * { USUARIO_DUMMY };
     artistas_da_gravadora_i := (GRAVADORA * ARTISTA) * {FALSE};
     biblioteca_musicas_usuario_i := (USUARIO * MUSICA) * {FALSE};
@@ -69,15 +77,16 @@ INITIALISATION
     amigos_i := (USUARIO * USUARIO) * {FALSE}
 
 OPERATIONS
- cadastrar_playlist_do_usuario(pp, uu) = 
+// Playlists e usuarios ==========================================================
+ cadastrar_playlist_do_usuario(pp, uu) =
  BEGIN
 	cadastrar_playlist(pp);
 	criador_da_playlist_i(pp) := uu
  END;
 
- remover_playlist_do_usuario(pp) = 
+ remover_playlist_do_usuario(pp) =
  BEGIN
-	remover_playlist(pp); 
+	remover_playlist(pp);
 	criador_da_playlist_i(pp) := USUARIO_DUMMY
 	// musicas_da_playlist := musicas_da_playlist - ({ pp } <| musicas_da_playlist)
  END;
@@ -99,7 +108,7 @@ OPERATIONS
 			IF criador_da_playlist_i(xx) = uu
 			THEN retorno(xx) := TRUE
 			END
-			
+
 		INVARIANT
 			!yy . (yy : NAT & yy <= xx => retorno(xx) = TRUE => criador_da_playlist_i(xx) = uu)
 		VARIANT
@@ -108,6 +117,28 @@ OPERATIONS
 	pp := retorno
 	END
  END*/
+
+// Playlists e musicas ==========================================================
+ cadastrar_musica_na_playlist(pp, mm) =
+ BEGIN
+	musicas_da_playlist_i(pp, mm) := TRUE
+ END;
+
+ remover_musica_da_playlist(pp, mm) =
+ BEGIN
+	musicas_da_playlist_i(pp, mm) := FALSE
+ END;
+
+// Albuns e musicas ==========================================================
+ cadastrar_musica_em_album(aa, mm) =
+ BEGIN
+	musicas_do_album_i(aa, mm) := TRUE
+ END;
+
+ remover_musica_de_album(aa, mm) =
+ BEGIN
+	musicas_do_album_i(aa, mm) := FALSE
+ END;
 
 // Gravadoras e artistas ==========================================================
  remover_gravadora_apagando_artistas(gg) =
@@ -156,7 +187,7 @@ OPERATIONS
  BEGIN
  	biblioteca_artistas_usuario_i(uu, aa) := FALSE
  END;
- 
+
  cadastrar_album_biblioteca(uu, aa) =
  BEGIN
  	biblioteca_albuns_usuario_i(uu, aa) := TRUE
@@ -178,12 +209,12 @@ OPERATIONS
 	//IF mm : obsessao_do_momento[{ uu }] THEN obsessao_do_momento := obsessao_do_momento - { uu |-> mm } END
  END;
 
- /*ab, ar, mm <-- consultar_biblioteca(uu) = 
+ /*ab, ar, mm <-- consultar_biblioteca(uu) =
  PRE
 	uu : usuarios
  THEN
 	ab := ran({ uu } <| biblioteca_albuns_usuario) || ar := ran({ uu } <| biblioteca_artistas_usuario) || mm := ran({ uu } <| biblioteca_musicas_usuario)
- END;*/ 
+ END;*/
 
  cadastrar_obsessao_do_momento(uu, mm) =
  BEGIN
@@ -194,12 +225,12 @@ OPERATIONS
  BEGIN
 	obsessao_do_momento_i(uu) := 0
  END;
- 
+
  rr <-- consultar_obsessao_do_momento(uu) =
  BEGIN
 	rr := obsessao_do_momento_i(uu)
  END;
- 
+
 // Amigos ==========================================================
  cadastrar_relacao_amizade(uu, us) =
  BEGIN
@@ -231,7 +262,7 @@ OPERATIONS
            MAX_NUM - ii
        END
     END;
-    
+
     VAR ii IN
        ar := 0;
        ii := 1;
@@ -248,7 +279,7 @@ OPERATIONS
            MAX_NUM - ii
        END
    END;
-     
+
    VAR ii IN
        mm := 0;
        ii := 1;
@@ -266,6 +297,5 @@ OPERATIONS
        END
    END
  END
- 
-END
 
+END

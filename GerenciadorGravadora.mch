@@ -10,27 +10,27 @@ INVARIANT
  gravadoras <: GRAVADORA
 
 INITIALISATION
- gravadoras := {}
+ gravadoras := { GRAVADORA_DUMMY }
 
 OPERATIONS
- 
+
  cadastrar_gravadora(gg) =
  PRE
 	gg : GRAVADORA & gg /: gravadoras
- THEN 
+ THEN
  	gravadoras := gravadoras \/ { gg }
  END;
 
  remover_gravadora(gg) =
  PRE
-	gg : GRAVADORA
- THEN 
+	gg : GRAVADORA & gg /= GRAVADORA_DUMMY
+ THEN
 	gravadoras := gravadoras - { gg }
  END;
 
  rr <-- buscar_gravadora(gg) =
  PRE
-	gg : GRAVADORA
+	gg : GRAVADORA & gg /= GRAVADORA_DUMMY
  THEN
 	IF gg : gravadoras THEN
 		rr := TRUE
@@ -44,8 +44,6 @@ OPERATIONS
 	lista WHERE lista : GRAVADORA --> BOOL & dom(lista |> { TRUE }) = gravadoras
  THEN
 	gg := lista
- END 
+ END
 
 END
-
-

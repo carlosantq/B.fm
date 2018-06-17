@@ -30,7 +30,7 @@ OPERATIONS
 
  rr <-- buscar_playlist(pp) =
  PRE
-	pp : PLAYLIST
+	pp : PLAYLIST & pp /= PLAYLIST_DUMMY
  THEN
 	IF pp : playlists THEN
 		rr := TRUE

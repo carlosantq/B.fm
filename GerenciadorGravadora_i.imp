@@ -10,10 +10,11 @@ CONCRETE_VARIABLES
 INVARIANT
     gravadoras_i : GRAVADORA --> BOOL &
     dom(gravadoras_i |> {TRUE}) = gravadoras
-    
+
 INITIALISATION
-    gravadoras_i := GRAVADORA * {FALSE}
-    
+    gravadoras_i := GRAVADORA * {FALSE};
+    gravadoras_i(GRAVADORA_DUMMY) := TRUE
+
 OPERATIONS
   cadastrar_gravadora(gg) =
 	gravadoras_i(gg) := TRUE;
@@ -24,7 +25,7 @@ OPERATIONS
   rr <-- buscar_gravadora(gg) =
 	rr := gravadoras_i(gg);
 
- gg <-- listar_gravadoras = 
+ gg <-- listar_gravadoras =
     gg := gravadoras_i
 
  END

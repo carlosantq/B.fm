@@ -5,6 +5,7 @@ SEES
     Max_num
 
 VALUES
-    GRAVADORA = 0..MAX_NUM
+    GRAVADORA = 0..MAX_NUM;
+    GRAVADORA_DUMMY = 0
 
  END

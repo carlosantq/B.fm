@@ -10,7 +10,7 @@ INVARIANT
  usuarios <: USUARIO
 
 INITIALISATION
- usuarios := {USUARIO_DUMMY}
+ usuarios := { USUARIO_DUMMY }
 
 OPERATIONS
 

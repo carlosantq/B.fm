@@ -4,9 +4,11 @@ SEES
     Max_num
 
 CONSTANTS
-    ALBUM
+    ALBUM,
+    ALBUM_DUMMY
 
 PROPERTIES
-    ALBUM = 0..MAX_NUM
+    ALBUM = 0..MAX_NUM &
+    ALBUM_DUMMY = 0
 
 END

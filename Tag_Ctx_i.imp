@@ -5,6 +5,7 @@ SEES
     Max_num
 
 VALUES
-    TAG = 0..MAX_NUM
+    TAG = 0..MAX_NUM;
+    TAG_DUMMY = 0
 
  END

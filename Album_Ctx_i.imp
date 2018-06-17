@@ -5,6 +5,7 @@ SEES
     Max_num
 
 VALUES
-    ALBUM = 0..MAX_NUM
+    ALBUM = 0..MAX_NUM;
+    ALBUM_DUMMY = 0
 
 END
