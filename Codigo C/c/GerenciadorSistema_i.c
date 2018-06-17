@@ -160,7 +160,7 @@ void GerenciadorSistema__remover_playlist_do_usuario(int32_t pp)
         int32_t ii;
         bool aux;
         
-        ii = 0;
+        ii = 1;
         aux = false;
         while((ii) <= (Max_num__MAX_NUM))
         {
@@ -189,6 +189,11 @@ void GerenciadorSistema__remover_musica_da_playlist(int32_t pp, int32_t mm)
     GerenciadorSistema__musicas_da_playlist_i[pp][mm] = false;
 }
 
+void GerenciadorSistema__consultar_playlists_e_musicas(bool *pp)
+{
+    memmove(pp,GerenciadorSistema__musicas_da_playlist_i,Playlist_Ctx__PLAYLIST_MAX+1* Musica_Ctx__MUSICA_MAX+1 * sizeof(bool));
+}
+
 void GerenciadorSistema__remover_album_e_retirar_musicas(int32_t aa)
 {
     GerenciadorAlbum__remover_album(aa);
@@ -196,7 +201,7 @@ void GerenciadorSistema__remover_album_e_retirar_musicas(int32_t aa)
         int32_t ii;
         bool aux;
         
-        ii = 0;
+        ii = 1;
         aux = false;
         while((ii) <= (Max_num__MAX_NUM))
         {
@@ -250,6 +255,11 @@ void GerenciadorSistema__cadastrar_musica_em_album(int32_t aa, int32_t mm)
 void GerenciadorSistema__remover_musica_de_album(int32_t aa, int32_t mm)
 {
     GerenciadorSistema__musicas_do_album_i[aa][mm] = false;
+}
+
+void GerenciadorSistema__consultar_albuns_e_musicas(bool *mm)
+{
+    memmove(mm,GerenciadorSistema__musicas_do_album_i,Album_Ctx__ALBUM_MAX+1* Musica_Ctx__MUSICA_MAX+1 * sizeof(bool));
 }
 
 void GerenciadorSistema__remover_artista_e_retirar_albuns(int32_t aa)
@@ -315,6 +325,11 @@ void GerenciadorSistema__remover_album_do_artista(int32_t ar, int32_t al)
     GerenciadorSistema__albuns_do_artista_i[ar][al] = false;
 }
 
+void GerenciadorSistema__consultar_artistas_e_albuns(bool *aa)
+{
+    memmove(aa,GerenciadorSistema__albuns_do_artista_i,Artista_Ctx__ARTISTA_MAX+1* Album_Ctx__ALBUM_MAX+1 * sizeof(bool));
+}
+
 void GerenciadorSistema__remover_gravadora_apagando_artistas(int32_t gg)
 {
     unsigned int i = 0, j= 0;
@@ -353,6 +368,11 @@ void GerenciadorSistema__cadastrar_artista_numa_gravadora(int32_t gg, int32_t aa
 void GerenciadorSistema__remover_artista_da_gravadora(int32_t gg, int32_t aa)
 {
     GerenciadorSistema__artistas_da_gravadora_i[gg][aa] = false;
+}
+
+void GerenciadorSistema__consultar_gravadoras_e_artistas(bool *gg)
+{
+    memmove(gg,GerenciadorSistema__artistas_da_gravadora_i,Gravadora_Ctx__GRAVADORA_MAX+1* Artista_Ctx__ARTISTA_MAX+1 * sizeof(bool));
 }
 
 void GerenciadorSistema__cadastrar_tag_do_usuario_na_musica(int32_t tt, int32_t uu, int32_t mm)
@@ -445,6 +465,26 @@ void GerenciadorSistema__remover_tag_do_usuario_no_artista(int32_t tt, int32_t u
     GerenciadorSistema__artistas_da_tag_i[tt][aa] = false;
 }
 
+void GerenciadorSistema__consultar_usuario_criador_da_tag(int32_t tt, int32_t *uu)
+{
+    (*uu) = GerenciadorSistema__criador_da_playlist_i[tt];
+}
+
+void GerenciadorSistema__consultar_tags_e_musicas(bool *tt)
+{
+    memmove(tt,GerenciadorSistema__musicas_da_tag_i,Tag_Ctx__TAG_MAX+1* Musica_Ctx__MUSICA_MAX+1 * sizeof(bool));
+}
+
+void GerenciadorSistema__consultar_tags_e_albuns(bool *tt)
+{
+    memmove(tt,GerenciadorSistema__albuns_da_tag_i,Tag_Ctx__TAG_MAX+1* Album_Ctx__ALBUM_MAX+1 * sizeof(bool));
+}
+
+void GerenciadorSistema__consultar_tags_e_artistas(bool *tt)
+{
+    memmove(tt,GerenciadorSistema__artistas_da_tag_i,Tag_Ctx__TAG_MAX+1* Artista_Ctx__ARTISTA_MAX+1 * sizeof(bool));
+}
+
 void GerenciadorSistema__cadastrar_artista_biblioteca(int32_t uu, int32_t aa)
 {
     GerenciadorSistema__biblioteca_artistas_usuario_i[uu][aa] = true;
@@ -484,6 +524,21 @@ void GerenciadorSistema__remover_musica_biblioteca(int32_t uu, int32_t mm)
     }
 }
 
+void GerenciadorSistema__consultar_biblioteca_albuns(bool *ab)
+{
+    memmove(ab,GerenciadorSistema__biblioteca_albuns_usuario_i,Usuario_Ctx__USUARIO_MAX+1* Album_Ctx__ALBUM_MAX+1 * sizeof(bool));
+}
+
+void GerenciadorSistema__consultar_biblioteca_artistas(bool *ar)
+{
+    memmove(ar,GerenciadorSistema__biblioteca_artistas_usuario_i,Usuario_Ctx__USUARIO_MAX+1* Artista_Ctx__ARTISTA_MAX+1 * sizeof(bool));
+}
+
+void GerenciadorSistema__consultar_biblioteca_musicas(bool *mm)
+{
+    memmove(mm,GerenciadorSistema__biblioteca_musicas_usuario_i,Usuario_Ctx__USUARIO_MAX+1* Musica_Ctx__MUSICA_MAX+1 * sizeof(bool));
+}
+
 void GerenciadorSistema__cadastrar_obsessao_do_momento(int32_t uu, int32_t mm)
 {
     GerenciadorSistema__obsessao_do_momento_i[uu] = mm;
@@ -507,6 +562,11 @@ void GerenciadorSistema__cadastrar_relacao_amizade(int32_t uu, int32_t us)
 void GerenciadorSistema__remover_relacao_amizade(int32_t uu, int32_t us)
 {
     GerenciadorSistema__amigos_i[uu][us] = false;
+}
+
+void GerenciadorSistema__consultar_relacoes_amigos(bool *aa)
+{
+    memmove(aa,GerenciadorSistema__amigos_i,Usuario_Ctx__USUARIO_MAX+1* Usuario_Ctx__USUARIO_MAX+1 * sizeof(bool));
 }
 
 void GerenciadorSistema__compatibilidade_musical(int32_t uu, int32_t us, int32_t *ab, int32_t *ar, int32_t *mm)
