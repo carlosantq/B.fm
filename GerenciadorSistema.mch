@@ -7,7 +7,8 @@ SEES
  Musica_Ctx,
  Album_Ctx,
  Artista_Ctx, 
- Gravadora_Ctx
+ Gravadora_Ctx,
+ Tag_Ctx
 
 INCLUDES
  GerenciadorPlaylist,
@@ -50,15 +51,15 @@ VARIABLES
  amigos
 
 INVARIANT
- musicas_da_playlist : playlists <-> musicas &
+ musicas_da_playlist : PLAYLIST <-> MUSICA &
  criador_da_playlist : PLAYLIST --> USUARIO &
- musicas_do_album : albuns <-> musicas &
- albuns_do_artista : artistas <-> albuns &
+ musicas_do_album : ALBUM <-> MUSICA &
+ albuns_do_artista : ARTISTA <-> ALBUM &
  artistas_da_gravadora : GRAVADORA <-> ARTISTA &
- criador_da_tag : tags --> usuarios &
- musica_da_tag : tags --> musicas &
- album_da_tag : tags --> albuns &
- artista_da_tag : tags --> artistas &
+ criador_da_tag : TAG --> USUARIO &
+ musica_da_tag : TAG --> MUSICA &
+ album_da_tag : TAG --> ALBUM &
+ artista_da_tag : TAG --> ARTISTA &
  biblioteca_artistas_usuario : USUARIO <-> ARTISTA &
  biblioteca_musicas_usuario : USUARIO <-> MUSICA &
  biblioteca_albuns_usuario : USUARIO <-> ALBUM &
@@ -71,14 +72,14 @@ INITIALISATION
  musicas_do_album := {} ||
  albuns_do_artista := {} ||
  artistas_da_gravadora := {} ||
- criador_da_tag := {} ||
- musica_da_tag := {} ||
- album_da_tag := {} ||
- artista_da_tag := {} ||
+ criador_da_tag := TAG * {USUARIO_DUMMY} ||
+ musica_da_tag := TAG * {MUSICA_DUMMY} ||
+ album_da_tag := TAG * {ALBUM_DUMMY} ||
+ artista_da_tag := TAG * {ARTISTA_DUMMY} ||
  biblioteca_artistas_usuario := {} ||
  biblioteca_musicas_usuario := {} ||
  biblioteca_albuns_usuario := {} ||
- obsessao_do_momento := {}||
+ obsessao_do_momento := USUARIO * {MUSICA_DUMMY} ||
  amigos := {}
 
 OPERATIONS
@@ -149,11 +150,11 @@ OPERATIONS
   END;*/
 
 // Albuns e musicas ==========================================================
-/* remover_album_e_retirar_musicas(aa) =
+ /*remover_album_e_retirar_musicas(aa) =
  PRE
-	aa : albuns
+	aa : ALBUM & aa : albuns & aa /= ALBUM_DUMMY
  THEN
-	remover_album({ aa }) ||
+	remover_album( aa ) ||
 	musicas_do_album := musicas_do_album - ({ aa } <| musicas_do_album) ||
 	albuns_do_artista := albuns_do_artista - (albuns_do_artista |> { aa }) ||
 	biblioteca_albuns_usuario := biblioteca_albuns_usuario - (biblioteca_albuns_usuario |> { aa })
@@ -190,9 +191,9 @@ OPERATIONS
  END;
 */
 // Artistas e albuns ==========================================================
-/*remover_artista_apagando_albuns(aa) =
+ /*remover_artista_apagando_albuns(aa) =
  PRE
-	aa : artistas
+	aa : ARTISTA & aa : artistas & aa /= ARTISTA_DUMMY
  THEN
 	remover_artista(aa) ||
 
@@ -213,23 +214,23 @@ OPERATIONS
 
 	//Remove os albuns do artista das bibliotecas dos usuarios
 	biblioteca_albuns_usuario := biblioteca_albuns_usuario - (biblioteca_albuns_usuario |> (ran({ aa } <| albuns_do_artista)))
- END;
- /*
+ END;*/
+ 
  cadastrar_album_para_artista(ar, al) =
  PRE
-	ar : artistas & al : albuns & al/:ran(albuns_do_artista)
+	ar : ARTISTA & ar : artistas & al : ALBUM & al : albuns & al/:ran(albuns_do_artista)
  THEN
 	albuns_do_artista := albuns_do_artista \/ { ar |-> al }
  END;
 
  remover_album_do_artista(ar, al) =
  PRE
-	ar : artistas & al : albuns & ar |-> al : albuns_do_artista
+	ar : ARTISTA & ar : artistas & al : ALBUM & al : albuns & ar |-> al : albuns_do_artista
  THEN
 	albuns_do_artista := albuns_do_artista - { ar |-> al }
  END;
 
- rr <-- consultar_albuns_do_artista(aa) =
+ /*rr <-- consultar_albuns_do_artista(aa) =
  PRE
 	aa : artistas
  THEN
@@ -244,13 +245,13 @@ OPERATIONS
  END;
 */
 // Gravadoras e artistas ==========================================================
-  remover_gravadora_apagando_artistas(gg) =
-  PRE
-	gg: GRAVADORA & gg : gravadoras
-  THEN 
+ remover_gravadora_apagando_artistas(gg) =
+ PRE
+	gg: GRAVADORA & gg : gravadoras & gg /= GRAVADORA_DUMMY
+ THEN 
 	remover_gravadora(gg) ||
-	artistas_da_gravadora := artistas_da_gravadora - ({ gg } <| artistas_da_gravadora)
-  END;
+ 	artistas_da_gravadora := artistas_da_gravadora - ({ gg } <| artistas_da_gravadora)
+ END;
 
  alterar_gravadora_do_artista(gg, aa) =
  PRE
@@ -449,14 +450,15 @@ OPERATIONS
 
  remover_obsessao_do_momento(uu) =
  PRE
-	uu : USUARIO & uu : usuarios & obsessao_do_momento[{ uu }] /= {} & uu > USUARIO_DUMMY
+	uu : USUARIO & uu : usuarios & obsessao_do_momento[{ uu }] /= {} & uu > USUARIO_DUMMY & obsessao_do_momento(uu) > MUSICA_DUMMY
  THEN
-	obsessao_do_momento := obsessao_do_momento - ({ uu } <| obsessao_do_momento)
+	//obsessao_do_momento := obsessao_do_momento - ({ uu } <| obsessao_do_momento)
+	obsessao_do_momento(uu) := MUSICA_DUMMY
  END;
 
  rr <-- consultar_obsessao_do_momento(uu) =
  PRE
-	uu : USUARIO & uu : usuarios & uu > USUARIO_DUMMY
+	uu : USUARIO & uu : usuarios & uu > USUARIO_DUMMY & obsessao_do_momento(uu) /= 0
  THEN
 	rr := obsessao_do_momento(uu)
  END;
@@ -487,3 +489,4 @@ OPERATIONS
 	mm := card(ran({ uu } <| biblioteca_musicas_usuario) /\ ran({ us } <| biblioteca_musicas_usuario))
  END
 END
+
