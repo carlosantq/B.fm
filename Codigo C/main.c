@@ -845,50 +845,121 @@ int main(void) {
         printf("=====\n"); 
       }else if(!strcmp("25",input)){
         printf("\nListando playlists e músicas...\n");
-        //bool * uu[Max_num__MAX_NUM][Max_num__MAX_NUM];
-        //GerenciadorSistema__consultar_playlists_e_musicas(uu);
-        printf("===========\n");
-        //ignorando os que tem 0, pois é valor dummy
-        /*printf("1 -> 1 : %d|\n", uu[6]);
-        printf("1 -> 2 : %d|\n", uu[7]);
-        printf("1 -> 3 : %d|\n", uu[8]);
-        printf("1 -> 4 : %d|\n", uu[9]);
-        printf("1 -> 5 : %d|\n", uu[10]);
-        printf("2 -> 1 : %d|\n", uu[12]);*/
-        //printf("%d|\n", uu[1][1]);
-        /*for (int i=0; i<=Max_num__MAX_NUM; i++){
-          for (int j=0; j<=Max_num__MAX_NUM; j++){
-            printf("%d %d %d\n", i, j, uu[i][j]);
-          }
-        }*/
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_playlists_e_musicas(temp);
 
-        printf("===========\n");
-
-
-        /*for (int i=1; i<=Max_num__MAX_NUM*Max_num__MAX_NUM; i++){
-          if (uu[i] == 1){
-            printf("  %d |\n", i);
-         }
-       }*/
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
       } else if(!strcmp("26",input)){
-        
+        printf("\nListando álbuns e músicas...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_albuns_e_musicas(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
       } else if(!strcmp("27",input)){
-        
+        printf("\nListando artistas e álbuns...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_artistas_e_albuns(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
       } else if(!strcmp("28",input)){
+
+        printf("\nListando gravadoras e artistas...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_gravadoras_e_artistas(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
       
       } else if(!strcmp("29",input)){
-        
+        printf("\nListando tags e músicas...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_tags_e_musicas(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
       } else if(!strcmp("30",input)){
-        
+        printf("\nListando tags e álbuns...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_tags_e_albuns(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
       } else if(!strcmp("31",input)){
-        
+        printf("\nListando tags e artistas...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_tags_e_artistas(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
       } else if(!strcmp("32",input)){
-        
+        printf("\nListando usuários e relacionamentos...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_relacoes_amigos(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
       } else if(!strcmp("33",input)){
-        
+
+        printf("\nListando biblioteca de música de usuários...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_biblioteca_musicas(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
+
       } else if(!strcmp("34",input)){
         
+        printf("\nListando biblioteca de artistas de usuários...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_biblioteca_artistas(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
+
       } else if(!strcmp("35",input)){
+
+        printf("\nListando biblioteca de álbuns de usuários...\n");
+        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        GerenciadorSistema__consultar_biblioteca_albuns(temp);
+
+        printf("========\n");
+        for (int i = 0; i < (Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool); i++){
+          printf("%d : %d\n", i, temp[i]);
+        }
+        printf("========\n");
         
       }else if(!strcmp("0",input)){
       }else{
