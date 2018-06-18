@@ -12,6 +12,7 @@ void printMenu() {
 }
 
 void printMenuCadastrar(){
+  printf("\n  ==============================================");
   printf("\n  [1] Cadastrar um Usuario");
   printf("\n  [2] Cadastrar uma Gravadora");
   printf("\n  [3] Cadastrar um Artista");
@@ -36,6 +37,7 @@ void printMenuCadastrar(){
 }
 
 void printMenuListar(){
+  printf("\n  ==============================================");
   printf("\n  [19] Listar usuarios");
   printf("\n  [20] Listar gravadoras");
   printf("\n  [21] Listar artistas");
@@ -77,17 +79,18 @@ void printMenuRemover(){
   printf("\n  [44] Remover musicas");
   printf("\n  [45] Remover playlists");
   printf("\n  ==============================================");
-  printf("\n  [46] Remover Playlists e suas Musicas");
-  printf("\n  [47] Remover Albuns e suas Musicas");
-  printf("\n  [48] Remover Artistas e seus Albuns");
-  printf("\n  [49] Remover Gravadoras e seus Artistas");
-  printf("\n  [50] Remover Musicas e Tags");
-  printf("\n  [51] Remover Albuns e Tags");
-  printf("\n  [52] Remover Artistas e Tags");
-  printf("\n  [53] Remover Usuarios e Relacionamentos");
-  printf("\n  [54] Remover Bibliotecas de Musicas de Usuarios");
-  printf("\n  [55] Remover Bibliotecas de Artistas de Usuarios");
-  printf("\n  [56] Remover Bibliotecas de Albuns de Usuarios");
+  printf("\n  [46] Remover Artista de Gravadora");
+  printf("\n  [47] Remover Album de Artista");
+  printf("\n  [48] Remover Musicas de Playlist");
+  printf("\n  [49] Remover Musicas de Album");
+  printf("\n  [50] Remover Tag de Musica");
+  printf("\n  [51] Remover Tag de Album");
+  printf("\n  [52] Remover Tag de Artista");
+  printf("\n  [53] Remover Relacao de amizade de Usuario");
+  printf("\n  [54] Remover Musica de Biblioteca de Usuario");
+  printf("\n  [55] Remover Artistas de Biblioteca de Usuario");
+  printf("\n  [56] Remover Album de Biblioteca de Usuario");
+  printf("\n  [57] Remover Obsessao do momento de Usuario");
   printf("\n  ==============================================");
   printf("\n  [0] Voltar");
 }
@@ -477,7 +480,7 @@ int main(void) {
         if ((valor <= 0) || valor > Max_num__MAX_NUM){
           printf("    Valor não é permitido.\n");
         }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0){
-          GerenciadorGravadora__remover_gravadora(valor);
+          GerenciadorSistema__remover_gravadora_apagando_artistas(valor);
           printf("    Gravadora removida. Retornando ao menu inicial...\n");
         }else{
           printf("    Gravadora não existe...\n");
@@ -490,7 +493,7 @@ int main(void) {
         if ((valor <= 0) || valor > Max_num__MAX_NUM){
           printf("    Valor não é permitido.\n");
         }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0){
-          GerenciadorArtista__remover_artista(valor);
+          GerenciadorSistema__remover_artista_e_retirar_albuns(valor);
           printf("    Artista removida. Retornando ao menu inicial...\n");
         }else{
           printf("    Artista não existe...\n");
@@ -503,7 +506,7 @@ int main(void) {
         if ((valor <= 0) || valor > Max_num__MAX_NUM){
           printf("    Valor não é permitido.\n");
         }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0){
-          GerenciadorAlbum__remover_album(valor);
+          GerenciadorSistema__remover_album_e_retirar_musicas(valor);
           printf("    Album removida. Retornando ao menu inicial...\n");
         }else{
           printf("    Album não existe...\n");
@@ -529,32 +532,232 @@ int main(void) {
         if ((valor <= 0) || valor > Max_num__MAX_NUM){
           printf("    Valor não é permitido.\n");
         }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0){
-          GerenciadorPlaylist__remover_playlist(valor);
+          GerenciadorSistema__remover_playlist_do_usuario(valor);
           printf("    Playlist removida. Retornando ao menu inicial...\n");
         }else{
           printf("    Playlist não existe...\n");
         }
       }else if (!strcmp("46",input)){
         
+        printf("\n    Removendo artista de gravadora...");
+        printf("\n    Insira numero do artista:");
+        scanf("%d", &valor);
+        printf("    Insira numero da gravadora:");
+        scanf("%d", &valor2);
+        GerenciadorArtista__buscar_artista(valor, busca);
+        GerenciadorGravadora__buscar_gravadora(valor2, busca2);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0){
+          GerenciadorSistema__remover_artista_da_gravadora(valor2, valor);
+          printf("    Artista removido da Gravadora. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Artista ou Gravadora não existe...\n");
+        }
+
       }else if (!strcmp("47",input)){
         
+        printf("\n    Removendo album de artista...");
+        printf("\n    Insira numero do artista:");
+        scanf("%d", &valor);
+        printf("    Insira numero do album:");
+        scanf("%d", &valor2);
+        GerenciadorArtista__buscar_artista(valor, busca);
+        GerenciadorAlbum__buscar_album(valor2, busca2);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0){
+          GerenciadorSistema__remover_album_do_artista(valor, valor2);
+          printf("    Album removido do Artista. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Artista ou Album não existe...\n");
+        }
+
       }else if (!strcmp("48",input)){
+
+        printf("\n    Removendo musica de playlist...");
+        printf("\n    Insira numero da playlist:");
+        scanf("%d", &valor);
+        printf("    Insira numero da musica:");
+        scanf("%d", &valor2);
+        GerenciadorPlaylist__buscar_playlist(valor, busca);
+        GerenciadorMusica__buscar_musica(valor2, busca2);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0){
+          GerenciadorSistema__remover_musica_da_playlist(valor, valor2);
+          printf("    Musica removida da Playlist. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Playlist ou Musica não existe...\n");
+        }
         
       }else if (!strcmp("49",input)){
+
+        printf("\n    Removendo musica de album...");
+        printf("\n    Insira numero do album:");
+        scanf("%d", &valor);
+        printf("    Insira numero da musica:");
+        scanf("%d", &valor2);
+        GerenciadorAlbum__buscar_album(valor, busca);
+        GerenciadorMusica__buscar_musica(valor2, busca2);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0){
+          GerenciadorSistema__remover_musica_de_album(valor, valor2);
+          printf("    Musica removida de Album. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Album ou Musica não existe...\n");
+        }
         
       }else if (!strcmp("50",input)){
+
+        printf("\n    Removendo tag de musica...");
+        printf("\n    Insira numero da tag:");
+        scanf("%d", &valor);
+        printf("    Insira numero do usuario:");
+        scanf("%d", &valor2);
+        printf("    Insira numero da musica:");
+        scanf("%d", &valor3);
+        GerenciadorTag__buscar_tag(valor, busca);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        GerenciadorMusica__buscar_musica(valor3, busca3);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM || (valor3 <= 0) || valor3 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0 && busca3[0] == true && valor3 <= Max_num__MAX_NUM && valor3>0){
+          GerenciadorSistema__remover_tag_do_usuario_na_musica(valor, valor2, valor3);
+          printf("    Tag removida de Musica. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Tag, Usuario ou Musica não existe...\n");
+        }
         
       }else if (!strcmp("51",input)){
+
+        printf("\n    Removendo tag de album...");
+        printf("\n    Insira numero da tag:");
+        scanf("%d", &valor);
+        printf("    Insira numero do usuario:");
+        scanf("%d", &valor2);
+        printf("    Insira numero do album:");
+        scanf("%d", &valor3);
+        GerenciadorTag__buscar_tag(valor, busca);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        GerenciadorAlbum__buscar_album(valor3, busca3);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM || (valor3 <= 0) || valor3 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0 && busca3[0] == true && valor3 <= Max_num__MAX_NUM && valor3>0){
+          GerenciadorSistema__remover_tag_do_usuario_no_album(valor, valor2, valor3);
+          printf("    Tag removida de Album. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Tag, Usuario ou Album não existe...\n");
+        }
         
       }else if (!strcmp("52",input)){
+
+        printf("\n    Removendo tag de artista...");
+        printf("\n    Insira numero da tag:");
+        scanf("%d", &valor);
+        printf("    Insira numero do usuario:");
+        scanf("%d", &valor2);
+        printf("    Insira numero do artista:");
+        scanf("%d", &valor3);
+        GerenciadorTag__buscar_tag(valor, busca);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        GerenciadorArtista__buscar_artista(valor3, busca3);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM || (valor3 <= 0) || valor3 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0 && busca3[0] == true && valor3 <= Max_num__MAX_NUM && valor3>0){
+          GerenciadorSistema__remover_tag_do_usuario_no_artista(valor, valor2, valor3);
+          printf("    Tag removida de Artista. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Tag, Usuario ou Artista não existe...\n");
+        }
         
       }else if (!strcmp("53",input)){
+
+        printf("\n    Removendo relacao de amizade de usuario...");
+        printf("\n    Insira numero do primeiro usuario:");
+        scanf("%d", &valor);
+        printf("    Insira numero do segundo usuario:");
+        scanf("%d", &valor2);
+        GerenciadorUsuario__buscar_usuario(valor, busca);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0){
+          GerenciadorSistema__remover_relacao_amizade(valor, valor2);
+          printf("    Relacao de amizade removida. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Usuario informado não existe...\n");
+        }
         
       }else if (!strcmp("54",input)){
+
+        printf("\n    Removendo musica de biblioteca de usuario...");
+        printf("\n    Insira numero do usuario:");
+        scanf("%d", &valor);
+        printf("    Insira numero da musica:");
+        scanf("%d", &valor2);
+        GerenciadorUsuario__buscar_usuario(valor, busca);
+        GerenciadorMusica__buscar_musica(valor2, busca2);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0){
+          GerenciadorSistema__remover_musica_biblioteca(valor, valor2);
+          printf("    Musica removida da biblioteca do usuario. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Usuario ou Musica informado não existe...\n");
+        }
         
       }else if (!strcmp("55",input)){
+
+        printf("\n    Removendo artista de biblioteca de usuario...");
+        printf("\n    Insira numero do usuario:");
+        scanf("%d", &valor);
+        printf("    Insira numero do artista:");
+        scanf("%d", &valor2);
+        GerenciadorUsuario__buscar_usuario(valor, busca);
+        GerenciadorArtista__buscar_artista(valor2, busca2);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0){
+          GerenciadorSistema__remover_artista_biblioteca(valor, valor2);
+          printf("    Artista removido da biblioteca do usuario. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Usuario ou Artista informado não existe...\n");
+        }
         
       }else if (!strcmp("56",input)){
+
+        printf("\n    Removendo album de biblioteca de usuario...");
+        printf("\n    Insira numero do usuario:");
+        scanf("%d", &valor);
+        printf("    Insira numero do album:");
+        scanf("%d", &valor2);
+        GerenciadorUsuario__buscar_usuario(valor, busca);
+        GerenciadorAlbum__buscar_album(valor2, busca2);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM || (valor2 <= 0) || valor2 > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0 && busca2[0] == true && valor2 <= Max_num__MAX_NUM && valor2>0){
+          GerenciadorSistema__remover_album_biblioteca(valor, valor2);
+          printf("    Album removido da biblioteca do usuario. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Usuario ou Album informado não existe...\n");
+        }
+        
+      }else if (!strcmp("57",input)){
+
+        printf("\n    Removendo Obsessao do momento...");
+        printf("\n    Insira numero da usuario:");
+        scanf("%d", &valor);
+        GerenciadorUsuario__buscar_usuario(valor, busca);
+        if ((valor <= 0) || valor > Max_num__MAX_NUM){
+          printf("    Valor não é permitido.\n");
+        }else if (busca[0] == true && valor <= Max_num__MAX_NUM && valor>0){
+          GerenciadorSistema__remover_obsessao_do_momento(valor);
+          printf("    Obsessao removida. Retornando ao menu inicial...\n");
+        }else{
+          printf("    Obsessao não existe...\n");
+        }
         
       }else if (!strcmp("0",input)){
       }else{
@@ -764,13 +967,20 @@ int main(void) {
           printf("Usuário informado não existe!\n");
         }else{
           GerenciadorSistema__consultar_obsessao_do_momento(valor, temp1);
-          printf("A música obsessao do momento de %d é: %d", valor, *temp1);
+          if (*temp1 == 0){
+            printf("Não existe obsessao do momento para esse usuário.");
+          }else{
+            printf("A música obsessao do momento de %d é: %d", valor, *temp1);
+          }
         }
 
       }else if(!strcmp("0",input)){
       }else{
         printf("\n Não existe essa opção :/");
       }
+  }else if(!strcmp("0", input)){
+    printf("\nSaindo...\n");
+    break;
   }
 }
 
