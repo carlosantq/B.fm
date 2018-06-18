@@ -302,7 +302,7 @@ int main(void) {
         if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
           printf("    Usuario não existe. Não foi possível cadastrar tag em musica.\n");
         }else if (valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Tag não pode ser criada com esse valor.\n");
+          printf("    Tag não pode ser criada com esse valor. Não foi possível cadastrar tag em musica.\n");
         }else if (busca3[0] == false || valor3 <= 0 || valor3 > Max_num__MAX_NUM){
           printf("    Musica não existe. Não foi possível cadastrar tag em musica.\n");
         }else{
@@ -310,7 +310,7 @@ int main(void) {
           printf("    Tag cadastrada em musica...\n");
         }
 
-       } else if (!strcmp("12",input)){
+      } else if (!strcmp("12",input)){
 
         printf("\n    Cadastrando Tag de Usuario em Album...");
         printf("\n    Insira numero da tag:");
@@ -717,14 +717,8 @@ int main(void) {
       }else{
         printf("\n Não existe essa opção :/");
       }
-
-    } else if(!strcmp("0",input)) {
-      printf("\n    Saindo...\n");
-      break;
-    } else {
-      printf("\n Não existe essa opção :/");
-    }
   }
-  
+}
+
   return 0;
 }
