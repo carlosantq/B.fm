@@ -25,8 +25,8 @@ void printMenuCadastrar(){
   printf("\n  [10] Cadastrar um Artista numa Gravadora");
   printf("\n  [11] Cadastrar uma Tag numa Musica");
   printf("\n  [12] Cadastrar uma Tag num Album");
-  printf("\n  [13] Cadastrar uma Tag numa Artista");
-  printf("\n  [14] Cadastrar um amigo um Usuario");
+  printf("\n  [13] Cadastrar uma Tag num Artista");
+  printf("\n  [14] Cadastrar um amigo para um Usuario");
   printf("\n  [15] Cadastrar uma Musica na biblioteca de um Usuario");
   printf("\n  [16] Cadastrar um Artista na biblioteca de um Usuario");
   printf("\n  [17] Cadastrar um Album na biblioteca de um Usuario");
@@ -57,7 +57,7 @@ void printMenuListar(){
   printf("\n  ==============================================");
   printf("\n  [0] Voltar");
 }
- 
+
 void printMenuConsultar(){
   printf("\n  ==============================================");
   printf("\n  [36] Consultar Usuario criador de Playlist");
@@ -66,9 +66,9 @@ void printMenuConsultar(){
   printf("\n  [39] Consultar Musica obsessao de Usuario");
   printf("\n  ==============================================");
   printf("\n  [0] Voltar");
-} 
+}
 
-void printMenuRemover(){  
+void printMenuRemover(){
   printf("\n  ==============================================");
   printf("\n  [40] Remover usuarios");
   printf("\n  [41] Remover gravadoras");
@@ -302,7 +302,7 @@ int main(void) {
         if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
           printf("    Usuario não existe. Não foi possível cadastrar tag em musica.\n");
         }else if (valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Tag não pode ser criada com esse valor.\n");
+          printf("    Tag não pode ser criada com esse valor. Não foi possível cadastrar tag em musica.\n");
         }else if (busca3[0] == false || valor3 <= 0 || valor3 > Max_num__MAX_NUM){
           printf("    Musica não existe. Não foi possível cadastrar tag em musica.\n");
         }else{
@@ -312,140 +312,141 @@ int main(void) {
 
       } else if (!strcmp("12",input)){
 
-        printf("\n    Cadastrando Artista em Gravadora...");
-        printf("\n    Insira numero do artista:");
+        printf("\n    Cadastrando Tag de Usuario em Album...");
+        printf("\n    Insira numero da tag:");
         scanf("%d", &valor);
-        printf("    Insira numero da gravadora:");
+        printf("    Insira numero do usuario:");
         scanf("%d", &valor2);
-        // Método de cadastrar artista em gravadora
-        GerenciadorGravadora__buscar_gravadora(valor2, busca2);
-        GerenciadorArtista__buscar_artista(valor, busca);
+        printf("    Insira numero do album:");
+        scanf("%d", &valor3);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        GerenciadorAlbum__buscar_album(valor3, busca3);
         if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
-          printf("    Gravadora não existe. Não foi possível cadastrar o artista na gravadora.\n");
-        }else if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Artista não existe. Não foi possível cadastrar o artista na gravadora.\n");
+          printf("    Usuario não existe. Não foi possível cadastrar tag em album.\n");
+        }else if (valor <= 0 || valor > Max_num__MAX_NUM){
+          printf("    Tag não pode ser criada com esse valor. Não foi possível cadastrar tag em album.\n");
+        }else if (busca3[0] == false || valor3 <= 0 || valor3 > Max_num__MAX_NUM){
+          printf("    Album não existe. Não foi possível cadastrar tag em album.\n");
         }else{
-          GerenciadorSistema__cadastrar_artista_numa_gravadora(valor, valor2);
-          printf("    Artista cadastrado na Gravadora...\n");
+          GerenciadorSistema__cadastrar_tag_do_usuario_no_album(valor, valor2, valor3);
+          printf("    Tag cadastrada em album...\n");
         }
 
       } else if (!strcmp("13",input)){
 
-        printf("\n    Cadastrando Artista em Gravadora...");
-        printf("\n    Insira numero do artista:");
+        printf("\n    Cadastrando Tag de Usuario em Artista...");
+        printf("\n    Insira numero da tag:");
         scanf("%d", &valor);
-        printf("    Insira numero da gravadora:");
+        printf("    Insira numero do usuario:");
         scanf("%d", &valor2);
-        // Método de cadastrar artista em gravadora
-        GerenciadorGravadora__buscar_gravadora(valor2, busca2);
-        GerenciadorArtista__buscar_artista(valor, busca);
+        printf("    Insira numero do artista:");
+        scanf("%d", &valor3);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        GerenciadorArtista__buscar_artista(valor3, busca3);
         if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
-          printf("    Gravadora não existe. Não foi possível cadastrar o artista na gravadora.\n");
-        }else if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Artista não existe. Não foi possível cadastrar o artista na gravadora.\n");
+          printf("    Usuario não existe. Não foi possível cadastrar tag em artista.\n");
+        }else if (valor <= 0 || valor > Max_num__MAX_NUM){
+          printf("    Tag não pode ser criada com esse valor. Não foi possível cadastrar tag em artista.\n");
+        }else if (busca3[0] == false || valor3 <= 0 || valor3 > Max_num__MAX_NUM){
+          printf("    Artista não existe. Não foi possível cadastrar tag em artista.\n");
         }else{
-          GerenciadorSistema__cadastrar_artista_numa_gravadora(valor, valor2);
-          printf("    Artista cadastrado na Gravadora...\n");
+          GerenciadorSistema__cadastrar_tag_do_usuario_no_artista(valor, valor2, valor3);
+          printf("    Tag cadastrada em artista...\n");
         }
 
       } else if (!strcmp("14",input)){
 
-        printf("\n    Cadastrando Artista em Gravadora...");
-        printf("\n    Insira numero do artista:");
+        printf("\n    Cadastrando amigo para um Usuario...");
+        printf("\n    Insira numero do primeiro usuario:");
         scanf("%d", &valor);
-        printf("    Insira numero da gravadora:");
+        printf("    Insira numero do segundo usuario:");
         scanf("%d", &valor2);
-        // Método de cadastrar artista em gravadora
-        GerenciadorGravadora__buscar_gravadora(valor2, busca2);
-        GerenciadorArtista__buscar_artista(valor, busca);
-        if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
-          printf("    Gravadora não existe. Não foi possível cadastrar o artista na gravadora.\n");
-        }else if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Artista não existe. Não foi possível cadastrar o artista na gravadora.\n");
-        }else{
-          GerenciadorSistema__cadastrar_artista_numa_gravadora(valor, valor2);
-          printf("    Artista cadastrado na Gravadora...\n");
+        GerenciadorUsuario__buscar_usuario(valor, busca);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
+          printf("    Primeiro usuario não existe. Não foi possível cadastrar amigo.\n");
+        } else if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
+          printf("    Segundo usuario não existe. Não foi possível cadastrar amigo.\n");
+        } else {
+          GerenciadorSistema__cadastrar_relacao_amizade(valor, valor2);
+          printf("    Amigo cadastrado para usuario...\n");
         }
 
       } else if (!strcmp("15",input)){
 
-        printf("\n    Cadastrando Artista em Gravadora...");
-        printf("\n    Insira numero do artista:");
+        printf("\n    Cadastrando Musica na biblioteca de um Usuario...");
+        printf("\n    Insira numero da musica:");
         scanf("%d", &valor);
-        printf("    Insira numero da gravadora:");
+        printf("    Insira numero do usuario:");
         scanf("%d", &valor2);
-        // Método de cadastrar artista em gravadora
-        GerenciadorGravadora__buscar_gravadora(valor2, busca2);
-        GerenciadorArtista__buscar_artista(valor, busca);
-        if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
-          printf("    Gravadora não existe. Não foi possível cadastrar o artista na gravadora.\n");
-        }else if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Artista não existe. Não foi possível cadastrar o artista na gravadora.\n");
+        GerenciadorMusica__buscar_musica(valor, busca);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
+          printf("    Música não existe. Não foi possível cadastrar música na biblioteca do usuario.\n");
+        }else if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
+          printf("    Usuario não existe. Não foi possível cadastrar música na biblioteca do usuario.\n");
         }else{
-          GerenciadorSistema__cadastrar_artista_numa_gravadora(valor, valor2);
-          printf("    Artista cadastrado na Gravadora...\n");
+          GerenciadorSistema__cadastrar_musica_biblioteca(valor2, valor);
+          printf("    Musica cadastrada na biblioteca do usuario...\n");
         }
 
       } else if (!strcmp("16",input)){
 
-        printf("\n    Cadastrando Artista em Gravadora...");
+        printf("\n    Cadastrando Artista na biblioteca de um Usuario...");
         printf("\n    Insira numero do artista:");
         scanf("%d", &valor);
-        printf("    Insira numero da gravadora:");
+        printf("    Insira numero do usuario:");
         scanf("%d", &valor2);
-        // Método de cadastrar artista em gravadora
-        GerenciadorGravadora__buscar_gravadora(valor2, busca2);
         GerenciadorArtista__buscar_artista(valor, busca);
-        if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
-          printf("    Gravadora não existe. Não foi possível cadastrar o artista na gravadora.\n");
-        }else if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Artista não existe. Não foi possível cadastrar o artista na gravadora.\n");
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
+          printf("    Artista não existe. Não foi possível cadastrar artista na biblioteca do usuario.\n");
+        }else if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
+          printf("    Usuario não existe. Não foi possível cadastrar artista na biblioteca do usuario.\n");
         }else{
-          GerenciadorSistema__cadastrar_artista_numa_gravadora(valor, valor2);
-          printf("    Artista cadastrado na Gravadora...\n");
+          GerenciadorSistema__cadastrar_artista_biblioteca(valor2, valor);
+          printf("    Artista cadastrado na biblioteca do usuario...\n");
         }
 
       } else if (!strcmp("17",input)){
 
-        printf("\n    Cadastrando Artista em Gravadora...");
-        printf("\n    Insira numero do artista:");
+        printf("\n    Cadastrando Album na biblioteca de um Usuario...");
+        printf("\n    Insira numero do album:");
         scanf("%d", &valor);
-        printf("    Insira numero da gravadora:");
+        printf("    Insira numero do usuario:");
         scanf("%d", &valor2);
-        // Método de cadastrar artista em gravadora
-        GerenciadorGravadora__buscar_gravadora(valor2, busca2);
-        GerenciadorArtista__buscar_artista(valor, busca);
-        if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
-          printf("    Gravadora não existe. Não foi possível cadastrar o artista na gravadora.\n");
-        }else if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Artista não existe. Não foi possível cadastrar o artista na gravadora.\n");
+        GerenciadorAlbum__buscar_album(valor, busca);
+        GerenciadorUsuario__buscar_usuario(valor2, busca2);
+        if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
+          printf("    Album não existe. Não foi possível cadastrar album na biblioteca do usuario.\n");
+        }else if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
+          printf("    Usuario não existe. Não foi possível cadastrar album na biblioteca do usuario.\n");
         }else{
-          GerenciadorSistema__cadastrar_artista_numa_gravadora(valor, valor2);
-          printf("    Artista cadastrado na Gravadora...\n");
+          GerenciadorSistema__cadastrar_album_biblioteca(valor2, valor);
+          printf("    Album cadastrado na biblioteca do usuario...\n");
         }
 
       } else if (!strcmp("18",input)){
 
-        printf("\n    Cadastrando Artista em Gravadora...");
-        printf("\n    Insira numero do artista:");
+        printf("\n    Cadastrando obsessão do momento para Usuario...");
+        printf("\n    Insira numero do usuario:");
         scanf("%d", &valor);
-        printf("    Insira numero da gravadora:");
+        printf("    Insira numero da musica:");
         scanf("%d", &valor2);
-        // Método de cadastrar artista em gravadora
-        GerenciadorGravadora__buscar_gravadora(valor2, busca2);
-        GerenciadorArtista__buscar_artista(valor, busca);
-        if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
-          printf("    Gravadora não existe. Não foi possível cadastrar o artista na gravadora.\n");
-        }else if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
-          printf("    Artista não existe. Não foi possível cadastrar o artista na gravadora.\n");
+        GerenciadorUsuario__buscar_usuario(valor, busca);
+        GerenciadorMusica__buscar_musica(valor2, busca2);
+        if (busca[0] == false || valor <= 0 || valor > Max_num__MAX_NUM){
+          printf("    Usuario não existe. Não foi possível cadastrar obsessão do momento.\n");
+        }else if (busca2[0] == false || valor2 <= 0 || valor2 > Max_num__MAX_NUM){
+          printf("    Música não existe. Não foi possível cadastrar obsessão do momento.\n");
         }else{
-          GerenciadorSistema__cadastrar_artista_numa_gravadora(valor, valor2);
-          printf("    Artista cadastrado na Gravadora...\n");
+          GerenciadorSistema__cadastrar_obsessao_do_momento(valor, valor2);
+          printf("    Obsessão do momento cadastrada...\n");
         }
 
       } else{
         printf("\n Não existe essa opção :/");
-      }      
+      }
 
     }else if(!strcmp("2", input)){
       printMenuRemover();
@@ -658,6 +659,6 @@ int main(void) {
 
     }*/
   }
-  
+
   return 0;
 }
