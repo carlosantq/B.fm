@@ -332,7 +332,7 @@ THEN
  PRE
 	tt : TAG & tt /= TAG_DUMMY
  THEN
-	uu := criador_da_playlist(tt)
+	uu := criador_da_tag(tt)
  END;
 
  tt <-- consultar_tags_e_musicas =
