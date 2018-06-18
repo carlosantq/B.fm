@@ -467,7 +467,7 @@ void GerenciadorSistema__remover_tag_do_usuario_no_artista(int32_t tt, int32_t u
 
 void GerenciadorSistema__consultar_usuario_criador_da_tag(int32_t tt, int32_t *uu)
 {
-    (*uu) = GerenciadorSistema__criador_da_playlist_i[tt];
+    (*uu) = GerenciadorSistema__criador_da_tag_i[tt];
 }
 
 void GerenciadorSistema__consultar_tags_e_musicas(bool *tt)
