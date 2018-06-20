@@ -845,7 +845,7 @@ int main(void) {
         printf("=====\n"); 
       }else if(!strcmp("25",input)){
         printf("\nListando playlists e músicas...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_playlists_e_musicas(temp);
 
         printf("========\n");
@@ -855,7 +855,7 @@ int main(void) {
         printf("========\n");
       } else if(!strcmp("26",input)){
         printf("\nListando álbuns e músicas...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_albuns_e_musicas(temp);
 
         printf("========\n");
@@ -865,7 +865,7 @@ int main(void) {
         printf("========\n");
       } else if(!strcmp("27",input)){
         printf("\nListando artistas e álbuns...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_artistas_e_albuns(temp);
 
         printf("========\n");
@@ -876,7 +876,7 @@ int main(void) {
       } else if(!strcmp("28",input)){
 
         printf("\nListando gravadoras e artistas...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_gravadoras_e_artistas(temp);
 
         printf("========\n");
@@ -887,7 +887,7 @@ int main(void) {
       
       } else if(!strcmp("29",input)){
         printf("\nListando tags e músicas...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_tags_e_musicas(temp);
 
         printf("========\n");
@@ -897,7 +897,7 @@ int main(void) {
         printf("========\n");
       } else if(!strcmp("30",input)){
         printf("\nListando tags e álbuns...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_tags_e_albuns(temp);
 
         printf("========\n");
@@ -907,7 +907,7 @@ int main(void) {
         printf("========\n");
       } else if(!strcmp("31",input)){
         printf("\nListando tags e artistas...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_tags_e_artistas(temp);
 
         printf("========\n");
@@ -917,7 +917,7 @@ int main(void) {
         printf("========\n");
       } else if(!strcmp("32",input)){
         printf("\nListando usuários e relacionamentos...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_relacoes_amigos(temp);
 
         printf("========\n");
@@ -928,7 +928,7 @@ int main(void) {
       } else if(!strcmp("33",input)){
 
         printf("\nListando biblioteca de música de usuários...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_biblioteca_musicas(temp);
 
         printf("========\n");
@@ -940,7 +940,7 @@ int main(void) {
       } else if(!strcmp("34",input)){
         
         printf("\nListando biblioteca de artistas de usuários...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_biblioteca_artistas(temp);
 
         printf("========\n");
@@ -952,7 +952,7 @@ int main(void) {
       } else if(!strcmp("35",input)){
 
         printf("\nListando biblioteca de álbuns de usuários...\n");
-        bool *temp = malloc(Max_num__MAX_NUM+1 * Max_num__MAX_NUM+1 * sizeof(bool));
+        bool *temp = malloc((Max_num__MAX_NUM+1) * (Max_num__MAX_NUM+1) * sizeof(bool));
         GerenciadorSistema__consultar_biblioteca_albuns(temp);
 
         printf("========\n");
